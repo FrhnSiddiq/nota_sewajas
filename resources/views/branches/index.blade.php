@@ -21,18 +21,18 @@
     </div>
 
     {{-- STATS --}}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="stat-ds-card">
-            <p class="text-xs font-medium uppercase tracking-wide" style="color:var(--text-soft)">Total Cabang</p>
-            <p class="text-2xl font-bold mt-1" style="color:var(--text-dark)">{{ $branches->count() }}</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div class="stat-card flex min-h-[88px] items-center justify-between gap-2 sm:block" style="min-height: 88px">
+            <p class="text-[11px] sm:text-xs font-medium uppercase tracking-wide leading-tight" style="color:var(--text-soft)">Total Cabang</p>
+            <p class="text-xl sm:text-2xl font-bold mt-0 sm:mt-1 whitespace-nowrap" style="color:var(--text-dark)">{{ $branches->count() }}</p>
         </div>
-        <div class="stat-ds-card">
-            <p class="text-xs font-medium uppercase tracking-wide" style="color:var(--text-soft)">Cabang Aktif</p>
-            <p class="text-2xl font-bold mt-1 text-green-600">{{ $branches->where('is_active', true)->count() }}</p>
+        <div class="stat-card flex min-h-[88px] items-center justify-between gap-2 sm:block" style="min-height: 88px">
+            <p class="text-[11px] sm:text-xs font-medium uppercase tracking-wide leading-tight" style="color:var(--text-soft)">Cabang Aktif</p>
+            <p class="text-xl sm:text-2xl font-bold mt-0 sm:mt-1 whitespace-nowrap text-green-600">{{ $branches->where('is_active', true)->count() }}</p>
         </div>
-        <div class="stat-ds-card">
-            <p class="text-xs font-medium uppercase tracking-wide" style="color:var(--text-soft)">Cabang Nonaktif</p>
-            <p class="text-2xl font-bold mt-1 text-red-500">{{ $branches->where('is_active', false)->count() }}</p>
+        <div class="stat-card col-span-2 sm:col-span-1 flex min-h-[88px] items-center justify-between gap-2 sm:block" style="min-height: 88px">
+            <p class="text-[11px] sm:text-xs font-medium uppercase tracking-wide leading-tight" style="color:var(--text-soft)">Cabang Nonaktif</p>
+            <p class="text-xl sm:text-2xl font-bold mt-0 sm:mt-1 whitespace-nowrap text-red-500">{{ $branches->where('is_active', false)->count() }}</p>
         </div>
     </div>
 

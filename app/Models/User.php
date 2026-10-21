@@ -17,6 +17,7 @@ class User extends Authenticatable
         'password',
         'role',
         'branch_id',
+        'branch_access_type',
         'total_points',
         'phone',
         'avatar',
@@ -83,6 +84,11 @@ class User extends Authenticatable
         return self::ROLES[$this->role] ?? $this->role;
     }
 
+    public function getBranchAccessTypeAttribute($value): string
+    {
+        return $this->isSuperAdmin() || $this->isAdminToko() ? 'all' : 'specific';
+    }
+
     public function getRoleBadgeColorAttribute(): string
     {
         return match($this->role) {
@@ -99,6 +105,11 @@ class User extends Authenticatable
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function accessibleBranches()
+    {
+        return $this->belongsToMany(Branch::class, 'user_branch_access');
     }
 
     public function rentals()
@@ -161,7 +172,26 @@ class User extends Authenticatable
             return true;
         }
 
-        return $this->branch_id === $branchId;
+        return in_array($branchId, $this->accessible_branch_ids, true);
+    }
+
+    public function getAccessibleBranchIdsAttribute(): array
+    {
+        if ($this->isSuperAdmin()) {
+            return Branch::pluck('id')->map(fn ($id) => (int) $id)->all();
+        }
+
+        if ($this->isAdminToko()) {
+            return Branch::pluck('id')->map(fn ($id) => (int) $id)->all();
+        }
+
+        $branchIds = $this->accessibleBranches()->pluck('branches.id')->map(fn ($id) => (int) $id)->all();
+
+        if ($branchIds !== []) {
+            return $branchIds;
+        }
+
+        return $this->branch_id ? [(int) $this->branch_id] : [];
     }
 
     public function canManage(): bool

@@ -1,0 +1,117 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8002/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Pagi, Super Administrator\n\nFriday, 02 Oct 2026 • 09:17 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/18/receipt",
+    "status": 200,
+    "url": "http://localhost:8002/rentals/18/receipt",
+    "title": "Receipt",
+    "events": [],
+    "text": "Kembali\nDownload PDF\nPrint\nWhatsApp\nCopy Link Receipt\nSe\n\t\nSewajas\n\t\nRECEIPT\nRCPT-INV20261001010002 | 02 Oct 2026 09:17 MaisonSewa\nCustomer\tQA_E2E_20261001 Customer\nInvoice\tINV20261001010002\nSewa\t01 Oct 2026\nKembali\t02 Oct 2026\nDikembalikan\t02 Oct 2026 09:09\nStatus\tSELESAI\nPRODUK YANG DISEWA\nQA_E2E_20261001 Product\tx1\nScan untuk detail rental\nDibuat oleh\tSuper Administrator\nDiproses oleh\tSuper Administrator\nTOTAL\tRp 10.000\nJl. Raya Janti Gg. Harjuna No.59, Jaranan, Karangjambe, Kec. Banguntapan, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55198\n083866684730\nhttp://localhost:8000/settings"
+  },
+  {
+    "role": "super_admin",
+    "path": "PRINT",
+    "called": true
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/18/receipt/pdf",
+    "error": "page.waitForEvent: Timeout 15000ms exceeded while waiting for event \"download\"\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/18/receipt/pdf",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/18/pdf",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/activity-log/export/pdf",
+        "error": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/18/pdf",
+    "error": "page.waitForEvent: Timeout 15000ms exceeded while waiting for event \"download\"\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/18/receipt/pdf",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/18/pdf",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/activity-log/export/pdf",
+        "error": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/activity-log/export/pdf",
+    "error": "page.waitForEvent: Timeout 15000ms exceeded while waiting for event \"download\"\n=========================== logs ===========================\nwaiting for event \"download\"\n============================================================",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/18/receipt/pdf",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/18/pdf",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8002/rentals/activity-log/export/pdf",
+        "error": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/18/thermal",
+    "status": 200,
+    "url": "http://localhost:8002/rentals/18/thermal",
+    "title": "Receipt",
+    "events": [],
+    "text": "Kembali\nDownload PDF\nPrint\nWhatsApp\nCopy Link Receipt\nSe\n\t\nSewajas\n\t\nRECEIPT\nRCPT-INV20261001010002 | 02 Oct 2026 09:18 MaisonSewa\nCustomer\tQA_E2E_20261001 Customer\nInvoice\tINV20261001010002\nSewa\t01 Oct 2026\nKembali\t02 Oct 2026\nDikembalikan\t02 Oct 2026 09:09\nStatus\tSELESAI\nPRODUK YANG DISEWA\nQA_E2E_20261001 Product\tx1\nScan untuk detail rental\nDibuat oleh\tSuper Administrator\nDiproses oleh\tSuper Administrator\nTOTAL\tRp 10.000\nJl. Raya Janti Gg. Harjuna No.59, Jaranan, Karangjambe, Kec. Banguntapan, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55198\n083866684730\nhttp://localhost:8000/settings"
+  }
+]

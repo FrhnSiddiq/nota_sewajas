@@ -36,18 +36,30 @@
                 @error('slug')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
+            {{-- Icon (Fixed Default: shirt) --}}
             <div>
-                <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">Icon (Lucide)</label>
-                <input type="text" name="icon" value="{{ old('icon') }}"
-                    class="form-input"
-                    placeholder="cth: briefcase, award, shirt">
-                <p class="text-xs mt-1" style="color:var(--text-soft)">Nama icon dari <a href="https://lucide.dev/icons" target="_blank" class="underline">lucide.dev</a></p>
+                <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">Icon</label>
+                <div class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 bg-slate-50/70">
+                    <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-50 text-blue-600 shrink-0 border border-blue-200">
+                        <i data-lucide="shirt" class="w-5 h-5"></i>
+                    </span>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium" style="color:var(--text-dark)">Jas & Kemeja (shirt)</p>
+                        <p class="text-xs text-slate-400">Icon bawaan khusus persewaan jas</p>
+                    </div>
+                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium border border-blue-100 shrink-0">
+                        Default
+                    </span>
+                </div>
+                <input type="hidden" name="icon" value="shirt">
             </div>
 
+            {{-- Urutan Tampil (Otomatis) --}}
             <div>
                 <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">Urutan Tampil</label>
-                <input type="number" name="sort_order" value="{{ old('sort_order', 0) }}"
-                    class="form-input" min="0">
+                <input type="number" name="sort_order" value="{{ old('sort_order', $nextSortOrder) }}"
+                    class="form-input bg-slate-50 text-slate-700 font-medium" min="1" readonly>
+                <p class="text-xs mt-1 text-slate-400">Otomatis diurutkan ke nomor {{ $nextSortOrder }} menyesuaikan data yang ada.</p>
             </div>
 
             <div class="flex items-center gap-3">
@@ -69,12 +81,13 @@
 
 @push('scripts')
 <script>
-lucide.createIcons();
 function generateSlug(val) {
     document.getElementById('slug').value = val.toLowerCase()
         .replace(/[^a-z0-9\s-]/g, '')
         .trim().replace(/\s+/g, '-');
 }
+
+lucide.createIcons();
 </script>
 @endpush
 @endsection

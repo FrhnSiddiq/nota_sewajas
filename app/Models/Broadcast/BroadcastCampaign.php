@@ -43,6 +43,7 @@ class BroadcastCampaign extends Model
     ];
 
     protected $casts = [
+        'branch_id' => 'integer',
         'target_filters' => 'array',
         'channels' => 'array',
         'custom_message' => 'array',
@@ -67,6 +68,7 @@ class BroadcastCampaign extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /** @return HasMany<BroadcastLog, $this> */
     public function logs(): HasMany
     {
         return $this->hasMany(BroadcastLog::class, 'campaign_id');
@@ -75,6 +77,56 @@ class BroadcastCampaign extends Model
     public function queueMessages(): void
     {
         $recipients = $this->resolveRecipients();
+        $channels = $this->channels ?? ['whatsapp'];
+        $inAppRecipients = in_array('in_app', $channels, true)
+            ? $recipients->filter(fn ($r) => in_array($r['type'], ['user', 'customer'], true))->values()
+            : collect();
+        $whatsappRecipients = in_array('whatsapp', $channels, true)
+            ? $recipients->where('type', 'customer')->values()
+            : collect();
+
+        if ($this->scheduled_at?->isFuture()) {
+            $this->update([
+                'status' => 'scheduled',
+                'total_target' => $inAppRecipients->count() + $whatsappRecipients->count(),
+                'total_success' => 0,
+                'total_failed' => 0,
+            ]);
+
+            foreach ($inAppRecipients as $recipient) {
+                $this->logs()->updateOrCreate(
+                    [
+                        'recipient_type' => $recipient['type'],
+                        'recipient_id' => $recipient['id'],
+                        'provider' => 'in_app',
+                    ],
+                    [
+                        'phone' => $recipient['phone'] ?? '',
+                        'rendered_message' => $this->resolveMessageForRecipient($recipient),
+                        'status' => 'pending',
+                        'sent_at' => null,
+                    ]
+                );
+            }
+
+            foreach ($whatsappRecipients as $recipient) {
+                $this->logs()->updateOrCreate(
+                    [
+                        'recipient_type' => $recipient['type'],
+                        'recipient_id' => $recipient['id'],
+                        'provider' => null,
+                    ],
+                    [
+                        'phone' => $recipient['phone'],
+                        'rendered_message' => $this->resolveMessageForRecipient($recipient),
+                        'status' => 'pending',
+                        'sent_at' => null,
+                    ]
+                );
+            }
+
+            return;
+        }
 
         $this->update([
             'status' => 'processing',
@@ -83,16 +135,14 @@ class BroadcastCampaign extends Model
         ]);
 
         $message = $this->resolveMessage();
-        $channels = $this->channels ?? ['whatsapp'];
 
         if (in_array('in_app', $channels, true)) {
-            $inAppRecipients = $recipients->filter(fn ($r) => in_array($r['type'], ['user', 'customer'], true))->values();
-
             if ($inAppRecipients->isNotEmpty()) {
                 app(\App\Services\NotificationService::class)->broadcast(
                     $inAppRecipients->map(fn ($r) => [
                         'type' => $r['type'] === 'user' ? \App\Models\User::class : \App\Models\Customer::class,
                         'id' => $r['id'],
+                        'message' => $this->resolveMessageForRecipient($r),
                     ])->toArray(),
                     'system',
                     'Broadcast: ' . $this->name,
@@ -111,22 +161,43 @@ class BroadcastCampaign extends Model
                     'send',
                     'blue'
                 );
+                foreach ($inAppRecipients as $recipient) {
+                    $this->logs()->updateOrCreate(
+                        [
+                            'recipient_type' => $recipient['type'],
+                            'recipient_id' => $recipient['id'],
+                            'provider' => 'in_app',
+                        ],
+                        [
+                            'phone' => $recipient['phone'] ?? '',
+                            'rendered_message' => $this->resolveMessageForRecipient($recipient),
+                            'status' => 'sent',
+                            'sent_at' => now(),
+                        ]
+                    );
+                }
+            }
+            if (!in_array('whatsapp', $channels, true)) {
+                $this->update(['status' => 'completed', 'total_success' => $inAppRecipients->count(), 'completed_at' => now()]);
             }
         }
 
         if (in_array('whatsapp', $channels, true)) {
-            $whatsappRecipients = $recipients->filter(fn ($r) => $r['type'] === 'customer')->values();
-
             foreach ($whatsappRecipients as $recipient) {
                 $renderedMessage = $this->resolveMessageForRecipient($recipient);
 
-                $this->logs()->create([
-                    'recipient_type' => $recipient['type'],
-                    'recipient_id' => $recipient['id'],
-                    'phone' => $recipient['phone'],
-                    'rendered_message' => $renderedMessage,
-                    'status' => 'pending',
-                ]);
+                $this->logs()->updateOrCreate(
+                    [
+                        'recipient_type' => $recipient['type'],
+                        'recipient_id' => $recipient['id'],
+                        'provider' => null,
+                    ],
+                    [
+                        'phone' => $recipient['phone'],
+                        'rendered_message' => $renderedMessage,
+                        'status' => 'pending',
+                    ]
+                );
             }
         }
     }
@@ -134,7 +205,10 @@ class BroadcastCampaign extends Model
     private function resolveRecipients()
     {
         $filters = $this->target_filters ?? [];
-        $branchId = $filters['branch_id'] ?? $this->branch_id;
+        $isInApp = in_array('in_app', $this->channels ?? [], true);
+        $branchId = $isInApp
+            ? (in_array($this->target_type, ['branch', 'sales'], true) ? ($filters['branch_id'] ?? $this->branch_id) : null)
+            : ($filters['branch_id'] ?? $this->branch_id);
 
         $customers = collect();
         $users = collect();
@@ -163,12 +237,34 @@ class BroadcastCampaign extends Model
 
         if (in_array($this->recipient_type, ['user', 'both'])) {
             $query = User::query()->active()->where('opt_out', false);
+            if (!empty($filters['recipient_ids'])) {
+                $query->whereIn('id', $filters['recipient_ids']);
+            }
+
+            if ($isInApp) {
+                $query->whereIn('role', [User::ROLE_ADMIN_TOKO, User::ROLE_SALES]);
+                if ($this->created_by) {
+                    $query->where('id', '!=', $this->created_by);
+                }
+                if ($this->creator) {
+                    $query->whereIn('branch_id', $this->creator->accessible_branch_ids);
+                }
+                if ($this->target_type === 'sales') {
+                    $query->where('role', User::ROLE_SALES);
+                    if (!empty($filters['recipient_ids'])) {
+                        $query->whereIn('id', $filters['recipient_ids']);
+                    }
+                }
+            } elseif ($this->creator && !$this->creator->isSuperAdmin()) {
+                $query->whereIn('branch_id', $this->creator->accessible_branch_ids)
+                    ->whereIn('role', [User::ROLE_ADMIN_TOKO, User::ROLE_SALES]);
+            }
 
             if ($branchId) {
                 $query->where('branch_id', $branchId);
             }
 
-            if ($this->target_type === 'sales') {
+            if (!$isInApp && $this->target_type === 'sales') {
                 $query->whereIn('role', [User::ROLE_ADMIN_TOKO, User::ROLE_SALES]);
             }
 
@@ -190,7 +286,11 @@ class BroadcastCampaign extends Model
         $allRecipients = $customers->merge($users)->values();
 
         $dailyLimit = (int) env('BROADCAST_DAILY_LIMIT', 50);
-        $todaySent = BroadcastLog::whereIn('status', ['submitted', 'sent', 'delivered', 'read'])
+        if (!in_array('whatsapp', $this->channels ?? [], true)) {
+            return $allRecipients;
+        }
+        $todaySent = BroadcastLog::where(fn ($q) => $q->whereNull('provider')->orWhere('provider', '!=', 'in_app'))
+            ->whereIn('status', ['submitted', 'sent', 'delivered', 'read'])
             ->whereDate('created_at', now()->toDateString())
             ->count();
 
@@ -209,15 +309,17 @@ class BroadcastCampaign extends Model
             return $this->template->content ?? '';
         }
 
-        if (is_array($this->custom_message)) {
-            $nonEmpty = array_values(array_filter($this->custom_message, fn ($m) => is_string($m) && $m !== ''));
+        $customMessage = $this->custom_message;
+
+        if (is_array($customMessage)) {
+            $nonEmpty = array_values(array_filter($customMessage, fn ($m) => is_string($m) && $m !== ''));
             if (count($nonEmpty) > 0) {
                 return $nonEmpty[0];
             }
         }
 
-        if (is_string($this->custom_message)) {
-            return $this->custom_message;
+        if (is_string($customMessage)) {
+            return $customMessage;
         }
 
         return '';
@@ -254,5 +356,3 @@ class BroadcastCampaign extends Model
         }
     }
 }
-
-

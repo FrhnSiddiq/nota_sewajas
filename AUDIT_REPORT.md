@@ -1,117 +1,129 @@
 # SewaJas — Full Audit Report
 
-Generated: 2026-07-28
+Source reconciliation: 2026-09-28
+
+This report began as a source snapshot dated 2026-07-28. Findings below have been reconciled against the current repository where indicated. Status describes source code only; it does not confirm production deployment, production database migrations, hosting configuration, or runtime behavior.
+
+Status labels: **OPEN** = still present in source; **PARTIAL** = some paths are addressed but behavior remains inconsistent; **RESOLVED IN SOURCE** = the old finding is no longer present in the audited source; **REVIEW** = not confirmed sufficiently to assert as a current defect.
 
 ---
 
 ## 1. Executive Summary
 
-Project is functionally rich but suffers from **UI inconsistency**, **race-condition exposure**, **duplicate business logic**, **inconsistent authorization**, and **dead/incomplete code paths**.
+The source contains substantial functionality and several remaining inconsistencies. This is a repository audit, not a production health check. Some items in the original July snapshot have since been fixed or were inaccurate when compared with current routes/models.
 
 **Modules audited:**
 - Customer (CRUD, soft delete, restore, search, duplicate phone)
 - Rental (create, return, payment, status, QR, guarantee)
-- Invoice (list, show, print, PDF, cancel)
+- Rental receipts (show, print/PDF, QR, WhatsApp; handled through rental receipt flows)
 - Payment (create, update, delete, void, refund)
 - Product (CRUD, QR, stock)
 - Reports (revenue, transactions, stock, returns)
-- Dashboard (real-time widgets + charts)
+- Dashboard (periodic data polling, widgets + charts)
 - Search (global cross-entity)
 - Notifications, Broadcast, Settings, Branch, User
 
-**Overall risk level: HIGH**
+**Overall source risk: Mixed; open transaction, return-reporting, and authorization-scope concerns remain. No production risk rating can be established from source alone.**
+
+**Recent behavior confirmed in source:**
+- ActivityLog model-created handling resolves the file writer from the container and reports file-write exceptions. Database record creation remains in calling controllers/services and can still fail its transaction.
+- User create/edit requires a main branch for Admin Toko; `UserController` stores Admin Toko with `branch_access_type = all`, while Sales uses `specific`. Query-level scope still varies by feature.
+- Product codes are generated server-side and are non-editable in create/edit forms. Products have a unique code index; concurrent collision can fail the create request.
+- Stock is stored by size in `product_sizes`; the Sales stock form sends `size_id`, and the controller validates product ownership before changing one size and syncing aggregate product stock.
+- Notification actions are owner-scoped; form requests redirect with flash data while fetch/AJAX requests return JSON for the frontend to consume.
+- Logout confirmation is custom; cancel sends no logout request, while confirmation uses existing POST/CSRF logout flow.
 
 ---
 
-## 2. Critical Bugs (Must Fix Before Production)
+## 2. Findings from Original BUG Register (Current Status)
 
-### BUG-01: Payment Number Race Condition
+### BUG-01 [PARTIAL]: Payment Number Race Condition
 | Field | Value |
 |-------|-------|
-| Issue | `PaymentService::create()` and `RentalService::generatePaymentNumber()` generate payment numbers using `PAY-` + `YmdHis` timestamp with NO pessimistic lock. Two concurrent payments can receive the same number. |
-| Root Cause | `PaymentService.php:26` uses `now()->format('YmdHis')` inside a transaction but without `lockForUpdate()` on the last matching row. |
+| Issue | `RentalService::generatePaymentNumber()` uses locking/sequence logic in its path, but `PaymentService::create()` and other timestamp-based paths do not use the same generator. Concurrent requests can collide. |
+| Root Cause | Payment number generation is not centralized across all payment paths. |
 | Files | `app/Services/PaymentService.php`, `app/Services/RentalService.php` |
-| Risk | 500 / DuplicateEntryException on `payments.payment_number` unique index (if added) or silent data corruption. |
-| Fix Plan | Implement the same retry + `lockForUpdate()` pattern used in `RentalService::generateInvoiceNumber()`. Wrap in DB transaction. |
+| Risk | `payments.payment_number` has a unique index, so a collision should fail the request rather than persist as a duplicate. |
+| Fix Plan | Route all payment creation paths through one locked/sequence-safe generator. |
 
-### BUG-02: Invoice Number Has No DB-Level Uniqueness Guarantee
+### BUG-02 [RESOLVED IN SOURCE]: Invoice Number Has DB-Level Uniqueness
 | Field | Value |
 |-------|-------|
-| Issue | Invoice number uniqueness is enforced only in application code. If the Laravel app is deployed with multiple workers/queues, race condition is possible. |
-| Root Cause | `rentals.invoice_number` column has no unique index. `RentalService::generateInvoiceNumber()` uses `withTrashed()` + `lockForUpdate()` correctly, but lacks a DB constraint as a safety net. |
-| Files | `database/migrations/..._create_rental_table.php` (no unique index), `app/Services/RentalService.php` |
-| Risk | Duplicate invoice numbers in production. |
-| Fix Plan | Add a unique index on `invoice_number` + `branch_id` + `created_at` (or partial unique index). Add DB-level guard. |
+| Issue | The original audit reported missing database uniqueness. Current source defines a unique index on `rentals.invoice_number`; the generator also uses lock/retry logic. |
+| Root Cause | The earlier finding predates the current migration/source state. |
+| Files | Rental invoice migration(s), `app/Services/RentalService.php` |
+| Risk | The repository source has a database guard; whether production has run the relevant migrations is not verified here. |
+| Fix Plan | No source change indicated by this finding. Verify production migration state separately if needed. |
 
-### BUG-03: `RentalController::confirmReturnAjax` Returns Wrong JSON Field Names
+### BUG-03 [OPEN]: `confirmReturnAjax` Reads Missing Model Attributes
 | Field | Value |
 |-------|-------|
-| Issue | The JSON response maps `$item->price_per_day` to `"price"`, but `rentals/show.blade.php` AlpineJS reads `item.price` for display. However `RentalItem` model does NOT cast `price_per_day` correctly in all contexts, and the rental show page expects `price` not `price_per_day`. Also `item.size` is used but DB column is `product_size`. |
-| Root Cause | Mismatch between backend JSON keys and frontend AlpineJS expectations. `RentalController.php:488-501` returns `price` but other places use `price_per_day`. `rentals/show.blade.php` uses `item.size` which doesn't exist on model. |
+| Issue | The response builds `size` and `price` from `$item->size` and `$item->price`, while `RentalItem` stores `product_size` and `price_per_day` and has no accessors for those short names. |
+| Root Cause | The serializer reads model attributes that are not defined. This is not simply a JSON key-name mismatch. |
 | Files | `app/Http/Controllers/RentalController.php`, `resources/views/rentals/show.blade.php` |
-| Risk | JS errors, blank prices/sizes on return panel. |
-| Fix Plan | Standardize JSON keys to match AlpineJS model. Add `getSizeAttribute` accessor on `RentalItem` or map `product_size` → `size` in JSON. |
+| Risk | Size/price values in the return payload may be null; browser behavior was not runtime-tested in this documentation task. |
+| Fix Plan | Serialize from `product_size` and `price_per_day`, then verify the response and panel. |
 
-### BUG-04: `RentalReturn` Table Never Populated
+### BUG-04 [OPEN]: `RentalReturn` Table Never Populated by Active Return Flow
 | Field | Value |
 |-------|-------|
-| Issue | `RentalReturn` model and table exist, but `RentalService::processReturn()` and `RentalController::updateStatus()` never create `RentalReturn` records. The dashboard `DashboardService` queries `rental_returns` table for `pengembalian_hari_ini`, which will always return 0. |
+| Issue | `RentalReturn` model and table exist, but the active return flow does not create `RentalReturn` records. The dashboard `DashboardService` queries `rental_returns` for a return-today metric. |
 | Root Cause | Business logic was refactored to store return data on `rental_items` and `rentals` directly, but the old `rental_returns` table queries were never removed from dashboard. |
 | Files | `app/Services/RentalService.php`, `app/Models/RentalReturn.php`, `app/Services/DashboardService.php` |
-| Risk | Dashboard widget "Pengembalian Hari Ini" always shows 0 even when returns happen. |
+| Risk | Dashboard metrics depending on this table may be zero or inconsistent with returns recorded in `rentals`/`rental_items`. |
 | Fix Plan | Either (a) create `RentalReturn` records in `processReturn()`, or (b) rewrite dashboard to count rentals with `rental_status = 'returned'` and `actual_return_date = today()`. |
 
-### BUG-05: `products.update` Route Registered Twice
+### BUG-05 [RESOLVED IN SOURCE]: `products.update` Route Duplication
 | Field | Value |
 |-------|-------|
-| Issue | In `routes/web.php`, products have both `PATCH /{product}` (line 190) and `PUT /{product}` (line 191) mapped to the same controller method. This creates duplicate routes and ambiguous method resolution. |
-| Root Cause | Copy-paste error during route definition. |
+| Issue | The July snapshot reported duplicate PATCH/PUT routes. Current `routes/web.php` contains one `PUT /products/{product}` route for update. |
+| Root Cause | Historical explanation from the July snapshot; not re-established in current source. |
 | Files | `routes/web.php` |
-| Risk | 405 Method Not Allowed or unexpected behavior depending on middleware order. |
-| Fix Plan | Remove the `PUT` duplicate. |
+| Risk | The duplicate-route risk is not present in the audited source. |
+| Fix Plan | No source change indicated by this finding. |
 
-### BUG-06: Duplicate Report Routes
+### BUG-06 [RESOLVED IN SOURCE]: Duplicate Report Routes
 | Field | Value |
 |-------|-------|
-| Issue | `reports/stock` and `reports/returns` are defined inside TWO separate middleware groups (lines 196-201 duplicate lines 175-180). |
-| Root Cause | Copy-paste error in route definition. |
+| Issue | The July snapshot reported duplicate `reports/stock` and `reports/returns` routes. Current source contains one route definition for each. |
+| Root Cause | Historical explanation from the July snapshot; not re-established in current source. |
 | Files | `routes/web.php` |
-| Risk | Middleware confusion; stock/returns reports accessible to `sales` role when they should only be for `super_admin,admin_toko`. |
-| Fix Plan | Remove the duplicate route block. Keep only the first definition (inside `EnsureBranchScope` group) or consolidate with proper role middleware. |
+| Risk | The duplicate-route risk is not present in the audited source. Current report routes are restricted to Super Admin/Admin Toko. |
+| Fix Plan | No source change indicated by this finding. |
 
-### BUG-07: `RentalController::updateStatus` Late Fee Formula Inconsistency
+### BUG-07 [OPEN]: `RentalController::updateStatus` Late Fee Formula Inconsistency
 | Field | Value |
 |-------|-------|
-| Issue | `RentalController::updateStatus()` calculates overdue days as `max(0, now()->diffInDays($rental->return_due_date, false) * -1)` (line 560). `RentalService::processReturn()` calculates `diffInDays($now)` (line 323). The two formulas can produce different results when `return_due_date` is today vs tomorrow. |
-| Root Cause | Inconsistent date math. `diffInDays` with `false` returns negative when past, multiplied by -1 gives positive. But `diffInDays` with default (true) returns absolute. |
+| Issue | `RentalService::processReturn()` computes the fee from subtotal/duration and a 0.5 multiplier, whereas `RentalController::updateStatus()` uses `config('app.late_fee_per_day', 0)`. |
+| Root Cause | Business formulas differ between the service and controller paths. |
 | Files | `app/Http/Controllers/RentalController.php`, `app/Services/RentalService.php` |
-| Risk | Late fee amount differs depending on whether return goes through `updateStatus` (AJAX) or `processReturn` (form submit). |
-| Fix Plan | Extract late-fee calculation into a single method on `Rental` model or `RentalService`. Use `max(0, $dueDate->diffInDays($now))`. |
+| Risk | Late fee amount can differ by return path. |
+| Fix Plan | Use one shared formula and configuration source, then test both paths. |
 
-### BUG-08: `RentalItem` Fillable Missing `product_size` but Has `size` Accessor Issue
+### BUG-08 [OPEN]: `RentalItem` Size Attribute Serialization
 | Field | Value |
 |-------|-------|
-| Issue | `RentalItem::$fillable` includes `product_size` but the view `rentals/show.blade.php` accesses `item.size` (line 179). The model has no `size` accessor. |
-| Root Cause | Column name mismatch. |
+| Issue | `product_size` is fillable, but the model has no `size` accessor; controller paths that read `$item->size` do not resolve that database column automatically. |
+| Root Cause | A serializer/view path uses an undefined short attribute. |
 | Files | `app/Models/RentalItem.php`, `resources/views/rentals/show.blade.php` |
-| Risk | `item.size` returns null in UI. |
-| Fix Plan | Add `getSizeAttribute()` accessor on `RentalItem` that returns `$this->product_size`. |
+| Risk | Size can be missing in payload/UI paths that use `size`. |
+| Fix Plan | Read `product_size` explicitly or define an accessor and align consumers. |
 
-### BUG-09: `Product` Model `getPhotoUrlAttribute` Uses Unsplash External URL
+### BUG-09 [OPEN]: `Product` Model `getPhotoUrlAttribute` Uses Unsplash External URL
 | Field | Value |
 |-------|-------|
 | Issue | Default product photo falls back to `https://images.unsplash.com/...`. If offline or API changes, images break. |
 | Root Cause | Hardcoded external dependency. |
-| Files | `app/Models/Product.php:52` |
+| Files | `app/Models/Product.php` |
 | Risk | Broken images in production. |
 | Fix Plan | Use local placeholder image or SVG data URI. |
 
-### BUG-10: `User` Model Avatar Falls Back to External Service
+### BUG-10 [OPEN]: `User` Model Avatar Falls Back to External Service
 | Field | Value |
 |-------|-------|
 | Issue | `User::getAvatarUrlAttribute` uses `ui-avatars.com` API. Same offline risk. |
 | Root Cause | External dependency. |
-| Files | `app/Models/User.php:152` |
+| Files | `app/Models/User.php` |
 | Risk | Broken avatars. |
 | Fix Plan | Use local generated SVG or initial avatar component. |
 
@@ -119,159 +131,163 @@ Project is functionally rich but suffers from **UI inconsistency**, **race-condi
 
 ## 3. High-Priority Issues
 
-### HIGH-01: Massive Duplicate Activity Log Code
-Every controller/service method manually constructs `ActivityLog::create([...])` with identical structure (`user_id`, `branch_id`, `action`, `model_type`, `model_id`, `description`, `old_values`, `new_values`, `ip_address`, `user_agent`).
+### HIGH-01 [PARTIAL]: Activity Log Record Creation Is Distributed
+Several controller/service paths still construct `ActivityLog::create([...])` directly. The current source also has `ActivityLogFormatter`, `ActivityLogFileService`, and a model-created callback that resolves the file service through the container and reports file-write failures. The file service does not centralize creation of every database record.
 
 | Files | 8+ controllers/services |
 | Risk | Inconsistent logs, missing fields, hard to change format. |
-| Fix Plan | Create `Loggable` trait or `ActivityLogger` service with `log(string $action, Model $subject, string $description, array $oldValues = [], array $newValues = [])`. |
+| Fix Plan | Consider a single database logging API if desired; preserve current transaction/audit behavior. |
 
-### HIGH-02: Authorization Bypass via Inline Checks Instead of Policies
-Policies exist (`CustomerPolicy`, `ProductPolicy`, `CategoryPolicy`, `BranchPolicy`) but **controllers never call them**. Every controller uses inline `if (!$user->isSuperAdmin()) abort(403)`.
+### HIGH-02 [PARTIAL]: Authorization Rules Are Split Across Routes and Controllers
+Policies are registered in `AuthServiceProvider`, but most route access uses `CheckRole` and some actions use inline checks; not every action invokes a policy. This is not, by itself, evidence of an authorization bypass.
 
 | Files | All controllers |
-| Risk | Policy changes have no effect; authorization logic is scattered and inconsistent. |
-| Fix Plan | Replace inline checks with `$this->authorize()` or `Gate::allows()`. |
+| Risk | Rules can drift across route groups, controllers, and branch-scoped queries. |
+| Fix Plan | Audit authorization at route/controller/query level and keep them consistent; policy use is one possible pattern. |
 
-### HIGH-03: `RentalService::createRental` Locks Products Twice (Performance)
-In `RentalService::createRental()`, products are locked in Step 1 (`lockForUpdate()` for branch check), then locked AGAIN in the item creation loop.
+### HIGH-03 [OPEN]: `RentalService::createRental` Locks Products More Than Once
+In `RentalService::createRental()`, product records are locked during validation and locked again in the item creation loop.
 
-| Files | `app/Services/RentalService.php:159-161` and `:221` |
+| Files | `app/Services/RentalService.php`, `createRental()` |
 | Risk | Unnecessary DB lock contention; slower under load. |
 | Fix Plan | Reuse the locked product instances from Step 1. |
 
-### HIGH-04: `RentalController::update()` Has Duplicate Guarantee Logic
-`RentalController::update()` (lines 238-268) duplicates guarantee upload/update logic that already exists in `RentalService::createRental()` (lines 249-267).
+### HIGH-04 [REVIEW]: Guarantee Update Logic Duplication
+The July snapshot reported overlapping guarantee handling in `RentalController::update()` and `RentalService::createRental()`. The exact duplication and behavioral impact have not been re-established as a current defect in this reconciliation.
 
 | Files | `app/Http/Controllers/RentalController.php` |
-| Risk | Bug fixes must be applied twice. |
-| Fix Plan | Extract to `RentalService::syncGuarantee(Rental $rental, Request $request)`. |
+| Risk | Potential maintenance duplication if both paths implement the same behavior. |
+| Fix Plan | Re-compare the current create/update paths before proposing a refactor. |
 
-### HIGH-05: `RentalController::update()` Phone Normalization Missing
-`CustomerController::store()` and `update()` call `$this->normalizePhone()`, but `RentalController` never normalizes customer phone for display. Not a data bug, but customer phone formats are inconsistent (some stored as `628...`, some `08...`).
+### HIGH-05 [REVIEW]: Phone Normalization Finding Not Reconfirmed
+The July snapshot associated phone normalization with `RentalController::update()`, but this reconciliation did not establish a current data defect in that path. `CustomerController` contains phone normalization logic; runtime data consistency is not proven from source alone.
 
 | Files | `app/Http/Controllers/CustomerController.php`, `app/Http/Controllers/RentalController.php` |
-| Risk | Search misses customers if phone format differs. |
-| Fix Plan | Always normalize on input. Always search with normalized digits. |
+| Risk | No current risk is asserted from this historical finding. |
+| Fix Plan | Reproduce with actual persisted phone values before making code changes. |
 
-### HIGH-06: `SearchController` Includes Soft-Deleted Customers Without Indication
+### HIGH-06 [OPEN, SCOPE QUALIFIED]: Search Includes Soft-Deleted Customers
 | Field | Value |
 |-------|-------|
-| Issue | `SearchController::index()` uses `Customer::withTrashed()` (line 24). Deleted customers appear in search results for all roles. Non-super-admin users see deleted customers from other branches. |
-| Root Cause | `withTrashed()` used without branch scope for deleted records. |
+| Issue | `SearchController::index()` uses `Customer::withTrashed()`, so soft-deleted customers can appear. Query scope differs by role: Sales are limited by ownership; Admin Toko currently has `branch_access_type = all`. |
+| Root Cause | Deleted records are included in the search query; branch/ownership scope is role-specific. |
 | Files | `app/Http/Controllers/SearchController.php` |
-| Risk | Privacy leak; users see data they shouldn't. |
-| Fix Plan | Scope `withTrashed()` by branch, and visually mark deleted results. |
+| Risk | Deleted records may appear without clear UI indication. This source review does not claim that every role sees every branch. |
+| Fix Plan | Confirm intended role visibility and mark/de-scope deleted results if required. |
 
-### HIGH-07: `RentalController::edit()` Restricts Products to "Jas%" Category
+### HIGH-07 [OPEN]: `RentalController::edit()` Restricts Products to "Jas%" Category
 | Field | Value |
 |-------|-------|
-| Issue | `RentalController::edit()` (line 97-101) filters products to only categories starting with "Jas". This hardcoded business rule prevents editing rentals with other product categories. |
+| Issue | `RentalController::edit()` filters products to categories whose names start with "Jas". This hardcoded business rule can prevent editing rentals with other product categories. |
 | Root Cause | Legacy hardcoded filter. |
-| Files | `app/Http/Controllers/RentalController.php:97` |
+| Files | `app/Http/Controllers/RentalController.php` |
 | Risk | Data integrity; rentals with non-Jas products cannot be edited. |
 | Fix Plan | Remove hardcoded filter; show all products or use rental's existing products + available products. |
 
-### HIGH-08: `Rental` Model `status_label` Has Phantom Statuses
+### HIGH-08 [OPEN]: `Rental` Model `status_label` Has Additional Status Labels
 `Rental::statusLabels()` includes `'booked'` and `'completed'` which are never set by any controller or seeder. The actual statuses are `waiting`, `active`, `overdue`, `returned`, `cancelled`.
 
-| Files | `app/Models/Rental.php:172-183` |
+| Files | `app/Models/Rental.php`, `statusLabels()` |
 | Risk | UI shows "Booked" or "Completed" badges if data is inconsistent. |
 | Fix Plan | Remove phantom statuses or add migration/constants for them. |
 
-### HIGH-09: Dashboard Polling Every 10 Seconds Without Backoff
+### HIGH-09 [OPEN, IMPACT UNMEASURED]: Dashboard Polling Every 10 Seconds
 | Field | Value |
 |-------|-------|
-| Issue | `_dashboard_common.blade.php` polls `/dashboard/data` every 10 seconds (line 338). No exponential backoff, no pause on error. |
+| Issue | `_dashboard_common.blade.php` polls `/dashboard/data` every 10 seconds. No exponential backoff is present in the inspected flow. |
 | Root Cause | Aggressive polling. |
 | Files | `resources/views/dashboard/_dashboard_common.blade.php` |
-| Risk | Server overload with many concurrent admin users. |
-| Fix Plan | Use SSE/WebSocket, or at minimum pause polling on 5xx errors. |
+| Risk | May add request load with many sessions; overload has not been demonstrated by a load test. |
+| Fix Plan | Measure first; add backoff/pause if observed load warrants it. |
 
-### HIGH-10: `ProductController::generateCode()` Race Condition
+### HIGH-10 [OPEN, UNIQUE INDEX GUARD]: `ProductController::generateCode()` Concurrency
 | Field | Value |
 |-------|-------|
-| Issue | Product code generation (`PRD` + branch + sequence) has no `lockForUpdate()`. Two concurrent product creates can get the same code. |
+| Issue | `ProductController::generateCode()` generates sequential `PRD-XXX` codes without `lockForUpdate()`. The unique index on `products.code` prevents a duplicate from being persisted, but concurrent requests can hit a constraint error. |
 | Root Cause | No pessimistic lock. |
-| Files | `app/Http/Controllers/ProductController.php:158-167` |
-| Risk | Duplicate product codes. |
-| Fix Plan | Add `lockForUpdate()` on last matching product. |
+| Files | `app/Http/Controllers/ProductController.php` |
+| Risk | Failed create request during a concurrent collision; silent duplicate persistence is guarded by the unique index. |
+| Fix Plan | Use an atomic sequence or retry on unique-index collision; retain the database unique index as the final guard. |
 
 ---
 
 ## 4. Medium-Priority Issues
 
-### MED-01: Inconsistent Card Classes Across Views
+UI consistency observations below describe style variation in the source; they are not production regressions or automatic fix requirements.
+
+### MED-01 [OBSERVATION]: Inconsistent Card Classes Across Views
 - `customers/index.blade.php` uses `ds-card` and `card-container`
 - `rentals/index.blade.php` uses `card-container`
 - `products/index.blade.php` uses `card`
 - `reports/*.blade.php` uses `card`
 - `dashboard/*.blade.php` uses `ds-card`
 
-### MED-02: Inconsistent Button Classes
+### MED-02 [OBSERVATION]: Inconsistent Button Classes
 - Some views use `btn-primary` / `btn-secondary` (CSS classes)
-- Some views use inline `class="inline-flex items-center rounded-xl border..."` (e.g., `rentals/show.blade.php:46-54`)
+- Some views use inline Tailwind button classes (for example, rental detail actions).
 - Some views use the `components.btn` Blade include
 
-### MED-03: Inconsistent Avatar Rendering
+### MED-03 [OBSERVATION]: Inconsistent Avatar Rendering
 - Sidebar user card: gradient `#2563eb → #1d4ed8` (inline style)
 - Customer table: gradient `#6366f1 → #8b5cf6` (inline style)
 - Search page: solid `bg-blue-50 font-bold text-blue-700` (no gradient)
 - Customer profile: uses external `ui-avatars.com`
 
-### MED-04: `RentalController::scanQr()` Regex Allows `RCPT-INV` Prefix
+### MED-04 [REVIEW]: `RentalController::scanQr()` Accepts Receipt Prefix
 The scan page accepts `RCPT-INV2026070310014` format but `Rental` model `invoice_number` is generated with `INV` prefix only. Receipt numbers are `RCPT-INV...` but they point to the same rental. This is OK functionally but confusing.
 
-### MED-05: `CustomerController::index()` Filter Inconsistency
+### MED-05 [OBSERVATION]: `CustomerController::index()` Filter Labels
 Route param is `status` but values are `active`, `deactivated`, `all`. The view uses `request('status')`. The `deactivatedCount` query uses `onlyTrashed()`. This is correct but the naming is inconsistent with the user-facing "Dinonaktifkan" label.
 
-### MED-06: `RentalService::recalculatePaymentStatus()` Logs on Every Call
-Every payment update triggers `logActivity('recalculate_payment_status', ...)` (line 67). This floods activity logs with low-value entries.
+### MED-06 [REVIEW]: Payment Status Recalculation Logging
+The July snapshot reported a `recalculate_payment_status` activity entry on each recalculation. Current frequency/volume has not been measured in runtime; treat log-volume impact as a review item.
 
-### MED-07: `RentalReceiptController` Routes But No Controller Logic Reviewed
-`RentalReceiptController` handles receipt views but was not fully audited for PDF generation or QR logic.
+### MED-07 [REVIEW]: Rental Receipt Output
+`RentalReceiptController` exists and has show/PDF/QR/WhatsApp methods. Source inventory confirms these paths exist; output correctness and browser/PDF runtime behavior were not exercised in this documentation task.
 
-### MED-08: `notifications/index.blade.php` Uses `btn-sm` Class That Doesn't Exist
+### MED-08 [OPEN, CSS SCOPE]: `notifications/index.blade.php` Uses `btn-sm`
 `class="btn-secondary btn-sm"` — `btn-sm` is not defined in CSS.
 
-### MED-09: Missing `remaining_amount` Cast on Rental Model
-`remaining_amount` is updated dynamically but not in `$casts`. It works because it's cast on the fly, but TypeScript/IDE tooling won't catch issues.
+### MED-09 [RESOLVED IN SOURCE]: `remaining_amount` Accessor
+The current `Rental` model defines a `remaining_amount` accessor; the earlier claim that the computed attribute was missing is not current.
 
-### MED-10: `Payment` Model Lacks `SoftDeletes`
-Payments should be soft-deletable for audit compliance. Currently `Payment::destroy()` hard-deletes.
+### MED-10 [REVIEW]: `Payment` Model Lacks `SoftDeletes`
+The current model uses hard deletion on the applicable path. Whether payments must be soft-deleted is a retention/business requirement not established by this source audit; do not add a migration solely from this finding.
 
 ---
 
 ## 5. Low-Priority / Technical Debt
 
-### LOW-01: Legacy `.bb_tmp_` File in Controllers
+### LOW-01 [PRESENT]: Legacy `.bb_tmp_` File in Controllers
 `app/Http/Controllers/.bb_tmp_confirm_return_ajax_snippet_note.txt` — leftover from AI coding session.
 
-### LOW-02: TODO Markdown Files in Root
-`TODO.md`, `TODO_FIXES_CUSTOMERS_BUGS.md`, `TODO_DASHBOARD.md`, `TODO_REDESIGN_UI.md`, etc. Should be cleaned up or moved to `.claude/` or docs.
+### LOW-02 [REVIEW]: Historical TODO Markdown Inventory
+The July snapshot listed several TODO files. Their current ownership/use was not re-audited as part of the source reconciliation; treat cleanup as repository housekeeping, not a confirmed defect.
 
-### LOW-03: `package-lock.json` at Root
-Should be in `frontend/` or ignored if using Laravel Mix/Vite only.
+### LOW-03 [NOT A DEFECT]: Root `package-lock.json`
+The repository has a root `package.json`/Vite setup, so a root npm lockfile is expected and is not, by itself, a problem.
 
-### LOW-04: `composer.json` Name Mismatch
-`"name": "laravel/laravel"` — should be `rental-jas/rental-jas` or similar.
+### LOW-04 [RESOLVED IN SOURCE]: Composer Package Name
+Current `composer.json` identifies the project as `sewajas/rental-jas`; the earlier Laravel boilerplate-name finding no longer applies.
 
-### LOW-05: `User::hasRole()` Conflicts with `CheckRole` Middleware
-Both `User::hasRole()` and middleware exist. Middleware is used in routes; `hasRole()` is used in some controllers. Should standardize on one approach.
+### LOW-05 [REVIEW]: Role Helper and Middleware Coexist
+The model exposes role helpers and routes use `CheckRole`. Their coexistence is not inherently a defect; audit consistency where permissions are changed.
 
-### LOW-06: `Rental::STATUS_WAITING` Used But `waiting` Not in `updateStatus` Validated Values
+### LOW-06 [REVIEW]: `waiting` Not Accepted by `updateStatus`
 `RentalController::updateStatus()` validates `rental_status` as `active,returned,overdue` only — `waiting` is excluded.
 
-### LOW-07: `CustomerPolicy` Not Registered
-`AuthServiceProvider.php` may not map `CustomerPolicy` to `Customer` model.
+This may be intentional because the endpoint handles a limited set of status transitions; verify expected workflow before treating it as a bug.
 
-### LOW-08: `rentals/show.blade.php` Uses `displayedPhotoModal` Typo
-`displayedPhotoModal = null` (line 568) — should be `displayPhotoModal` or similar.
+### LOW-07 [RESOLVED IN SOURCE]: `CustomerPolicy` Registration
+`AuthServiceProvider` maps `CustomerPolicy` to `Customer`; the earlier uncertainty is resolved in the current source.
 
-### LOW-09: `lucide.createIcons()` Called Redundantly
+### LOW-08 [REVIEW]: `displayedPhotoModal` State Name
+The July snapshot noted the `displayedPhotoModal` state name. It appears only as an initialization in the current template search; intended use/typo has not been established.
+
+### LOW-09 [OPEN, NON-BLOCKING]: `lucide.createIcons()` Called in Multiple Views
 Called in `DOMContentLoaded`, `alpine:init`, and `@push('scripts')` in multiple views. Should be called once globally.
 
-### LOW-10: `RentalService::generateQrCode()` Uses `file_put_contents` Without Error Handling
+### LOW-10 [OPEN]: `RentalService::generateQrCode()` Uses `file_put_contents` Without Error Handling
 If `storage/app/public/qrcodes/rentals/` is not writable, the QR generation fails silently or with a PHP warning.
 
 ---
@@ -289,7 +305,7 @@ If `storage/app/public/qrcodes/rentals/` is not writable, the QR generation fail
 | **Avatar** | Mix of inline gradients, solid blue boxes, external APIs | Use `avatar-premium` class (gradient indigo→violet + ring) |
 | **Badges** | Mix of `badge-green`, `badge-red`, inline `bg-amber-100`, `badge-menunggu`, etc. | Unified: `badge` component with `type` param |
 | **Empty States** | Custom HTML in each view; `components.empty-state` exists but rarely used | Use `components.empty-state` everywhere |
-| **Modals** | SweetAlert2 inline in layout + per-view custom alerts | Centralize in layout or create `components.confirm-modal` |
+| **Modals** | Shared SweetAlert2 `confirmAction()` is used for common confirmation flows, including logout; feature-specific modals remain | Reuse the existing helper where appropriate; this audit does not recommend creating a duplicate global modal |
 | **Pagination** | `components.pagination` exists; some views use `$paginator->links()` without component | Always use `components.pagination` |
 
 ---
@@ -300,11 +316,10 @@ If `storage/app/public/qrcodes/rentals/` is not writable, the QR generation fail
 Routes (web.php)
 ├── DashboardController → DashboardService → [Customer, Product, Rental, Payment, RentalReturn, ActivityLog, Guarantee]
 ├── CustomerController → Customer, Rental, Payment, Guarantee, ActivityLog
-├── RentalController → RentalService → [Rental, RentalItem, Product, Payment, Guarantee, ActivityLog, QrCode]
+├── RentalController → RentalService → [Rental, RentalItem, Product, ProductSize, Payment, Guarantee, ActivityLog, QrCode]
 │   └── RentalReceiptController → Rental, DomPDF
-├── InvoiceController → InvoiceService → [Rental, Payment, Product, ActivityLog, QrCode, DomPDF]
 ├── PaymentController → PaymentService → [Rental, Payment, ActivityLog, RentalService]
-├── ProductController → Product, Category, QrCode
+├── ProductController → Product, ProductSize, Category, QrCode
 ├── SearchController → Customer, Rental, Product
 ├── ReportController → [Rental, Product, Branch, Category, Payment, DomPDF]
 ├── BranchController → Branch
@@ -316,6 +331,7 @@ Routes (web.php)
 
 Models
 ├── User ──┬── branch
+│         ├── branchAccess (user_branch_access)
 │         ├── rentals (created_by)
 │         ├── customer (hasOne)
 │         └── notifications
@@ -339,6 +355,7 @@ Models
 │           └── receivedBy
 ├── Product ──┬── branch
 │           ├── category
+│           ├── sizes (ProductSize)
 │           └── rentalItems
 ├── Guarantee ── rental
 ├── Branch ──┬── users
@@ -350,50 +367,30 @@ Models
 
 ---
 
-## 8. Fix Priority Matrix
+## 8. Current Status Summary
 
-| Priority | Count | Items |
-|----------|-------|-------|
-| P0 (Critical) | 10 | BUG-01 through BUG-10 |
-| P1 (High) | 10 | HIGH-01 through HIGH-10 |
-| P2 (Medium) | 10 | MED-01 through MED-10 |
-| P3 (Low) | 10 | LOW-01 through LOW-10 |
+This is a status index, not a severity score or a production release gate.
+
+| Status | Findings |
+|--------|----------|
+| Open/partial findings | BUG-01, BUG-03, BUG-04, BUG-07, BUG-08, BUG-09, BUG-10 |
+| Open/partial architecture, authorization, or performance | HIGH-01, HIGH-02, HIGH-03, HIGH-06, HIGH-07, HIGH-08, HIGH-09, HIGH-10 |
+| Review / impact not established | HIGH-04, HIGH-05, MED-04, MED-06, MED-07, MED-10, LOW-02, LOW-05, LOW-06, LOW-08 |
+| Resolved in current source | BUG-02, BUG-05, BUG-06, MED-09, LOW-04, LOW-07 |
+| UI observations / technical debt | MED-01, MED-02, MED-03, MED-05, MED-08, LOW-01, LOW-09, LOW-10 |
+| Not a defect by itself | LOW-03 |
 
 ---
 
-## 9. Recommended Execution Order
+## 9. Suggested Follow-Up Order
 
-1. **Phase 1 — Stabilize Core Data Integrity** (BUG-01 to BUG-04)
-   - Fix payment number race condition
-   - Add DB unique index for invoice numbers
-   - Fix confirmReturnAjax JSON keys
-   - Fix RentalReturn dashboard query
+1. Reproduce and resolve payment-number and late-fee inconsistencies across every write path.
+2. Verify the return payload and dashboard metric against a test database; correct the `RentalItem` attribute mapping and `rental_returns` query/source contract.
+3. Review Admin Toko branch scope and soft-deleted customer search against intended access rules. Current Admin Toko `branch_access_type = all` must be considered in that review.
+4. Exercise product and invoice code generation under concurrent requests; the unique indexes guard persisted duplicates but a collision may fail the request.
+5. Schedule remaining UI/technical debt by user impact. Findings marked resolved/review above are not current fix instructions.
 
-2. **Phase 2 — Fix Route & Controller Bugs** (BUG-05 to BUG-10)
-   - Remove duplicate routes
-   - Fix late-fee formula inconsistency
-   - Add RentalItem size accessor
-   - Replace external image fallbacks
-
-3. **Phase 3 — Deduplicate Business Logic** (HIGH-01 to HIGH-04)
-   - Activity logger trait
-   - Authorization via policies
-   - Extract guarantee sync to service
-   - Remove double-lock in createRental
-
-4. **Phase 4 — Security Hardening** (HIGH-05 to HIGH-08)
-   - Fix soft-deleted customer search leakage
-   - Remove hardcoded "Jas%" product filter
-   - Clean phantom rental statuses
-
-5. **Phase 5 — UI Unification** (MED-01 to MED-04)
-   - Standardize card, button, avatar, badge classes
-   - Consolidate search input styling
-
-6. **Phase 6 — Technical Debt** (MED-05 to LOW-10)
-   - Cleanup TODO files
-   - Fix lucide icon calls
-   - Add soft deletes to Payment
+No application source, migration, or database changes were made as part of this documentation reconciliation.
 
 ---
 

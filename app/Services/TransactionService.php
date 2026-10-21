@@ -18,6 +18,8 @@ class TransactionService
 
         if ($user->role === 'sales') {
             $query->where('created_by', $user->id);
+        } elseif ($user->isAdminToko()) {
+            // admin_toko sees all branches
         } elseif (!$user->isSuperAdmin()) {
             $query->where('branch_id', $user->branch_id);
         }
@@ -56,13 +58,21 @@ class TransactionService
                 'notes' => $data['notes'] ?? $transaction->notes,
             ]);
 
+            $description = \App\Services\ActivityLogFormatter::format(
+                $old,
+                ['notes' => $transaction->notes],
+                Rental::class,
+                $transaction->id,
+                'update_transaction'
+            );
+
             ActivityLog::create([
                 'user_id' => Auth::id(),
                 'branch_id' => Auth::user()?->branch_id,
                 'action' => 'update_transaction',
                 'model_type' => Rental::class,
                 'model_id' => $transaction->id,
-                'description' => Auth::user()->name . ' mengubah transaksi',
+                'description' => $description,
                 'old_values' => $old,
                 'new_values' => ['notes' => $transaction->notes],
                 'ip_address' => request()->ip(),
@@ -73,9 +83,21 @@ class TransactionService
 
     public function delete(Rental $transaction): void
     {
+        if (in_array($transaction->rental_status, ['waiting', 'active', 'overdue'], true)) {
+            throw new \InvalidArgumentException('Transaksi tidak dapat dihapus karena masih dalam status aktif.');
+        }
+
         DB::transaction(function () use ($transaction) {
             $old = $transaction->getAttributes();
             $transaction->delete();
+
+            $description = \App\Services\ActivityLogFormatter::format(
+                $old,
+                null,
+                Rental::class,
+                $transaction->id,
+                'delete_transaction'
+            );
 
             ActivityLog::create([
                 'user_id' => Auth::id(),
@@ -83,9 +105,9 @@ class TransactionService
                 'action' => 'delete_transaction',
                 'model_type' => Rental::class,
                 'model_id' => $transaction->id,
-                'description' => Auth::user()->name . ' menghapus transaksi',
+                'description' => $description,
                 'old_values' => $old,
-                'new_values' => [],
+                'new_values' => null,
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
             ]);

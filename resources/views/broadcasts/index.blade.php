@@ -120,6 +120,16 @@
                                 @endif
                             </div>
                         </div>
+                        @auth
+                        @if(auth()->user()->isSuperAdmin() || auth()->user()->isAdminToko())
+                        <form method="POST" action="{{ route('broadcasts.destroy', $broadcast) }}" id="deleteBroadcast_{{ $broadcast->id }}" class="hidden">
+                            @csrf @method('DELETE')
+                        </form>
+                        <button type="button" onclick="confirmDelete('deleteBroadcast_{{ $broadcast->id }}', 'broadcast ini')" class="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 transition">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                        @endif
+                        @endauth
                     </div>
                 </div>
             @empty

@@ -25,7 +25,11 @@ class PaymentController extends Controller
 
     public function destroy(Rental $invoice, Payment $payment)
     {
-        $this->service->delete($invoice, $payment);
+        try {
+            $this->service->delete($invoice, $payment);
+        } catch (\InvalidArgumentException $e) {
+            return redirect()->route('rentals.show', $invoice)->with('error', $e->getMessage());
+        }
         return redirect()->route('rentals.show', $invoice)->with('success', 'Pembayaran berhasil dihapus!');
     }
 

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Services\DashboardService;
+use App\Services\ActivityLogFileService;
+use App\Models\Branch;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class DashboardController extends Controller
 {
@@ -13,25 +17,53 @@ class DashboardController extends Controller
     public function data(Request $request)
     {
         $user = $request->user();
+        abort_unless(in_array($user->role, ['super_admin', 'admin_toko', 'sales'], true), 403);
+
+        $validated = $request->validate([
+            'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
+            'sales_user_id' => ['nullable', 'integer', 'exists:users,id'],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
+        ]);
+
+        $allowedBranchIds = $this->dashboardBranchIds($user);
+        if ($allowedBranchIds !== null) {
+            abort_if($allowedBranchIds === [], 403, 'Akun Anda belum memiliki cabang yang ditetapkan.');
+            abort_if(
+                isset($validated['branch_id']) && ! in_array((int) $validated['branch_id'], $allowedBranchIds, true),
+                403,
+                'Cabang di luar cakupan akses.'
+            );
+        }
+
+        $selectedBranchId = isset($validated['branch_id']) ? (int) $validated['branch_id'] : null;
+        if ($user->isAdminToko() && $selectedBranchId === null) {
+            $primaryBranchId = (int) ($user->branch_id ?? 0);
+            $selectedBranchId = in_array($primaryBranchId, $allowedBranchIds, true)
+                ? $primaryBranchId
+                : $allowedBranchIds[0];
+        }
+        $branchIds = $allowedBranchIds;
+        if ($selectedBranchId !== null) {
+            $branchIds = [$selectedBranchId];
+        }
+
+        $salesUserId = $user->isSales() ? $user->id : ($validated['sales_user_id'] ?? null);
+        if ($salesUserId !== null && ! $user->isSales()) {
+            $salesQuery = User::query()->whereKey($salesUserId)->where('role', 'sales');
+            if ($branchIds !== null) {
+                $salesQuery->whereIn('branch_id', $branchIds);
+            }
+            abort_unless($salesQuery->exists(), 403, 'Sales di luar cabang yang dipilih.');
+        }
 
         $filters = [
             'scope_type' => $user->role,
-            'branch_id' => $request->input('branch_id'),
-            'sales_user_id' => $request->input('sales_user_id'),
-            'date_from' => $request->input('date_from'),
-            'date_to' => $request->input('date_to'),
+            'branch_ids' => $branchIds,
+            'sales_user_id' => $salesUserId,
+            'date_from' => $validated['date_from'] ?? null,
+            'date_to' => $validated['date_to'] ?? null,
         ];
-
-        // For sales, force to their own id
-        if ($user->role === 'sales') {
-            $filters['sales_user_id'] = $user->id;
-            $filters['branch_id'] = $user->branch_id;
-        }
-
-        // For admin_toko, force to their own branch
-        if ($user->role === 'admin_toko') {
-            $filters['branch_id'] = $user->branch_id;
-        }
 
         $payload = $this->dashboardService->buildPayload($filters);
         return response()->json($payload, 200, [], JSON_UNESCAPED_UNICODE);
@@ -57,25 +89,72 @@ class DashboardController extends Controller
         $sales = \App\Models\User::where('role', 'sales')->get();
         $payload = $this->dashboardService->getDashboardDataForUser($user);
         $stats = $payload['stats'] ?? [];
-        return view('dashboard.super-admin', compact('stats', 'branches', 'sales'));
+        $selectedBranchId = null;
+        return view('dashboard.super-admin', compact('stats', 'branches', 'sales', 'selectedBranchId'));
     }
 
     private function adminDashboard($user)
     {
-        $branches = \App\Models\Branch::where('id', $user->branch_id)->get();
-        $sales = \App\Models\User::where('role', 'sales')->where('branch_id', $user->branch_id)->get();
-        $payload = $this->dashboardService->getDashboardDataForUser($user);
+        $branchIds = $this->dashboardBranchIds($user) ?? [];
+        abort_if($branchIds === [], 403, 'Akun Admin Toko belum memiliki cabang yang ditetapkan.');
+        $branches = Branch::whereIn('id', $branchIds)->orderBy('name')->get();
+        $sales = User::where('role', 'sales')->whereIn('branch_id', $branchIds)->orderBy('name')->get();
+        $payload = $this->dashboardService->buildPayload([
+            'scope_type' => 'admin',
+            'branch_ids' => $branchIds,
+            'sales_user_id' => null,
+        ]);
         $stats = $payload['stats'] ?? [];
-        return view('dashboard.admin', compact('stats', 'branches', 'sales'));
+        $primaryBranchId = (int) ($user->branch_id ?? 0);
+        $selectedBranchId = in_array($primaryBranchId, $branchIds, true) ? $primaryBranchId : $branchIds[0];
+        return view('dashboard.admin', compact('stats', 'branches', 'sales', 'selectedBranchId'));
     }
 
     private function salesDashboard($user)
     {
-        $branches = \App\Models\Branch::where('id', $user->branch_id)->get();
+        $branches = \App\Models\Branch::whereIn('id', $user->accessible_branch_ids)->get();
         $sales = \App\Models\User::where('id', $user->id)->get();
         $payload = $this->dashboardService->getDashboardDataForUser($user);
         $stats = $payload['stats'] ?? [];
         return view('dashboard.sales', compact('stats', 'branches', 'sales'));
+    }
+
+    private function dashboardBranchIds(User $user): ?array
+    {
+        if ($user->isSuperAdmin()) {
+            return null;
+        }
+
+        if ($user->isAdminToko()) {
+            return $user->accessible_branch_ids;
+        }
+
+        $branchIds = $user->accessible_branch_ids;
+        return $branchIds !== [] ? $branchIds : ($user->branch_id ? [(int) $user->branch_id] : []);
+    }
+
+    public function downloadActivityLog()
+    {
+        $user = Auth::user();
+
+        if (!$user->isSuperAdmin()) {
+            abort(403);
+        }
+
+        $service = new ActivityLogFileService();
+        $service->backfill();
+        $path = $service->getLogPath();
+
+        if (!file_exists($path)) {
+            return back()->with('error', 'File log belum tersedia.');
+        }
+
+        $filename = 'activity_log_' . now()->format('Y-m-d_H-i-s') . '.log';
+
+        return Response::download($path, $filename, [
+            'Content-Type' => 'text/plain',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
     }
 
 }

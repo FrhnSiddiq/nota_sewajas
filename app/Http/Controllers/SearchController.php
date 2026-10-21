@@ -23,7 +23,7 @@ class SearchController extends Controller
         if ($query !== '') {
             $customers = Customer::withTrashed() // Include soft-deleted
                 ->when($user->isSales(), fn (Builder $q) => $q->where('user_id', $user->id))
-                ->when(!$user->isSuperAdmin() && !$user->isSales(), fn (Builder $q) => $q->where('branch_id', $user->branch_id))
+                ->when(!$user->isSuperAdmin() && !$user->isSales(), fn (Builder $q) => $q->whereIn('branch_id', $user->accessible_branch_ids))
                 ->where(function (Builder $q) use ($query, $phoneQuery) {
                     $q->where('name', 'like', "%{$query}%")
                         ->orWhere('phone', 'like', "%{$query}%");
@@ -39,8 +39,7 @@ class SearchController extends Controller
 
             $rentals = Rental::query()
                 ->with(['customer', 'branch'])
-                ->when($user->isSales(), fn (Builder $q) => $q->where('created_by', $user->id))
-                ->when(!$user->isSuperAdmin() && !$user->isSales(), fn (Builder $q) => $q->where('branch_id', $user->branch_id))
+                ->when(!$user->isSuperAdmin(), fn (Builder $q) => $q->whereIn('branch_id', $user->accessible_branch_ids))
                 ->where(function (Builder $q) use ($query, $phoneQuery) {
                     $q->where('invoice_number', 'like', "%{$query}%")
                         ->orWhereHas('customer', function (Builder $customerQuery) use ($query, $phoneQuery) {
@@ -57,7 +56,7 @@ class SearchController extends Controller
                 ->get();
 
             $products = Product::query()
-                ->when(!$user->isSuperAdmin(), fn (Builder $q) => $q->where('branch_id', $user->branch_id))
+                ->when(!$user->isSuperAdmin(), fn (Builder $q) => $q->whereIn('branch_id', $user->accessible_branch_ids))
                 ->where(function (Builder $q) use ($query) {
                     $q->where('name', 'like', "%{$query}%")
                         ->orWhere('code', 'like', "%{$query}%")

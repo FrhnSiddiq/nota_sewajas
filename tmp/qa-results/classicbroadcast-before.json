@@ -1,0 +1,53 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Pagi, Super Administrator\n\nFriday, 02 Oct 2026 • 09:26 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nQA_E2E_20261001 User\nQA_E2E_20261001 Excluded\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/broadcasts",
+    "status": 200,
+    "url": "http://localhost:8000/broadcasts",
+    "title": "Broadcast - SewaJas",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBroadcast\n2\nSU\nBuat Broadcast\n\nPesan akan masuk ke notifikasi penerima sesuai target yang dipilih.\n\nJudul\nPesan\nSemua\n\nSemua user aktif dalam scope akses.\n\nRole\n\nKirim hanya ke role tertentu.\n\nCabang\n\nKirim ke semua user di cabang.\n\nLink Aksi Opsional\nKirim Broadcast\nRiwayat Terakhir\n\nNotifikasi broadcast yang baru dikirim.\n\n21\nQA_E2E_20261001 Scheduled\n\nQA_E2E test message for temporary QA accounts only\n\n02 Oct 2026 09:25\n· 2 penerima\nQA_E2E_20261001 Scheduled\n\nQA_E2E test message for temporary QA accounts only\n\n02 Oct 2026 09:25\n· 2 penerima\nQA_E2E_20261001 Selected\n\nQA_E2E test message for temporary QA accounts only\n\n02 Oct 2026 09:25\n· 2 penerima\nQA_E2E_20261001 Selected\n\nQA_E2E test message for temporary QA accounts only\n\n02 Oct 2026 09:25\n· 2 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:32\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:32\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:31\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:31\n· 2 penerima\nTest Radio In-App Only\n\nTest in-app message\n\n26 Aug 2026 15:11\n· 2 penerima\nTest Radio In-App Only\n\nTest in-app message\n\n26 Aug 2026 15:11\n· 2 penerima\nTest Both Channels to Customer\n\n26 Aug 2026 10:21\n· 1 penerima\nTest In-App to Customer\n\n26 Aug 2026 10:21\n· 1 penerima\nTest Both Channels to Customer\n\n26 Aug 2026 10:20\n· 1 penerima\nTest In-App to Customer\n\n26 Aug 2026 10:20\n· 1 penerima\nkhjkhk\n\nnm,n,m\n\n22 Aug 2026 21:14\n· 1 penerima"
+  },
+  {
+    "role": "super_admin",
+    "path": "Classic broadcast submit",
+    "text": "Internal Server Error\nCopy as Markdown\nErrorException\napp\\Services\\NotificationService.php:37\n\nTrying to access array offset on value of type int\n\nLARAVEL\n12.62.0\nPHP\n8.2.12\nUNHANDLED\nCODE 0\n500\nPOST\nhttp://localhost:8000/broadcasts\nException trace\nIlluminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}(integer, string, string, integer)\napp\\Services\\NotificationService.php:37\n32        }\n33\n34        $now  = now();\n35        $rows = array_map(function ($recipient) use ($type, $title, $message, $meta, $branchId, $actionUrl, $icon, $color, $now) {\n36            return [\n37                'notifiable_type' => $this->morphKey($recipient['type']),\n38                'notifiable_id'   => $recipient['id'],\n39                'branch_id'       => $branchId,\n40                'type'            => $type,\n41                'title'           => $title,\n42                'message'         => $message,\n43                'icon'            => $icon,\n44                'color'           => $color,\n45                'meta'            => $meta ? json_encode($meta, JSON_UNESCAPED_UNICODE) : null,\n46                'action_url'      => $actionUrl,\n47                'is_read'         => false,\n48                'created_at'      => $now,\n49\narray_map(object(Closure), array)\napp\\Services\\NotificationService.php:35\nApp\\Services\\NotificationService->broadcast(array, string, string, string, array, integer, null, string, string)\napp\\Http\\Controllers\\BroadcastController.php:96\n5 vendor frames\nIlluminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(object(Illuminate\\Http\\Request))\napp\\Http\\Middleware\\CheckRole.php:20\n1 vendor frame\nIlluminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(object(Illuminate\\Http\\Request))\napp\\Http\\Middleware\\EnsureBranchScope.php:30\n45 vendor frames\nIlluminate\\Foundation\\Application->handleRequest(object(Illuminate\\Http\\Request))\npublic\\index.php:20\n1 vendor frame\nQueries\n1-10 of 100\nmysql\nselect * from `users` where `id` = 1 and `users`.`deleted_at` is null limit 1\n3.86ms\nmysql\nselect count(*) as aggregate from `branches` where `id` = '5'\n0.63ms\nmysql\nselect `id` from `users` where `is_active` = 1 and `branch_id` = '5' and `users`.`deleted_at` is null\n0.56ms\nmysql\nselect count(*) as aggregate from `rentals` where `rental_status` = 'overdue'\n0.6ms\nmysql\nselect count(*) as aggregate from `notifications` where `notifiable_type` = 'user' and `notifiable_id` = 1 and `is_read` = 0\n0.92ms\nmysql\nselect count(*) as aggregate from `rentals` where `rental_status` = 'overdue'\n0.59ms\nmysql\nselect count(*) as aggregate from `notifications` where `notifiable_type` = 'user' and `notifiable_id` = 1 and `is_read` = 0\n0.47ms\nmysql\nselect count(*) as aggregate from `rentals` where `rental_status` = 'overdue'\n0.59ms\nmysql\nselect count(*) as aggregate from `notifications` where `notifiable_type` = 'user' and `notifiable_id` = 1 and `is_read` = 0\n0.49ms\nmysql\nselect count(*) as aggregate from `rentals` where `rental_status` = 'overdue'\n1.11ms\n1\n2\n3\n4\n5\n...\n10\nHeaders\nHOST\nlocalhost:8000\nCONNECTION\nkeep-alive\nCONTENT-LENGTH\n150\nCACHE-CONTROL\nmax-age=0\nSEC-CH-UA\n\"Chromium\";v=\"153\", \"Not_A Brand\";v=\"8\"\nSEC-CH-UA-MOBILE\n?0\nSEC-CH-UA-PLATFORM\n\"Windows\"\nUPGRADE-INSECURE-REQUESTS\n1\nCONTENT-TYPE\napplication/x-www-form-urlencoded\nUSER-AGENT\nMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36\nORIGIN\nhttp://localhost:8000\nACCEPT\ntext/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\nSEC-FETCH-SITE\nsame-origin\nSEC-FETCH-MODE\nnavigate\nSEC-FETCH-USER\n?1\nSEC-FETCH-DEST\ndocument\nREFERER\nhttp://localhost:8000/broadcasts\nACCEPT-ENCODING\ngzip, deflate, br, zstd\nACCEPT-LANGUAGE\nen-US,en;q=0.9\nCOOKIE\nXSRF-TOKEN=eyJpdiI6IkE2QjQ4dHdzem9oWVZxdEd3clF5bUE9PSIsInZhbHVlIjoiTG9KTStLVGtTUFp4UlVoSFlHY2thWUFWNW9YRkcvRnJGSXRDcDBOekpHQVU3aVpUUXRuQTBWMVRlTVhEUWdieGJPQlJMUVVDcU5sSXhqMHFZa0RXbkpOS0tFN0FPUkpLVnVOb2J3WDN2N2V5b253N3VLdTMzd3hnRm9xa0NBdnUiLCJtYWMiOiI5Mzc3MjY4NWVmZjBjNDY1ZGY0MDdlMjA5NGY3ZDU1N2MwN2NhN2NiMmVlZTkzNWRlODNiMzQ4ZjZiM2RkNDg0IiwidGFnIjoiIn0%3D; rentaljas-session=eyJpdiI6Inp2b0JPVERXSnpicm1FMzQ4T3ZFMlE9PSIsInZhbHVlIjoiKzJVcGlCWFN6ZDRYWmVUVDlaSEhZV3VZNmR0N01wSkZmbUJ0eTdBZ0dqK2FTUDBvcyswODQydXVlR0U2TXNhcUlPdkpodnY4bDQwWDJxRGMzbnArZGpqL2ZpVVUzaExWYzQxZ0F6Wk1RYnFnY21TN3Erd1JrZ3NBNGRVSEp4RDQiLCJtYWMiOiJiOTQ2NmU5N2RjMzM2YzhkODhlNGY4NzRmY2M1OWI2YjdlZjlkMWJmMDg3ODYxOTU4MGVhMW",
+    "events": [
+      {
+        "kind": "http",
+        "status": 500,
+        "url": "http://localhost:8000/broadcasts"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      }
+    ]
+  }
+]

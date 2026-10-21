@@ -100,6 +100,16 @@
         </form>
     </div>
 
+    {{-- ── EXPORT BUTTONS ───────────────────────────────────────── --}}
+    <div class="flex items-center justify-end gap-2 mb-6">
+        <a href="{{ route('reports.export.stock.excel', request()->query()) }}" class="btn-secondary text-sm py-1.5 px-3">
+            <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Export Excel
+        </a>
+        <a href="{{ route('reports.export.stock.pdf', request()->query()) }}" class="btn-secondary text-sm py-1.5 px-3">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Export PDF
+        </a>
+    </div>
+
     {{-- ── TABEL STOK ──────────────────────────────────────────── --}}
     <div class="ds-card overflow-hidden">
         <div class="px-5 py-4 border-b" style="border-color:var(--border)">

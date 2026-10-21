@@ -10,11 +10,19 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentService
 {
+    private function assertReversible(Rental $invoice, Payment $payment): void
+    {
+        if ($payment->rental_id !== $invoice->id || (float) $payment->amount <= 0 ||
+            $invoice->payments()->where('reference_number', $payment->payment_number)->where('amount', '<', 0)->exists()) {
+            throw \Illuminate\Validation\ValidationException::withMessages(['payment' => 'Pembayaran ini tidak dapat dibatalkan atau dikembalikan lagi.']);
+        }
+    }
+
     public function create(Rental $invoice, array $data): Payment
     {
         $validated = validator($data, [
             'amount' => ['required', 'numeric', 'min:0'],
-            'method' => ['required', 'string'],
+            'method' => ['required', 'in:cash,transfer,qris,other'],
             'reference_number' => ['nullable', 'string'],
             'notes' => ['nullable', 'string'],
         ])->validate();
@@ -24,11 +32,11 @@ class PaymentService
             $payment = Payment::create([
                 'rental_id' => $invoice->id,
                 'received_by' => Auth::id(),
-                'payment_number' => 'PAY-' . $now->format('YmdHis'),
+                'payment_number' => app(RentalService::class)->generatePaymentNumber(),
                 'amount' => (float) $validated['amount'],
                 'method' => $validated['method'],
                 'reference_number' => $validated['reference_number'] ?? null,
-                'type' => 'payment',
+                'type' => 'rental',
                 'notes' => $validated['notes'] ?? null,
                 'paid_at' => $now,
             ]);
@@ -39,7 +47,7 @@ class PaymentService
                 'action' => 'create_payment',
                 'model_type' => Rental::class,
                 'model_id' => $invoice->id,
-                'description' => Auth::user()->name . ' menambah pembayaran',
+                'description' => \App\Services\ActivityLogFormatter::format(null, $payment->getAttributes(), Rental::class, $invoice->id, 'create_payment'),
                 'old_values' => [],
                 'new_values' => $payment->getAttributes(),
                 'ip_address' => request()->ip(),
@@ -56,7 +64,7 @@ class PaymentService
     {
         $validated = validator($data, [
             'amount' => ['required', 'numeric', 'min:0'],
-            'method' => ['required', 'string'],
+            'method' => ['required', 'in:cash,transfer,qris,other'],
             'reference_number' => ['nullable', 'string'],
             'notes' => ['nullable', 'string'],
         ])->validate();
@@ -79,7 +87,7 @@ class PaymentService
                 'action' => 'update_payment',
                 'model_type' => Rental::class,
                 'model_id' => $invoice->id,
-                'description' => Auth::user()->name . ' mengubah pembayaran',
+                'description' => \App\Services\ActivityLogFormatter::format($old, $payment->getAttributes(), Rental::class, $invoice->id, 'update_payment'),
                 'old_values' => $old,
                 'new_values' => $payment->getAttributes(),
                 'ip_address' => request()->ip(),
@@ -92,6 +100,10 @@ class PaymentService
 
     public function delete(Rental $invoice, Payment $payment): void
     {
+        if (in_array($invoice->rental_status, ['waiting', 'active', 'overdue'], true)) {
+            throw new \InvalidArgumentException('Pembayaran tidak dapat dihapus karena penyewaan masih dalam status aktif.');
+        }
+
         DB::transaction(function () use ($invoice, $payment) {
             $old = $payment->getAttributes();
 
@@ -103,9 +115,9 @@ class PaymentService
                 'action' => 'delete_payment',
                 'model_type' => Rental::class,
                 'model_id' => $invoice->id,
-                'description' => Auth::user()->name . ' menghapus pembayaran',
+                'description' => \App\Services\ActivityLogFormatter::format($old, null, Rental::class, $invoice->id, 'delete_payment'),
                 'old_values' => $old,
-                'new_values' => [],
+                'new_values' => null,
                 'ip_address' => request()->ip(),
                 'user_agent' => request()->userAgent(),
             ]);
@@ -117,6 +129,8 @@ class PaymentService
     public function voidPayment(Rental $invoice, Payment $payment): void
     {
         DB::transaction(function () use ($invoice, $payment) {
+            $payment = Payment::whereKey($payment->id)->lockForUpdate()->firstOrFail();
+            $this->assertReversible($invoice, $payment);
             // Void recorded as Payment record with negative amount
             $refundAmount = (float) $payment->amount;
             $now = now();
@@ -124,11 +138,11 @@ class PaymentService
             $void = Payment::create([
                 'rental_id' => $invoice->id,
                 'received_by' => Auth::id(),
-                'payment_number' => 'VOID-' . $now->format('YmdHis'),
+                'payment_number' => 'VOID-' . \Illuminate\Support\Str::uuid(),
                 'amount' => 0 - $refundAmount,
-                'method' => 'adjustment',
+                'method' => 'other',
                 'reference_number' => $payment->payment_number,
-                'type' => 'void',
+                'type' => $payment->type,
                 'notes' => 'Void payment',
                 'paid_at' => $now,
             ]);
@@ -139,7 +153,7 @@ class PaymentService
                 'action' => 'void_payment',
                 'model_type' => Rental::class,
                 'model_id' => $invoice->id,
-                'description' => Auth::user()->name . ' melakukan void pembayaran',
+                'description' => \App\Services\ActivityLogFormatter::format($payment->getAttributes(), $void->getAttributes(), Rental::class, $invoice->id, 'void_payment'),
                 'old_values' => $payment->getAttributes(),
                 'new_values' => $void->getAttributes(),
                 'ip_address' => request()->ip(),
@@ -153,15 +167,17 @@ class PaymentService
     public function refundPayment(Rental $invoice, Payment $payment): void
     {
         DB::transaction(function () use ($invoice, $payment) {
+            $payment = Payment::whereKey($payment->id)->lockForUpdate()->firstOrFail();
+            $this->assertReversible($invoice, $payment);
             $refundAmount = (float) $payment->amount;
             $now = now();
 
             $refund = Payment::create([
                 'rental_id' => $invoice->id,
                 'received_by' => Auth::id(),
-                'payment_number' => 'REFUND-' . $now->format('YmdHis'),
+                'payment_number' => 'REFUND-' . \Illuminate\Support\Str::uuid(),
                 'amount' => 0 - $refundAmount,
-                'method' => 'adjustment',
+                'method' => 'other',
                 'reference_number' => $payment->payment_number,
                 'type' => 'refund',
                 'notes' => 'Refund payment',
@@ -174,7 +190,7 @@ class PaymentService
                 'action' => 'refund_payment',
                 'model_type' => Rental::class,
                 'model_id' => $invoice->id,
-                'description' => Auth::user()->name . ' melakukan refund pembayaran',
+                'description' => \App\Services\ActivityLogFormatter::format($payment->getAttributes(), $refund->getAttributes(), Rental::class, $invoice->id, 'refund_payment'),
                 'old_values' => $payment->getAttributes(),
                 'new_values' => $refund->getAttributes(),
                 'ip_address' => request()->ip(),

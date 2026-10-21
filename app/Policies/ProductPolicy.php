@@ -15,7 +15,7 @@ class ProductPolicy
     public function view(User $user, Product $product): bool
     {
         if ($user->isSuperAdmin()) return true;
-        return $user->branch_id === $product->branch_id;
+        return $user->canAccessBranch($product->branch_id);
     }
 
     public function create(User $user): bool
@@ -28,13 +28,15 @@ class ProductPolicy
     {
         if ($user->isSuperAdmin()) return true;
         if ($user->role === 'sales') return false;
-        return $user->branch_id === $product->branch_id;
+        return $user->canAccessBranch($product->branch_id);
     }
 
     public function delete(User $user, Product $product): bool
     {
         // Sales tidak boleh menghapus produk
-        return $user->isSuperAdmin();
+        if ($user->isSuperAdmin()) return true;
+        if ($user->role === 'sales') return false;
+        return $user->canAccessBranch($product->branch_id);
     }
 
 }

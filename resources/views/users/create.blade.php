@@ -180,19 +180,70 @@
                         </div>
                     </div>
 
-                    {{-- Cabang --}}
-                    <div id="branch-wrap">
-                        <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">
-                            Cabang <span class="text-red-500">*</span>
+                    {{-- Tipe Akses Cabang --}}
+                    <div id="branch-access-type-wrap" class="{{ old('role') === 'admin_toko' ? 'hidden' : '' }}">
+                        <label class="block text-sm font-medium mb-2" style="color:var(--text-dark)">
+                            Tipe Akses Cabang <span class="text-red-500">*</span>
                         </label>
-                        <select name="branch_id" class="form-input @error('branch_id') border-red-400 @enderror">
-                            <option value="">Pilih Cabang</option>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 rounded-xl p-3 border cursor-pointer transition-colors branch-access-option"
+                                    style="border-color:var(--border)"
+                                    id="radio-all-wrap">
+                                <input type="radio" name="branch_access_type" value="all"
+                                       {{ old('branch_access_type') === 'all' ? 'checked' : '' }}
+                                       onchange="toggleBranchAccessType()"
+                                       class="accent-blue-600">
+                                <div>
+                                    <p class="text-sm font-medium" style="color:var(--text-dark)">Semua Cabang</p>
+                                    <p class="text-xs" style="color:var(--text-soft)">User dapat melihat dan mengelola data di semua cabang.</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-2 rounded-xl p-3 border cursor-pointer transition-colors branch-access-option"
+                                    style="border-color:var(--border)"
+                                    id="radio-specific-wrap">
+                                <input type="radio" name="branch_access_type" value="specific"
+                                       {{ old('branch_access_type') !== 'all' ? 'checked' : '' }}
+                                       onchange="toggleBranchAccessType()"
+                                       class="accent-blue-600">
+                                <div>
+                                    <p class="text-sm font-medium" style="color:var(--text-dark)">Cabang Tertentu</p>
+                                    <p class="text-xs" style="color:var(--text-soft)">User hanya dapat mengakses cabang yang dipilih di bawah ini.</p>
+                                </div>
+                            </label>
+                        </div>
+                        @error('branch_access_type')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+                    </div>
+
+                    {{-- Daftar Cabang --}}
+                    <div id="branch-list-wrap" class="{{ old('role') === 'super_admin' ? 'hidden' : '' }}">
+                        <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">
+                            Cabang Utama / Cabang yang Diizinkan <span class="text-red-500">*</span>
+                        </label>
+                        <div class="space-y-2 max-h-60 overflow-y-auto rounded-xl border p-3"
+                             style="border-color:var(--border)" id="branch-checkbox-list">
                             @foreach($branches as $b)
-                            <option value="{{ $b->id }}" {{ old('branch_id') == $b->id ? 'selected' : '' }}>
-                                {{ $b->name }}
-                            </option>
+                            <label class="flex items-center gap-2 rounded-lg px-2 py-1.5 cursor-pointer hover:bg-slate-50 transition-colors">
+                                <input type="checkbox" name="branch_ids[]" value="{{ $b->id }}"
+                                       {{ in_array($b->id, old('branch_ids', [])) ? 'checked' : '' }}
+                                       class="accent-blue-600 rounded">
+                                <span class="text-sm" style="color:var(--text-dark)">{{ $b->name }}</span>
+                                <span class="text-xs" style="color:var(--text-soft)">({{ $b->code ?? '-' }})</span>
+                            </label>
                             @endforeach
-                        </select>
+                        </div>
+                        <div class="space-y-2 max-h-60 overflow-y-auto rounded-xl border p-3 hidden"
+                             style="border-color:var(--border)" id="branch-radio-list">
+                            @foreach($branches as $b)
+                            <label class="flex items-center gap-2 rounded-lg px-2 py-1.5 cursor-pointer hover:bg-slate-50 transition-colors">
+                                <input type="radio" name="branch_id" value="{{ $b->id }}"
+                                       {{ old('branch_id') == $b->id ? 'checked' : '' }}
+                                       class="accent-blue-600 rounded">
+                                <span class="text-sm" style="color:var(--text-dark)">{{ $b->name }}</span>
+                                <span class="text-xs" style="color:var(--text-soft)">({{ $b->code ?? '-' }})</span>
+                            </label>
+                            @endforeach
+                        </div>
+                        @error('branch_ids')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                         @error('branch_id')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                     </div>
                 </div>
@@ -217,10 +268,13 @@
 <script>
     lucide.createIcons();
 
-    // Avatar preview
-    document.getElementById('avatar-input').addEventListener('change', function () {
+    // Avatar preview (kompres bila perlu sebelum dikirim)
+    document.getElementById('avatar-input').addEventListener('change', async function () {
         const file = this.files[0];
         if (!file) return;
+        const finalFile = window.compressAndAssign
+            ? await window.compressAndAssign(this, file)
+            : file;
         const reader = new FileReader();
         reader.onload = e => {
             const img = document.getElementById('avatar-preview');
@@ -229,7 +283,7 @@
             img.classList.remove('hidden');
             placeholder.classList.add('hidden');
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(finalFile);
     });
 
     // Toggle password visibility
@@ -249,34 +303,113 @@
     // Toggle cabang berdasarkan role
     const roleDesc = {
         'super_admin': 'Akses penuh ke semua cabang. Tidak perlu memilih cabang.',
-        'admin_toko' : 'Mengelola satu cabang. Wajib memilih cabang.',
-        'sales'      : 'Hanya transaksi harian. Wajib memilih cabang.',
+        'admin_toko' : 'Akses semua cabang. Pilih cabang utama untuk transaksi akun ini.',
+        'sales'      : 'Hanya transaksi harian. Pilih satu cabang yang diizinkan.',
     };
 
     function toggleBranch(role) {
-        const wrap = document.getElementById('branch-wrap');
-        const info = document.getElementById('role-info');
-        const text = document.getElementById('role-info-text');
+        const accessWrap = document.getElementById('branch-access-type-wrap');
+        const roleInfo = document.getElementById('role-info');
+        const roleInfoText = document.getElementById('role-info-text');
+        const radioAllWrap = document.getElementById('radio-all-wrap');
+        const branchListWrap = document.getElementById('branch-list-wrap');
+        const checkboxList = document.getElementById('branch-checkbox-list');
+        const radioList = document.getElementById('branch-radio-list');
+        const allOptions = document.querySelectorAll('.branch-access-option');
 
         if (role === 'super_admin') {
-            wrap.style.opacity = '0.4';
-            wrap.style.pointerEvents = 'none';
+            accessWrap.classList.add('hidden');
+            branchListWrap.classList.add('hidden');
+        } else if (role === 'admin_toko') {
+            accessWrap.classList.add('hidden');
+            branchListWrap.classList.remove('hidden');
+            checkboxList.classList.add('hidden');
+            radioList.classList.remove('hidden');
+        } else if (role === 'sales') {
+            accessWrap.classList.remove('hidden');
+            branchListWrap.classList.remove('hidden');
+            accessWrap.style.opacity = '1';
+            accessWrap.style.pointerEvents = 'auto';
+            accessWrap.querySelectorAll('input').forEach(el => el.disabled = false);
+
+            allOptions.forEach(el => {
+                if (el.id === 'radio-all-wrap') {
+                    el.classList.add('hidden');
+                }
+            });
+
+            const specificRadio = document.querySelector('input[name="branch_access_type"][value="specific"]');
+            if (specificRadio) specificRadio.checked = true;
+
+            checkboxList.classList.add('hidden');
+            radioList.classList.remove('hidden');
         } else {
-            wrap.style.opacity = '1';
-            wrap.style.pointerEvents = 'auto';
+            accessWrap.classList.remove('hidden');
+            branchListWrap.classList.remove('hidden');
+            accessWrap.style.opacity = '1';
+            accessWrap.style.pointerEvents = 'auto';
+            accessWrap.querySelectorAll('input').forEach(el => el.disabled = false);
+
+            allOptions.forEach(el => el.classList.remove('hidden'));
+
+            checkboxList.classList.remove('hidden');
+            radioList.classList.add('hidden');
         }
 
         if (roleDesc[role]) {
-            text.textContent = roleDesc[role];
-            info.classList.remove('hidden');
+            roleInfoText.textContent = roleDesc[role];
+            roleInfo.classList.remove('hidden');
         } else {
-            info.classList.add('hidden');
+            roleInfo.classList.add('hidden');
         }
     }
 
-    // Trigger on load jika ada old value
+    function toggleBranchAccessType() {
+        const type = document.querySelector('input[name="branch_access_type"]:checked')?.value;
+        const branchListWrap = document.getElementById('branch-list-wrap');
+        const radioAllWrap = document.getElementById('radio-all-wrap');
+        const radioSpecificWrap = document.getElementById('radio-specific-wrap');
+        const checkboxList = document.getElementById('branch-checkbox-list');
+        const radioList = document.getElementById('branch-radio-list');
+        const role = document.getElementById('role-select').value;
+
+        if (role === 'admin_toko' || role === 'super_admin') {
+            return;
+        }
+
+        if (!type) return;
+
+        if (type === 'specific') {
+            branchListWrap.classList.remove('hidden');
+            radioSpecificWrap.style.borderColor = 'var(--primary)';
+            radioSpecificWrap.style.background = 'rgba(99,102,241,0.04)';
+            if (radioAllWrap) {
+                radioAllWrap.style.borderColor = 'var(--border)';
+                radioAllWrap.style.background = 'transparent';
+            }
+        } else {
+            branchListWrap.classList.add('hidden');
+            if (radioAllWrap) {
+                radioAllWrap.style.borderColor = 'var(--primary)';
+                radioAllWrap.style.background = 'rgba(99,102,241,0.04)';
+            }
+            radioSpecificWrap.style.borderColor = 'var(--border)';
+            radioSpecificWrap.style.background = 'transparent';
+        }
+
+        if (role === 'sales') {
+            checkboxList.classList.add('hidden');
+            radioList.classList.remove('hidden');
+        } else {
+            checkboxList.classList.remove('hidden');
+            radioList.classList.add('hidden');
+        }
+    }
+
+    // Trigger on load
     const initialRole = document.getElementById('role-select').value;
     if (initialRole) toggleBranch(initialRole);
+    toggleBranchAccessType();
 </script>
 @endpush
 @endsection

@@ -40,21 +40,22 @@
                         <input type="text"
                             x-model="customerSearch"
                             @focus="customerDropdownOpen = true"
-                            @input="selectedCustomer = null"
+                            @click="customerDropdownOpen = true"
+                            @input="selectedCustomer = null; customerDropdownOpen = true"
                             class="form-input"
-                            placeholder="Ketik nama atau nomor HP pelanggan..."
+                            placeholder="Pilih pelanggan atau ketik untuk mencari..."
                             autocomplete="off"
                             :disabled="formLocked"
                             title="{{ $isFormLocked ? 'Tidak dapat diubah karena penyewaan sudah dibayar/berjalan' : '' }}"
                         >
                         <input type="hidden" name="customer_id" :value="selectedCustomer?.id ?? '{{ $rental->customer_id }}'" required>
 
-                        <div x-show="customerDropdownOpen && customerSearch"
+                        <div x-show="customerDropdownOpen"
                              x-transition
                              class="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-60 overflow-auto"
                              style="display: none;">
                             <template x-if="filteredCustomers.length > 0">
-                                <template x-for="customer in filteredCustomers" :key="customer.id">
+                                <template x-for="customer in dropdownCustomers" :key="customer.id">
                                     <div @click="selectCustomer(customer)"
                                          class="px-4 py-2.5 cursor-pointer hover:bg-blue-50 text-sm flex items-center justify-between"
                                          :class="selectedCustomer?.id === customer.id ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700'">
@@ -63,6 +64,16 @@
                                     </div>
                                 </template>
                             </template>
+
+                            <div x-show="filteredCustomers.length > dropdownCustomers.length"
+                                 class="px-4 py-2 text-xs text-slate-400 border-t border-slate-100 bg-slate-50/60 text-center">
+                                Menampilkan <span x-text="dropdownCustomers.length"></span> dari <span x-text="filteredCustomers.length"></span> pelanggan — ketik untuk mempersempit
+                            </div>
+
+                            <div x-show="!customerSearch && filteredCustomers.length === 0"
+                                 class="px-4 py-3 text-sm text-slate-400">
+                                Belum ada pelanggan terdaftar.
+                            </div>
 
                             <div x-show="customerSearch && filteredCustomers.length === 0"
                                  @click="openAddModal()"
@@ -105,14 +116,6 @@
                                         >
                                     </div>
                                 </div>
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5 text-slate-700">Alamat</label>
-                                <textarea x-model="newCustomer.address" class="form-input" rows="2" placeholder="Alamat (opsional)"></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5 text-slate-700">Catatan</label>
-                                <textarea x-model="newCustomer.notes" class="form-input" rows="2" placeholder="Catatan (opsional)"></textarea>
-                            </div>
                             <div class="flex items-center justify-end gap-3 pt-2">
                                 <button type="button" @click="showAddModal = false" class="btn-secondary px-5 py-2.5" :disabled="addingCustomer">Batal</button>
                                 <button type="submit" class="btn-primary px-5 py-2.5" :disabled="addingCustomer">
@@ -157,11 +160,15 @@
                             @foreach ($products as $product)
                                 @php
                                     $isOut = (int)($product->stock_available ?? 0) <= 0;
+                                    $fallbackSizes = $product->size ? [$product->size => ['stock_total' => $product->stock_total, 'stock_available' => $product->stock_available]] : [];
+                                    $sizesData = $product->sizesData ?: $fallbackSizes;
                                 @endphp
                                 <option
                                     value="{{ $product->id }}"
                                     data-price="{{ $product->rental_price }}"
+                                    data-deposit-price="{{ $product->deposit_price }}"
                                     data-stock="{{ $product->stock_available }}"
+                                    data-sizes='@json($sizesData)'
                                     :selected="String(item.product_id) === String({{ $product->id }})"
                                     {{ $isOut ? 'disabled' : '' }}
                                 >
@@ -171,19 +178,17 @@
                             @endforeach
                         </select>
 
-                        <select x-model="item.product_size" :name="`items[${index}][product_size]`" class="form-input w-32" :class="{ 'is-error': itemsErrors[index]?.product_size }" @change="itemsErrors[index].product_size = false">
-                            <option value="">Ukuran</option>
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                            <option value="3XL">3XL</option>
-                            <option value="4XL">4XL</option>
-                        </select>
+                        <div class="flex items-center gap-1">
+                            <select x-model="item.product_size" :name="`items[${index}][product_size]`" class="form-input w-32" :class="{ 'is-error': itemsErrors[index]?.product_size }" @change="onSizeChange(index)">
+                                <option value="">Pilih Ukuran</option>
+                                <template x-for="sz in sizesForItem(index)" :key="sz">
+                                    <option :value="sz" x-text="sz"></option>
+                                </template>
+                            </select>
+                            <span class="text-xs text-slate-500" x-show="item.product_size" x-text="'Stok: ' + getStockForProductAndSize(item.product_id, item.product_size)"></span>
+                        </div>
 
-                        <input type="number" x-model="item.quantity" :name="`items[${index}][quantity]`" value="1" min="1" class="form-input w-24" :class="{ 'is-error': itemsErrors[index]?.quantity || itemsErrors[index]?.stock_exceeded }" @input="onQtyInput(index)" :disabled="formLocked" title="{{ $isFormLocked ? 'Tidak dapat diubah karena penyewaan sudah dibayar/berjalan' : '' }}">
+                        <input type="number" x-model="item.quantity" :name="`items[${index}][quantity]`" value="1" min="1" class="form-input w-24" :max="item.product_size ? getStockForProductAndSize(item.product_id, item.product_size) : ''" :class="{ 'is-error': itemsErrors[index]?.quantity || itemsErrors[index]?.stock_exceeded }" @input="onQtyInput(index)" :disabled="formLocked" title="{{ $isFormLocked ? 'Tidak dapat diubah karena penyewaan sudah dibayar/berjalan' : '' }}">
                         <p x-show="itemsErrors[index]?.stock_exceeded" x-transition class="text-xs text-red-400 mt-1" x-text="itemsErrors[index]?.stock_message || 'Qty melebihi stok tersedia'"></p>
 
                         <button type="button" x-show="items.length > 1 && !formLocked" @click="removeItem(index)" class="btn-danger px-3 py-2" :disabled="formLocked" title="{{ $isFormLocked ? 'Tidak dapat diubah karena penyewaan sudah dibayar/berjalan' : '' }}">
@@ -224,13 +229,18 @@
 
                 <div>
                     <label class="block text-sm font-medium mb-1.5" style="color: var(--text-dark)">Jenis Jaminan</label>
-                    <select name="guarantee_type" class="form-input">
+                    <select name="guarantee_type" x-model="guaranteeType" class="form-input">
                         <option value="">Pilih Jaminan</option>
                         <option value="ktp" {{ $guarantee && $guarantee->type === 'ktp' ? 'selected' : '' }}>KTP</option>
                         <option value="sim" {{ $guarantee && $guarantee->type === 'sim' ? 'selected' : '' }}>SIM</option>
                         <option value="deposit" {{ $guarantee && $guarantee->type === 'deposit' ? 'selected' : '' }}>Deposit Uang</option>
                         <option value="custom" {{ $guarantee && $guarantee->type === 'custom' ? 'selected' : '' }}>Jaminan Custom</option>
                     </select>
+
+                    <div x-show="guaranteeType === 'deposit'" x-transition class="sm:col-span-2">
+                        <label class="block text-sm font-medium mb-1.5" style="color: var(--text-dark)">Jumlah Deposit</label>
+                        <input type="text" name="guarantee_deposit" x-model="guaranteeDeposit" placeholder="Masukkan jumlah deposit" value="{{ old('guarantee_deposit', $guarantee?->deposit_amount ?? '') }}" class="form-input">
+                    </div>
                 </div>
 
                 @if($guarantee && $guarantee->type === 'custom')
@@ -281,7 +291,8 @@
                                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 <p class="text-sm font-medium">Seret &amp; lepas foto di sini</p>
                                 <p class="text-xs">atau klik untuk memilih file</p>
-                                <p class="text-xs text-slate-300">JPG/PNG, maks 2MB</p>
+                                <p x-show="photoState.compressing" class="text-xs font-semibold text-blue-500">Mengompres foto…</p>
+                                <p x-show="!photoState.compressing" class="text-xs text-slate-300">JPG/PNG, maks 2MB — foto besar otomatis dikompres</p>
                             </div>
                         </template>
                         <template x-if="photoState.file">
@@ -428,11 +439,13 @@
             { product_id: {{ $rentalItem->product_id ?? 'null' }}, product_size: '{{ $rentalItem->product_size }}', quantity: {{ (int)$rentalItem->quantity }} },
             @endforeach
         ],
-        itemsErrors: [],
+         itemsErrors: [],
+        productSizesMap: @json($products->mapWithKeys(fn($p) => [$p->id => ($p->sizesData ?: ($p->size ? [$p->size => ['stock_total' => $p->stock_total, 'stock_available' => $p->stock_available]] : []))])->toArray()),
         dragOver: false,
         photoState: {
             file: null,
             previewUrl: null,
+            compressing: false,
             checked: false,
             verified: false,
             resolutionOk: false,
@@ -447,8 +460,10 @@
         showAddModal: false,
         showPreview: false,
         addingCustomer: false,
-        newCustomer: { name: '', phone: '', address: '', notes: '' },
+        newCustomer: { name: '', phone: '' },
         customers: @json($customers->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'phone' => $c->phone])),
+        guaranteeType: '{{ $guarantee?->type ?? '' }}',
+        guaranteeDeposit: '{{ $guarantee?->deposit_amount ?? '' }}',
 
         getStockForProduct(productId) {
             if (!productId) return 0;
@@ -457,25 +472,54 @@
             return option ? parseInt(option.dataset.stock || '0', 10) : 0;
         },
 
+        getStockForProductAndSize(productId, size) {
+            const sizes = this.productSizesMap[productId];
+            if (!sizes || !sizes[size]) return 0;
+            return parseInt(sizes[size].stock_available, 10);
+        },
+
+        sizesForItem(index) {
+            const productId = this.items[index]?.product_id;
+            if (!productId) return [];
+            const sizes = this.productSizesMap[productId];
+            if (!sizes) return [];
+            const order = ['XS','S','M','L','XL','XXL','3XL','4XL','5XL','6XL','7XL'];
+            return Object.keys(sizes).sort((a, b) => order.indexOf(a) - order.indexOf(b));
+        },
+
         onProductChange(index) {
             const item = this.items[index];
-            const stock = this.getStockForProduct(item.product_id);
-
-            if (item.product_id && stock > 0 && item.quantity > stock) {
-                item.quantity = stock;
-            }
+            item.product_size = '';
 
             if (!this.itemsErrors[index]) {
                 this.itemsErrors[index] = {};
             }
             this.itemsErrors[index].product_id = false;
+            this.itemsErrors[index].product_size = false;
             this.itemsErrors[index].stock_exceeded = false;
             this.itemsErrors[index].stock_message = '';
         },
 
+        onSizeChange(index) {
+            const item = this.items[index];
+            if (item.product_id && item.product_size) {
+                const stock = this.getStockForProductAndSize(item.product_id, item.product_size);
+                if (item.quantity > stock) {
+                    item.quantity = stock;
+                }
+                if (!this.itemsErrors[index]) {
+                    this.itemsErrors[index] = {};
+                }
+                this.itemsErrors[index].stock_exceeded = false;
+                this.itemsErrors[index].stock_message = '';
+            }
+        },
+
         onQtyInput(index) {
             const item = this.items[index];
-            const stock = this.getStockForProduct(item.product_id);
+            const stock = item.product_id && item.product_size
+                ? this.getStockForProductAndSize(item.product_id, item.product_size)
+                : this.getStockForProduct(item.product_id);
 
             if (!this.itemsErrors[index]) {
                 this.itemsErrors[index] = {};
@@ -491,11 +535,21 @@
         },
 
         get filteredCustomers() {
+            // Prefill "Nama - HP" pelanggan terpilih: saat dropdown dibuka tampilkan
+            // daftar lengkap, bukan "tidak ada hasil" (kueri prefill tak cocok nama mentah)
+            if (this.selectedCustomer
+                && this.customerSearch === this.selectedCustomer.name + ' - ' + this.selectedCustomer.phone) {
+                return this.customers;
+            }
             if (!this.customerSearch) return this.customers;
             const q = this.customerSearch.toLowerCase();
             return this.customers.filter(c =>
                 c.name.toLowerCase().includes(q) || c.phone.includes(q)
             );
+        },
+
+        get dropdownCustomers() {
+            return this.filteredCustomers.slice(0, 50);
         },
 
         selectCustomer(customer) {
@@ -507,8 +561,6 @@
         openAddModal() {
             this.newCustomer.name = this.customerSearch;
             this.newCustomer.phone = '';
-            this.newCustomer.address = '';
-            this.newCustomer.notes = '';
             this.showAddModal = true;
         },
 
@@ -595,7 +647,13 @@
                     stock_message: ''
                 };
 
-                if (item.product_id) {
+                if (item.product_id && item.product_size) {
+                    const stock = this.getStockForProductAndSize(item.product_id, item.product_size);
+                    if (stock > 0 && item.quantity > stock) {
+                        errors.stock_exceeded = true;
+                        errors.stock_message = `Qty melebihi stok tersedia (maks: ${stock})`;
+                    }
+                } else if (item.product_id) {
                     const stock = this.getStockForProduct(item.product_id);
                     if (stock > 0 && item.quantity > stock) {
                         errors.stock_exceeded = true;
@@ -632,15 +690,34 @@
             if (file) this.processFile(file);
         },
 
-        processFile(file) {
+        async processFile(file) {
             if (!['image/jpeg', 'image/png'].includes(file.type)) {
                 alert('Format tidak didukung. Gunakan JPG atau PNG.');
                 return;
             }
+
+            // Kompresi di browser: foto HP 4-8MB di-resize/mampatkan dulu supaya
+            // aman melewati limit upload 2MB tanpa menolak file (lihat compressedUpload.js).
+            this.photoState.compressing = true;
+            try {
+                file = await window.compressImageFile(file);
+            } catch (e) {
+                console.error('Kompresi gambar gagal, memakai file asli:', e);
+            } finally {
+                this.photoState.compressing = false;
+            }
+
+            // Guard terakhir (jarang terjadi setelah kompresi)
             if (file.size > 2 * 1024 * 1024) {
-                alert('Ukuran file maksimal 2MB.');
+                alert('Ukuran file masih terlalu besar setelah kompresi. Coba foto ulang.');
                 return;
             }
+
+            // Sinkron ke <input type="file"> supaya file ikut terkirim saat submit,
+            // termasuk jalur drag & drop yang sebelumnya tidak terkirim.
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            this.$refs.fileInput.files = dt.files;
 
             const reader = new FileReader();
             reader.onload = (e) => {

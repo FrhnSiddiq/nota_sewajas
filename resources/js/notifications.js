@@ -14,6 +14,7 @@ window.notificationBell = function () {
         hasMore:       false,
         pollTimer:     null,
         hasFetched:    false,
+        errorMessage:  '',
 
         tabs: [
             { key: 'all',           label: 'Semua'        },
@@ -59,6 +60,7 @@ window.notificationBell = function () {
         // ── Fetch list notifikasi ─────────────────────────────────────────────
         async fetchNotifications(append = false) {
             this.loading = true
+            this.errorMessage = ''
             try {
                 const params = new URLSearchParams({ page: this.page })
                 if (this.filter !== 'all') params.set('type', this.filter)
@@ -74,9 +76,11 @@ window.notificationBell = function () {
                     ? [...this.notifications, ...json.notifications]
                     : json.notifications
 
-                this.hasMore = json.notifications.length === 20
+                this.hasMore = json.has_more ?? json.notifications.length === 20
                 this.counts  = json.counts
             } catch (e) {
+                this.hasFetched = false
+                this.errorMessage = 'Notifikasi gagal dimuat. Coba lagi.'
                 console.error('Gagal memuat notifikasi:', e)
             } finally {
                 this.loading = false
@@ -87,32 +91,47 @@ window.notificationBell = function () {
         async onItemClick(notif) {
             // Redirect jika ada action_url
             if (notif.action_url) {
+                if (!notif.is_read) {
+                    try {
+                        const res = await fetch(`/notifications/${notif.id}/read`, {
+                            method: 'POST',
+                            headers: this._headers(),
+                        })
+                        if (!res.ok) throw new Error('Request gagal')
+
+                        const json = await res.json()
+                        this.counts = json.counts ?? this.counts
+                    } catch {
+                        this.errorMessage = 'Notifikasi gagal ditandai dibaca. Coba lagi.'
+                        return
+                    }
+                }
                 window.location.href = notif.action_url
                 return
             }
 
             if (notif.is_read) return
 
-            // Optimistic update
-            const idx = this.notifications.findIndex(n => n.id === notif.id)
-            if (idx !== -1) this.notifications[idx].is_read = true
-            this.counts.total = Math.max(0, this.counts.total - 1)
-
             try {
-                await fetch(`/notifications/${notif.id}/read`, {
+                const res = await fetch(`/notifications/${notif.id}/read`, {
                     method:  'POST',
                     headers: this._headers(),
                 })
+                if (!res.ok) throw new Error('Request gagal')
+
+                const json = await res.json()
+                const item = this.notifications.find(n => n.id === notif.id)
+                if (item) item.is_read = true
+                this.counts = json.counts ?? this.counts
+                this.errorMessage = ''
             } catch {
                 await this.fetchNotifications()
+                this.errorMessage = 'Notifikasi gagal ditandai dibaca. Coba lagi.'
             }
         },
 
         // ── Tandai semua dibaca ───────────────────────────────────────────────
         async markAllRead() {
-            this.notifications = this.notifications.map(n => ({ ...n, is_read: true }))
-            this.counts.total  = 0
-
             try {
                 const body = this.filter !== 'all' ? JSON.stringify({ type: this.filter }) : '{}'
                 const res = await fetch('/notifications/read-all', {
@@ -120,24 +139,37 @@ window.notificationBell = function () {
                     headers: this._headers(),
                     body,
                 })
+                if (!res.ok) throw new Error('Request gagal')
+
                 const json = await res.json()
+                this.notifications = this.notifications.map(n => ({ ...n, is_read: true }))
                 this.counts = json.counts
+                this.errorMessage = ''
             } catch {
                 await this.fetchNotifications()
+                await this.fetchCount()
+                this.errorMessage = 'Notifikasi gagal ditandai dibaca. Coba lagi.'
             }
         },
 
         // ── Hapus satu ────────────────────────────────────────────────────────
         async deleteNotif(id) {
-            this.notifications = this.notifications.filter(n => n.id !== id)
-
             try {
-                await fetch(`/notifications/${id}`, {
+                const res = await fetch(`/notifications/${id}`, {
                     method:  'DELETE',
                     headers: this._headers(),
                 })
+                if (!res.ok) throw new Error('Request gagal')
+
+                const json = await res.json()
+                this.notifications = this.notifications.filter(n => n.id !== id)
+                this.counts = json.counts ?? this.counts
+                this.errorMessage = ''
+            } catch {
+                await this.fetchNotifications()
                 await this.fetchCount()
-            } catch { /* silent */ }
+                this.errorMessage = 'Notifikasi gagal dihapus. Coba lagi.'
+            }
         },
 
         // ── Ganti filter ──────────────────────────────────────────────────────

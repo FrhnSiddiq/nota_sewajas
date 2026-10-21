@@ -38,7 +38,11 @@ class TransactionController extends Controller
 
     public function destroy(Rental $transaction)
     {
-        $this->service->delete($transaction);
+        try {
+            $this->service->delete($transaction);
+        } catch (\InvalidArgumentException $e) {
+            return redirect()->route('transactions.index')->with('error', $e->getMessage());
+        }
         return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil dihapus!');
     }
 }

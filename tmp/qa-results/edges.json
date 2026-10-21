@@ -1,0 +1,599 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Pagi, Super Administrator\n\nFriday, 02 Oct 2026 • 09:19 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/categories/9/edit",
+    "status": 200,
+    "url": "http://localhost:8000/categories/9/edit",
+    "title": "Edit Kategori",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nEdit Kategori\n\nJas QA_E2E_20261001\n\nNama Kategori *\nSlug *\nIcon (Lucide)\nUrutan Tampil\nKategori Aktif\nPerbarui\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "/categories/9/edit",
+    "status": 200,
+    "url": "http://localhost:8000/categories/9/edit",
+    "title": "Edit Kategori",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nEdit Kategori\n\nJas QA_E2E_20261001\n\nNama Kategori *\nSlug *\nIcon (Lucide)\nUrutan Tampil\nKategori Aktif\nPerbarui\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "categories unchecked persisted",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nEdit Kategori\n\nJas QA_E2E_20261001\n\nNama Kategori *\nSlug *\nIcon (Lucide)\nUrutan Tampil\nKategori Aktif\nPerbarui\nBatal",
+    "events": [],
+    "checked": false
+  },
+  {
+    "role": "super_admin",
+    "path": "/branches/5/edit",
+    "status": 200,
+    "url": "http://localhost:8000/branches/5/edit",
+    "title": "Edit Cabang",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nEdit Cabang\n\nQA_E2E_20261001 Branch\n\nNama Cabang *\nKode Cabang *\nNo. Telepon\nEmail\nKota\nProvinsi\nAlamat Lengkap\nCabang Aktif\nPerbarui\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "/branches/5/edit",
+    "status": 200,
+    "url": "http://localhost:8000/branches/5/edit",
+    "title": "Edit Cabang",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nEdit Cabang\n\nQA_E2E_20261001 Branch\n\nNama Cabang *\nKode Cabang *\nNo. Telepon\nEmail\nKota\nProvinsi\nAlamat Lengkap\nCabang Aktif\nPerbarui\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "branches unchecked persisted",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nEdit Cabang\n\nQA_E2E_20261001 Branch\n\nNama Cabang *\nKode Cabang *\nNo. Telepon\nEmail\nKota\nProvinsi\nAlamat Lengkap\nCabang Aktif\nPerbarui\nBatal",
+    "events": [
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/18/payments/32/void"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/payments/18/store"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      }
+    ],
+    "checked": false
+  },
+  {
+    "role": "super_admin",
+    "path": "POST /rentals",
+    "text": "{\"message\":\"Ukuran 7XL tidak tersedia untuk produk QA_E2E_20261001 Product.\",\"errors\":{\"items\":[\"Ukuran 7XL tidak tersedia untuk produk QA_E2E_20261001 Product.\"]}}",
+    "events": [
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/18/payments/32/void"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/payments/18/store"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      }
+    ],
+    "status": 422,
+    "url": "http://localhost:8000/rentals"
+  },
+  {
+    "role": "super_admin",
+    "path": "POST /rentals",
+    "text": "{\"message\":\"Diskon tidak boleh melebihi subtotal.\",\"errors\":{\"discount\":[\"Diskon tidak boleh melebihi subtotal.\"]}}",
+    "events": [
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/18/payments/32/void"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/payments/18/store"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      }
+    ],
+    "status": 422,
+    "url": "http://localhost:8000/rentals"
+  },
+  {
+    "role": "super_admin",
+    "path": "PATCH /rentals/17/cancel",
+    "text": "{\"message\":\"Penyewaan sudah selesai atau dibatalkan.\",\"errors\":{\"rental_status\":[\"Penyewaan sudah selesai atau dibatalkan.\"]}}",
+    "events": [
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/18/payments/32/void"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/payments/18/store"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      }
+    ],
+    "status": 422,
+    "url": "http://localhost:8000/rentals/17/cancel"
+  },
+  {
+    "role": "super_admin",
+    "path": "PATCH /rentals/17/cancel",
+    "text": "{\"message\":\"Penyewaan sudah selesai atau dibatalkan.\",\"errors\":{\"rental_status\":[\"Penyewaan sudah selesai atau dibatalkan.\"]}}",
+    "events": [
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/18/payments/32/void"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/payments/18/store"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      }
+    ],
+    "status": 422,
+    "url": "http://localhost:8000/rentals/17/cancel"
+  },
+  {
+    "role": "super_admin",
+    "path": "POST /rentals/18/payments/32/refund",
+    "text": "<!DOCTYPE html>\n<html lang=\"id\" class=\"h-full\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\">\n    <meta name=\"csrf-token\" content=\"bjEedFzs9y19qieMZrLs1NkaLQwkylUHHxgHSanG\">\n    <title>Kelola Cabang</title>\n    <link rel=\"icon\" type=\"image/x-icon\" href=\"http://localhost:8000/favicon.ico\">\n\n    <!-- SewaJas Typography -->\n    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n    <link href=\"https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap\" rel=\"stylesheet\">\n\n    <script src=\"https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js\"></script>\n    <script src=\"https://unpkg.com/lucide@latest\"></script>\n\n    <script type=\"module\" src=\"http://[::1]:5173/@vite/client\"></script><link rel=\"stylesheet\" href=\"http://[::1]:5173/resources/css/app.css\" /><link rel=\"stylesheet\" href=\"http://[::1]:5173/resources/css/customers.css\" /><script type=\"module\" src=\"http://[::1]:5173/resources/js/app.js\"></script>        </head>\n\n<body class=\"min-h-screen overflow-x-hidden font-sans\" style=\"background: var(--bg); color: var(--text);\">\n\n<div x-data=\"{ sidebarMobileOpen: false, userMenuOpen: false }\" class=\"min-h-screen\">\n    <!-- Sidebar (SewaJas Blue Theme) -->\n    <aside\n        class=\"fixed inset-y-0 left-0 z-50 w-[260px] border-r border-slate-200 bg-slate-900 backdrop-blur-xl shadow-[0_10px_35px_rgba(15,23,42,0.40)] lg:z-40\"\n        :class=\"sidebarMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'\"\n        x-transition:enter=\"transition ease-out duration-200\"\n        x-transition:enter-start=\"opacity-0 -translate-x-2\"\n        x-transition:enter-end=\"opacity-100 translate-x-0\"\n        x-transition:leave=\"transition ease-in duration-150\"\n        x-transition:leave-start=\"opacity-100 translate-x-0\"\n        x-transition:leave-end=\"opacity-0 -translate-x-2\"\n    >\n        <!-- Mobile-only drawer; desktop rail stays visible below -->\n        <div class=\"flex h-full flex-col\">\n            <!-- Brand -->\n            <div class=\"flex items-center gap-3 border-b border-slate-700 px-5 py-4\" style=\"min-height:72px; background:#0f172a;\">\n                                                    <div class=\"h-11 w-11 items-center justify-center rounded-2xl flex\" style=\"background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #ffffff; box-shadow: 0 10px 35px rgba(37,99,235,0.25);\">\n                        <!-- Bl",
+    "events": [
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/18/payments/32/void"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/payments/18/store"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      }
+    ],
+    "status": 200,
+    "url": "http://localhost:8000/branches"
+  },
+  {
+    "role": "super_admin",
+    "path": "POST /rentals/18/payments/32/void",
+    "text": "{\"message\":\"Pembayaran ini tidak dapat dibatalkan atau dikembalikan lagi.\",\"errors\":{\"payment\":[\"Pembayaran ini tidak dapat dibatalkan atau dikembalikan lagi.\"]}}",
+    "events": [
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/18/payments/32/void"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/payments/18/store"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      }
+    ],
+    "status": 422,
+    "url": "http://localhost:8000/rentals/18/payments/32/void"
+  },
+  {
+    "role": "super_admin",
+    "path": "POST /payments/18/store",
+    "text": "{\"message\":\"The selected method is invalid.\",\"errors\":{\"method\":[\"The selected method is invalid.\"]}}",
+    "events": [
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/17/cancel"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/rentals/18/payments/32/void"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      },
+      {
+        "kind": "http",
+        "status": 422,
+        "url": "http://localhost:8000/payments/18/store"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 422 (Unprocessable Content)"
+      }
+    ],
+    "status": 422,
+    "url": "http://localhost:8000/payments/18/store"
+  },
+  {
+    "role": "super_admin",
+    "path": "/users/create",
+    "status": 200,
+    "url": "http://localhost:8000/users/create",
+    "title": "Tambah Pengguna",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nTambah Pengguna\n2\nSU\nTambah Pengguna\n\nIsi data akun pengguna baru\n\nInformasi Akun\nNama Lengkap *\nEmail *\nNo. Telepon\nPassword\nPassword *\nKonfirmasi Password *\nFoto Profil\n\nKlik untuk upload foto\n\nHak Akses\nRole *\nPilih Role\nSuper admin\nAdmin toko\nSales\nTipe Akses Cabang *\n\nSemua Cabang\n\nUser dapat melihat dan mengelola data di semua cabang.\n\nCabang Tertentu\n\nUser hanya dapat mengakses cabang yang dipilih di bawah ini.\n\nCabang Utama / Cabang yang Diizinkan *\nToko Pusat - Yogyakarta\n(YGY01)\nCabang Solo\n(SLO01)\nQA_E2E_20261001 Branch\n(QAE2E261001)\nSimpan Pengguna\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "/users?search=qa.e2e.20261001",
+    "status": 200,
+    "url": "http://localhost:8000/users?search=qa.e2e.20261001",
+    "title": "Kelola Pengguna",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nKelola Pengguna\n2\nSU\n\n1 Super Admin\n\nAkses penuh semua cabang\n\n2 Admin Toko\n\nKelola satu cabang\n\n4 Sales\n\nTransaksi harian saja\n\nSemua Role\nSuper admin\nAdmin toko\nSales\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nFilter\nReset\nTambah Pengguna\n#\tPENGGUNA\tROLE\tCABANG\tTOTAL POIN\tKONTAK\tSTATUS\tAKSI\n1\t\n\nQA_E2E_20261001 User\n\nqa.e2e.20261001@example.test\n\n\t\nSales\n\t\n\nQA_E2E_20261001 Branch\n\nQAE2E261001\n\n\t0\t-\t\nAktif\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "QA user fixture",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nKelola Pengguna\n2\nSU\n\n1 Super Admin\n\nAkses penuh semua cabang\n\n2 Admin Toko\n\nKelola satu cabang\n\n4 Sales\n\nTransaksi harian saja\n\nSemua Role\nSuper admin\nAdmin toko\nSales\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nFilter\nReset\nTambah Pengguna\n#\tPENGGUNA\tROLE\tCABANG\tTOTAL POIN\tKONTAK\tSTATUS\tAKSI\n1\t\n\nQA_E2E_20261001 User\n\nqa.e2e.20261001@example.test\n\n\t\nSales\n\t\n\nQA_E2E_20261001 Branch\n\nQAE2E261001\n\n\t0\t-\t\nAktif\n\t",
+    "events": [],
+    "id": 8
+  }
+]

@@ -26,12 +26,12 @@
     @endauth
 
     <!-- Quick Actions & Filters -->
-    <div class="ds-card p-6 mb-6">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div class="flex items-center gap-3 flex-wrap">
+    <div class="ds-card p-4 sm:p-6 mb-6">
+        <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
                 @auth
                 @if(in_array(auth()->user()->role, ['super_admin','admin_toko','sales']))
-                <a href="{{ route('customers.create') }}" class="btn-primary">
+                <a href="{{ route('customers.create') }}" class="btn-primary flex w-full items-center justify-center whitespace-nowrap sm:w-auto">
                     <i data-lucide="user-plus" class="w-4 h-4"></i>
                     Tambah Pelanggan
                 </a>
@@ -40,7 +40,7 @@
 
                 @auth
                 @if(in_array(auth()->user()->role, ['super_admin','admin_toko']))
-                <a href="{{ route('customers.export') }}" class="btn-secondary">
+                <a href="{{ route('customers.export') }}" class="btn-secondary flex w-full items-center justify-center whitespace-nowrap sm:w-auto">
                     <i data-lucide="download" class="w-4 h-4"></i>
                     Ekspor Excel
                 </a>
@@ -48,11 +48,11 @@
                 @endauth
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto" x-data="{}">
-                <div class="relative flex-1 sm:w-80">
+            <div class="grid w-full grid-cols-2 items-center gap-3 lg:flex lg:flex-nowrap" x-data="{}">
+                <div class="relative col-span-2 min-w-0 lg:min-w-[320px]" style="flex: 3 1 0%;">
                     <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
                     <input type="text" placeholder="Cari nama atau nomor HP..."
-                           class="form-input ds-input-icon"
+                           class="form-input ds-input-icon h-11 w-full min-w-0"
                            id="search-customer"
                            value="{{ request('search') }}"
                            onkeyup="if(event.key === 'Enter') applyCustomerFilters()">
@@ -60,7 +60,7 @@
 
                 @auth
                 @if(auth()->user()->isSuperAdmin())
-                <select class="form-input sm:w-44" id="status-filter" onchange="applyCustomerFilters()">
+                <select class="form-input col-span-1 h-11 w-full min-w-0" style="flex: 0 0 12rem;" id="status-filter" onchange="applyCustomerFilters()">
                     <option value="active" {{ ($statusFilter ?? request('status', 'active')) === 'active' ? 'selected' : '' }}>Aktif</option>
                     <option value="deactivated" {{ ($statusFilter ?? request('status')) === 'deactivated' ? 'selected' : '' }}>Dinonaktifkan</option>
                     <option value="all" {{ ($statusFilter ?? request('status')) === 'all' ? 'selected' : '' }}>Semua</option>
@@ -68,7 +68,13 @@
                 @endif
                 @endauth
 
-                <select class="form-input sm:w-40" id="bl-filter" onchange="applyCustomerFilters()">
+                @auth
+                @if(auth()->user()->isSuperAdmin())
+                <select class="form-input col-span-1 h-11 w-full min-w-0" style="flex: 0 0 12rem;" id="bl-filter" onchange="applyCustomerFilters()">
+                @else
+                <select class="form-input col-span-1 h-11 w-full min-w-0" style="flex: 0 0 12rem;" id="bl-filter" onchange="applyCustomerFilters()">
+                @endif
+                @endauth
                     <option value="">Daftar Blokir: Semua</option>
                     <option value="normal" {{ request('bl_status') === 'normal' ? 'selected' : '' }}>Normal</option>
                     <option value="blacklisted" {{ request('bl_status') === 'blacklisted' ? 'selected' : '' }}>Daftar Blokir</option>
@@ -146,36 +152,40 @@
                                 <div class="flex items-center justify-center gap-2">
                                     @if($isDeactivated)
                                         @auth
-                                        @if(auth()->user()->isSuperAdmin())
+                                    @if(auth()->user()->isSuperAdmin() || auth()->user()->isAdminToko())
                                         <form method="POST" action="{{ route('customers.restore', $customer->id) }}" class="inline">
                                             @csrf
                                             <button type="submit" class="p-2 text-amber-600 hover:text-amber-800 hover:bg-amber-50 rounded-xl transition-all" title="Pulihkan" aria-label="Pulihkan {{ $customer->name }}">
                                                 <i data-lucide="rotate-ccw" class="w-4.5 h-4.5"></i>
                                             </button>
                                         </form>
-                                        <form method="POST" action="{{ route('customers.force-destroy', $customer->id) }}" id="forceDeleteCustomer_{{ $customer->id }}" class="hidden">
+                                    @endif
+                                    @if(auth()->user()->isSuperAdmin())
+                                        <form method="POST" action="{{ route('customers.force-destroy', $customer) }}" id="deleteCustomer_{{ $customer->id }}" class="hidden">
                                             @csrf @method('DELETE')
                                         </form>
-                                        <button type="button" onclick="confirmForceDelete('forceDeleteCustomer_{{ $customer->id }}', 'customer {{ $customer->name }}')"
+                                        <button type="button" onclick="confirmDelete('deleteCustomer_{{ $customer->id }}', 'customer {{ $customer->name }}')"
                                                 class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
                                                 title="Hapus Permanen"
                                                 aria-label="Hapus Permanen {{ $customer->name }}">
                                             <i data-lucide="trash-2" class="w-4.5 h-4.5"></i>
                                         </button>
-                                        @endif
+                                    @endif
                                         @endauth
                                     @else
                                     <a href="{{ route('customers.show', $customer) }}" class="p-2 text-stone-400 hover:text-bark-dark hover:bg-cream/40 rounded-xl transition-all" title="Detail" aria-label="Detail {{ $customer->name }}">
                                         <i data-lucide="eye" class="w-4.5 h-4.5"></i>
                                     </a>
+                                    @can('update', $customer)
                                     <a href="{{ route('customers.edit', $customer) }}" class="p-2 text-stone-400 hover:text-gold hover:bg-gold/10 rounded-xl transition-all" title="Edit" aria-label="Edit {{ $customer->name }}">
                                         <i data-lucide="edit-3" class="w-4.5 h-4.5"></i>
                                     </a>
+                                    @endcan
                                     <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', (str_starts_with($customer->phone, '0') ? '62'.substr($customer->phone,1) : $customer->phone)) }}" target="_blank" class="p-2 text-stone-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all" title="WhatsApp" aria-label="WhatsApp {{ $customer->name }}">
                                         <i data-lucide="message-square" class="w-4.5 h-4.5"></i>
                                     </a>
                                     @auth
-                                    @if(auth()->user()->isSuperAdmin())
+                                    @can('delete', $customer)
                                     <form method="POST" action="{{ route('customers.destroy', $customer) }}" id="deleteCustomer_{{ $customer->id }}" class="hidden">
                                         @csrf @method('DELETE')
                                     </form>
@@ -185,7 +195,7 @@
                                             aria-label="Hapus {{ $customer->name }}">
                                         <i data-lucide="trash-2" class="w-4.5 h-4.5"></i>
                                     </button>
-                                    @endif
+                                    @endcan
                                     @endauth
                                     @endif
                                 </div>
@@ -242,32 +252,5 @@ function applyCustomerFilters() {
     window.location.href = '?' + params.toString();
 }
 
-function confirmForceDelete(formId, label) {
-    Swal.fire({
-        title: 'Hapus Permanen',
-        html: 'Apakah Anda yakin ingin menghapus permanen <strong>' + label + '</strong>?<br><br>Data yang dihapus <span class="text-red-600 font-bold">TIDAK DAPAT</span> dipulihkan kembali.',
-        icon: 'error',
-        showCancelButton: true,
-        confirmButtonColor: '#dc2626',
-        cancelButtonColor: '#64748b',
-        confirmButtonText: 'Ya, Hapus Permanen',
-        cancelButtonText: 'Batal',
-        reverseButtons: true,
-        customClass: {
-            confirmButton: 'rounded-xl px-5 py-2.5 text-sm font-semibold',
-            cancelButton: 'rounded-xl px-5 py-2.5 text-sm font-semibold',
-            popup: 'rounded-2xl'
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-                title: 'Menghapus...',
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading(),
-            });
-            document.getElementById(formId).submit();
-        }
-    });
-}
 </script>
 @endpush

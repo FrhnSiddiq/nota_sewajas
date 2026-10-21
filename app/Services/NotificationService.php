@@ -39,7 +39,7 @@ class NotificationService
                 'branch_id'       => $branchId,
                 'type'            => $type,
                 'title'           => $title,
-                'message'         => $message,
+                'message'         => $recipient['message'] ?? $message,
                 'icon'            => $icon,
                 'color'           => $color,
                 'meta'            => $meta ? json_encode($meta, JSON_UNESCAPED_UNICODE) : null,

@@ -17,7 +17,7 @@ class CustomerPolicy
     public function view(User $user, Customer $customer): bool
     {
         if ($user->isSuperAdmin()) return true;
-        return $user->branch_id === $customer->branch_id;
+        return $user->canAccessBranch($customer->branch_id);
     }
 
     public function create(User $user): bool
@@ -30,21 +30,29 @@ class CustomerPolicy
     public function update(User $user, Customer $customer): bool
     {
         if ($user->isSuperAdmin()) return true;
-        if ($user->role === 'sales') return $user->branch_id === $customer->branch_id;
-        return $user->branch_id === $customer->branch_id;
+        if ($user->isSales()) {
+            return (int) $customer->user_id === (int) $user->id
+                && $user->canAccessBranch((int) $customer->branch_id);
+        }
+        return $user->canAccessBranch($customer->branch_id);
     }
 
 
     public function blacklist(User $user, Customer $customer): bool
     {
         if ($user->isSuperAdmin()) return true;
-        if ($user->role === 'sales') return $user->branch_id === $customer->branch_id;
-        return $user->branch_id === $customer->branch_id;
+        if ($user->role === 'sales') return $user->canAccessBranch($customer->branch_id);
+        return $user->canAccessBranch($customer->branch_id);
     }
 
 
     public function delete(User $user, Customer $customer): bool
     {
-        return $user->isSuperAdmin();
+        if ($user->isSuperAdmin()) return true;
+        if ($user->isSales()) {
+            return (int) $customer->user_id === (int) $user->id
+                && $user->canAccessBranch((int) $customer->branch_id);
+        }
+        return $user->canAccessBranch($customer->branch_id);
     }
 }

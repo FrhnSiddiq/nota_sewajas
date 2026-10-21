@@ -1,0 +1,29 @@
+{
+  "category": 9,
+  "branch": 5,
+  "product": 14,
+  "customer": 16,
+  "rentals": [
+    17,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "rental": 18,
+  "qaUser": 8,
+  "roleRentals": {
+    "super_admin": 21,
+    "admin_toko": 22,
+    "sales": 23
+  },
+  "salesCustomer": 17,
+  "qaUser2": 9,
+  "campaigns": [
+    67,
+    68,
+    69,
+    70
+  ]
+}

@@ -1,0 +1,1 @@
+UPDATE sewajas.users SET password = '$2y$12$Oz5JibHnrNYtHpCGEkaP6uutSlIkogrHPMW6CWUiuRM0RWwINFkui' WHERE role IN ('admin_toko', 'sales', 'super_admin');

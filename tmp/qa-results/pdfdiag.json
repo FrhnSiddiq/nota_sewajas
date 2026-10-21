@@ -1,0 +1,82 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Pagi, Super Administrator\n\nFriday, 02 Oct 2026 • 09:19 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/18/pdf",
+    "status": 200,
+    "headers": {
+      "host": "localhost:8000",
+      "connection": "close",
+      "x-powered-by": "PHP/8.2.12",
+      "content-type": "application/pdf",
+      "content-disposition": "attachment; filename=INV20261001010002.pdf",
+      "content-length": "7111",
+      "cache-control": "no-cache, private",
+      "date": "Fri, 02 Oct 2026 02:19:04 GMT",
+      "set-cookie": "XSRF-TOKEN=eyJpdiI6IkxnSzJZeTNFU0hQQ1VhamxCWThsZ2c9PSIsInZhbHVlIjoiTmtCQTF4Yk96VlVRelY3YUJMVHdKaTAxcEY1dGdKRzJtcjFqekFJT1J5NmlpTi9TaVI1UHprczdQYzNlZVc1cnBXRTBkV2ZDRFQrcys3L2ZVa3JLcXByd2FqQzBESWFQZXFyQUFpVS9MZW5nSFJJZjVjMjdXWDhCeHJ2YThweUoiLCJtYWMiOiIzOWVlNzUyNTQ1MDlhY2UxODVjMWE1Zjk3NGE3Nzg5Y2VhMWQwNWQyODk1MWVmNjVmODgxNGQwOTg5NjViMWFhIiwidGFnIjoiIn0%3D; expires=Fri, 02 Oct 2026 04:19:04 GMT; Max-Age=7200; path=/; samesite=lax\nrentaljas-session=eyJpdiI6IlZaL1h1SVF6V3RRWFhOWlZKTk5hOXc9PSIsInZhbHVlIjoiK1FyQjlMNjljbFczTU5oNmtiOXlhQVN4OUFiQzdUN25xcXNPR1JjbzBldlEwQ1dLWVhSM3FpNDdzQ0Yza3RXMVlYR2xNN0hXcS9OMnV1a01ueFhRV2c4WmhGK3V5bHQvdGZOcUE1MElqcVZsbzE2ekFMWkNFK3FPSFNrQ3R6U3EiLCJtYWMiOiI0ZWY2MmNlMDNmMDAwZDEyYzRhNmY2ZWMxOWM4MTFiMDkzMTE2ZjZiMmE1ZDc0ZjFhNWU5MzVkODJkYzI3NWExIiwidGFnIjoiIn0%3D; expires=Fri, 02 Oct 2026 04:19:04 GMT; Max-Age=7200; path=/; httponly; samesite=lax"
+    },
+    "bytes": 7111,
+    "start": "%PDF-1.7\n1 0 obj\n<< "
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/18/receipt/pdf",
+    "status": 200,
+    "headers": {
+      "host": "localhost:8000",
+      "connection": "close",
+      "x-powered-by": "PHP/8.2.12",
+      "content-type": "application/pdf",
+      "content-disposition": "attachment; filename=RCPT-INV20261001010002.pdf",
+      "content-length": "12682",
+      "cache-control": "no-cache, private",
+      "date": "Fri, 02 Oct 2026 02:19:05 GMT",
+      "set-cookie": "XSRF-TOKEN=eyJpdiI6IlQ2cXozRVBsR0c2TWc2djE5ajFkWHc9PSIsInZhbHVlIjoiQU9TK3Rna0QwZm5wY05PaHBTWjRyYXpNR05Tc285cFJ5a2ZhUS9udUE0RWNRWUE5Rjl5RWlrRExUNFdMOEVIbUZJWjllOEJob3o4QXgyR0l4WnkyY3hLaEpqSXIxRWJ6Z1l2cUVKSThXOVl6aHdFUnBuOTlrYTVZUnY2RHBZY2YiLCJtYWMiOiIwZWNmODlmNTEzYmVhZDYzZDRjOTgwYjlkMDY3NDllZGY4OWI1ZTBmYjA4MWZlN2M4ODJjZTQ1YmMwZTRmODYwIiwidGFnIjoiIn0%3D; expires=Fri, 02 Oct 2026 04:19:05 GMT; Max-Age=7200; path=/; samesite=lax\nrentaljas-session=eyJpdiI6IlpEcW91MkQvNHhSb0Y1QkU2SkJGSVE9PSIsInZhbHVlIjoiRnFnMjJoNWZMODdmSU1GNzFyalZQanZhWFlBc0NOVkYrdkZKMnpDZkY0ZDV6VCtLbVJOWDRXMHZBNVB5OTFPME1BSVhJTGFuYlptQlR4MERvTDVWWnZhZy80TjBXbUhGU1FkdVg0cnhGU1BDcjRzMjNxcTBRSUxZdXBOWEt4bGwiLCJtYWMiOiI5ZDI2ZDJmNDAwMjA5OTMxYmQxMDM3OTE2YWViZjY0YWRhMGYyOTJmYTQyY2Y3YWVhYzEwZDRiYThjNTNlOWU2IiwidGFnIjoiIn0%3D; expires=Fri, 02 Oct 2026 04:19:05 GMT; Max-Age=7200; path=/; httponly; samesite=lax"
+    },
+    "bytes": 12682,
+    "start": "%PDF-1.7\n1 0 obj\n<< "
+  },
+  {
+    "role": "super_admin",
+    "path": "/reports/stock/export/pdf",
+    "status": 200,
+    "headers": {
+      "host": "localhost:8000",
+      "connection": "close",
+      "x-powered-by": "PHP/8.2.12",
+      "content-type": "application/pdf",
+      "content-disposition": "attachment; filename=laporan-stok-semua-cabang-20261002.pdf",
+      "content-length": "880500",
+      "cache-control": "no-cache, private",
+      "date": "Fri, 02 Oct 2026 02:19:06 GMT",
+      "set-cookie": "XSRF-TOKEN=eyJpdiI6IlY1RnJ1aXdORWN6YmJTdkNCVUZMc0E9PSIsInZhbHVlIjoiaDVMT0owWnI2bWxGK1hMZW5xVUozR1oyeWJ0Lzl5NU42VmxycUM3aTRuUkNVL0hNK1ZOWHlkSWxINTBkQXNyMUdkZnJ4Q0dHd2NzRG9yK1RWdmxEdGZkTExtalRhTmZoOXBWSDZHRDdDQm9BRFVrdzB2aTEyZ1FhN2VzL3dkWFgiLCJtYWMiOiI3MjZjODY0ZjdiNDgyZjljMTk0OWExYTAwOGIxYjNkM2IzYWM3MWE3YWE5NzZjNDYzNGI0MzRhNGMyM2ZiZTBkIiwidGFnIjoiIn0%3D; expires=Fri, 02 Oct 2026 04:19:06 GMT; Max-Age=7200; path=/; samesite=lax\nrentaljas-session=eyJpdiI6Im1lajMzZFRCcTZvQzVyZVlkK3pwZHc9PSIsInZhbHVlIjoiQy9IamlOSlV4dFlXeG9lQkU5M0UvNXdCbnV2UnlYeVM3a20wakp4cVpMZXhCa05YSUZYa3I5Y1o0WjFwNUFvSHZ1RlJIQkpmV0xSS2hBUzNqUTA1SzM5WHZHS29zNmVYQ21VUW5STnhlUHl4V2VwbFplR20zYjE1a0xpQUNXcksiLCJtYWMiOiI0YWEyYTUzNGQ3ZmQ2M2Q0MTA2Nzc0NjEwM2U4YTQ0YjhjMjkxMzdiNDAyMzA1YzBhZmZmMDU2YWRmYWQxODlmIiwidGFnIjoiIn0%3D; expires=Fri, 02 Oct 2026 04:19:06 GMT; Max-Age=7200; path=/; httponly; samesite=lax"
+    },
+    "bytes": 880500,
+    "start": "%PDF-1.7\n1 0 obj\n<< "
+  }
+]

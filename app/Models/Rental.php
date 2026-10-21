@@ -4,14 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property \Illuminate\Support\Carbon $rental_date
+ * @property \Illuminate\Support\Carbon $return_due_date
+ * @property \Illuminate\Support\Carbon|null $actual_return_date
+ */
 class Rental extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'invoice_number', 'branch_id', 'customer_id', 'created_by', 'returned_by',
@@ -82,6 +87,7 @@ class Rental extends Model
         return $this->hasMany(RentalItem::class);
     }
 
+    /** @return HasMany<Guarantee, $this> */
     public function guarantees(): HasMany
     {
         return $this->hasMany(Guarantee::class);
@@ -90,6 +96,11 @@ class Rental extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function history(): HasOne
+    {
+        return $this->hasOne(RentalHistory::class);
     }
 
     /**
@@ -116,6 +127,10 @@ class Rental extends Model
 
     public function getStatusBadgeColorAttribute(): string
     {
+        if ($this->rental_status === self::STATUS_RETURNED && !$this->isCompleted()) {
+            return $this->hasOutstandingFine() ? 'red' : 'yellow';
+        }
+
         return match($this->rental_status) {
             'waiting'   => 'yellow',
             'active'    => 'blue',
@@ -128,6 +143,14 @@ class Rental extends Model
 
     public function getStatusLabelAttribute(): string
     {
+        if ($this->rental_status === self::STATUS_RETURNED) {
+            if ($this->hasOutstandingFine()) {
+                return 'Denda belum lunas';
+            }
+
+            return $this->isCompleted() ? 'Selesai' : 'Belum lunas';
+        }
+
         return match($this->rental_status) {
             'waiting'   => 'Menunggu Pembayaran',
             'booked'    => 'Booked',
@@ -176,6 +199,34 @@ class Rental extends Model
     public function getRemainingAmountAttribute(): float
     {
         return max(0, $this->total_amount - $this->paid_amount);
+    }
+
+    public function getTotalRemainingAmountAttribute(): float
+    {
+        return max(0, $this->total_amount + $this->fine_amount - $this->paid_amount - $this->fine_paid_amount);
+    }
+
+    public function hasOutstandingFine(): bool
+    {
+        return in_array($this->fine_status, [self::FINE_UNPAID, self::FINE_PARTIAL], true)
+            || (float) $this->fine_amount > (float) $this->fine_paid_amount;
+    }
+
+    public function isCompleted(): bool
+    {
+        return $this->rental_status === self::STATUS_RETURNED
+            && $this->payment_status === self::PAYMENT_PAID
+            && in_array($this->fine_status, [self::FINE_NONE, self::FINE_PAID], true)
+            && !$this->hasOutstandingFine();
+    }
+
+    public function scopeCompleted(Builder $query): Builder
+    {
+        return $query
+            ->where('rental_status', self::STATUS_RETURNED)
+            ->where('payment_status', self::PAYMENT_PAID)
+            ->whereIn('fine_status', [self::FINE_NONE, self::FINE_PAID])
+            ->whereRaw('COALESCE(fine_amount, 0) <= COALESCE(fine_paid_amount, 0)');
     }
 
     public static function statusLabels(): array

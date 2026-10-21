@@ -12,13 +12,19 @@
             <p class="text-sm mt-0.5" style="color: var(--text-soft)">Kelola stok dan produk rental</p>
         </div>
 @auth
-        @if(auth()->user()->isSuperAdmin())
-        <a href="{{ route('products.create') }}" class="btn-primary">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            Tambah Produk
-        </a>
-        @endif
-        @endauth
+@if(auth()->user()->canManage())
+<div class="flex items-center gap-2">
+<a href="{{ route('products.maintenance') }}" class="btn-secondary">
+    <i data-lucide="wrench" class="w-4 h-4"></i>
+    Maintenance
+</a>
+<a href="{{ route('products.create') }}" class="btn-primary">
+    <i data-lucide="plus" class="w-4 h-4"></i>
+    Tambah Produk
+</a>
+</div>
+@endif
+@endauth
     </div>
 
     {{-- ── STATS ────────────────────────────────────────────── --}}
@@ -28,8 +34,8 @@
         $maintenanceProducts = $stats['maintenance'] ?? 0;
         $rentedUnits = $stats['rented_units'] ?? 0;
     @endphp
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div class="stat-ds-card flex items-center gap-3">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div class="stat-card flex items-center gap-3">
             <div class="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style="background: rgba(99, 102, 241, 0.12); color: #4f46e5;">
                 <i data-lucide="package" class="w-5 h-5"></i>
             </div>
@@ -38,7 +44,7 @@
                 <p class="text-2xl font-bold mt-0.5 leading-tight" style="color:var(--text-dark)">{{ $totalProducts }}</p>
             </div>
         </div>
-        <div class="stat-ds-card flex items-center gap-3">
+        <div class="stat-card flex items-center gap-3">
             <div class="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style="background: rgba(16, 185, 129, 0.12); color: #059669;">
                 <i data-lucide="check-circle-2" class="w-5 h-5"></i>
             </div>
@@ -47,7 +53,7 @@
                 <p class="text-2xl font-bold mt-0.5 leading-tight text-green-600">{{ $availableProducts }}</p>
             </div>
         </div>
-        <div class="stat-ds-card flex items-center gap-3">
+        <div class="stat-card flex items-center gap-3">
             <div class="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style="background: rgba(37, 99, 235, 0.12); color: #1d4ed8;">
                 <i data-lucide="shirt" class="w-5 h-5"></i>
             </div>
@@ -56,7 +62,7 @@
                 <p class="text-2xl font-bold mt-0.5 leading-tight text-blue-600">{{ $rentedUnits }}</p>
             </div>
         </div>
-        <div class="stat-ds-card flex items-center gap-3">
+        <div class="stat-card flex items-center gap-3">
             <div class="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style="background: rgba(220, 38, 38, 0.10); color: #dc2626;">
                 <i data-lucide="wrench" class="w-5 h-5"></i>
             </div>
@@ -68,15 +74,15 @@
     </div>
 
     {{-- ── FILTER & SEARCH ──────────────────────────────────── --}}
-    <div class="ds-card p-4">
-        <form method="GET" action="{{ route('products.index') }}" class="flex flex-col sm:flex-row gap-3">
-            <div class="relative flex-1">
+    <div class="ds-card overflow-hidden mb-4">
+        <form method="GET" action="{{ route('products.index') }}" class="grid grid-cols-2 gap-2 p-3 sm:flex sm:items-end sm:gap-3 sm:p-4">
+            <div class="relative col-span-2 min-w-0 sm:flex-1">
                 <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
                 <input type="text" name="search" value="{{ request('search') }}"
                     placeholder="Cari nama, kode produk..."
-                    class="form-input ds-input-icon">
+                    class="form-input ds-input-icon h-10 w-full">
             </div>
-            <select name="category" class="form-input sm:w-44">
+            <select name="category" class="form-input h-10 w-full min-w-0 sm:w-44">
                 <option value="">Semua Kategori</option>
                 @foreach($categories as $cat)
                 <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
@@ -84,21 +90,21 @@
                 </option>
                 @endforeach
             </select>
-            <select name="status" class="form-input sm:w-40">
+            <select name="status" class="form-input h-10 w-full min-w-0 sm:w-40">
                 <option value="">Semua Status</option>
                 <option value="available"   {{ request('status') === 'available'   ? 'selected' : '' }}>Tersedia</option>
                 <option value="rented"      {{ request('status') === 'rented'      ? 'selected' : '' }}>Disewa</option>
                 <option value="maintenance" {{ request('status') === 'maintenance' ? 'selected' : '' }}>Maintenance</option>
             </select>
-            <select name="size" class="form-input sm:w-32">
-                <option value="">Semua Ukuran</option>
-                @foreach(['XS','S','M','L','XL','XXL'] as $sz)
-                <option value="{{ $sz }}" {{ request('size') === $sz ? 'selected' : '' }}>{{ $sz }}</option>
-                @endforeach
-            </select>
+             <select name="size" class="form-input h-10 w-full min-w-0 sm:w-32">
+                 <option value="">Semua Ukuran</option>
+                 @foreach(($availableSizes ?? []) as $sz)
+                 <option value="{{ $sz }}" {{ request('size') === $sz ? 'selected' : '' }}>{{ $sz }}</option>
+                 @endforeach
+             </select>
             @auth
             @if(auth()->user()->isSuperAdmin())
-            <select name="branch_id" class="form-input sm:w-44">
+            <select name="branch_id" class="form-input h-10 w-full min-w-0 sm:w-44">
                 <option value="">Semua Cabang</option>
                 @foreach($branches ?? [] as $branch)
                 <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
@@ -108,11 +114,11 @@
             </select>
             @endif
             @endauth
-            <button type="submit" class="btn-primary whitespace-nowrap">
+            <button type="submit" class="btn-primary flex h-10 w-full items-center justify-center whitespace-nowrap sm:w-auto">
                 <i data-lucide="filter" class="w-4 h-4"></i> Filter
             </button>
             @if(request()->hasAny(['search','category','status','size']))
-            <a href="{{ route('products.index') }}" class="btn-secondary whitespace-nowrap">
+            <a href="{{ route('products.index') }}" class="btn-secondary flex h-10 w-full items-center justify-center whitespace-nowrap sm:w-auto">
                 <i data-lucide="x" class="w-4 h-4"></i> Reset
             </a>
             @endif
@@ -147,9 +153,11 @@
         </div>
         <p class="font-semibold text-lg" style="color:var(--text-dark)">Belum ada produk</p>
         <p class="text-sm mt-1 mb-4" style="color:var(--text-soft)">Tambahkan produk jas pertama Anda</p>
+        @if(auth()->user()->canManage())
         <a href="{{ route('products.create') }}" class="btn-primary">
             <i data-lucide="plus" class="w-4 h-4"></i> Tambah Produk
         </a>
+        @endif
     </div>
     @else
 
@@ -217,9 +225,13 @@
                     </div>
 
                     <div class="flex flex-wrap gap-1 mt-0.5">
+                        @forelse($product->sizes as $size)
+                        <span class="badge badge-blue-soft text-xs">{{ $size->size }}</span>
+                        @empty
                         @if($product->size)
                         <span class="badge badge-blue-soft text-xs">{{ $product->size }}</span>
                         @endif
+                        @endforelse
                         @if($product->color)
                         <span class="badge badge-indigo-soft text-xs">{{ $product->color }}</span>
                         @endif
@@ -237,7 +249,7 @@
                         </div>
                         <div class="text-right">
                             <p class="text-xs font-medium leading-tight" style="color:var(--text-dark)">
-                                {{ $product->stock_available }}/{{ $product->stock_total }}
+                                {{ $product->available_stock }}/{{ $product->total_stock }}
                             </p>
                             <p class="text-xs" style="color:var(--text-soft)">stok</p>
                         </div>
@@ -304,8 +316,12 @@
                             <span class="text-sm" style="color:var(--text-soft)">{{ $product->category?->name ?? '-' }}</span>
                         </td>
                         <td class="px-5 py-3.5 text-sm text-slate-700 align-middle text-center">
-                            <div class="flex justify-center">
-                            <span class="badge badge-gray">{{ $product->size ?? '-' }}</span>
+                            <div class="flex flex-wrap justify-center gap-1">
+                                @forelse($product->sizes as $size)
+                                    <span class="badge badge-blue-soft text-xs">{{ $size->size }}</span>
+                                @empty
+                                    <span class="badge badge-gray text-xs">{{ $product->size ?? '-' }}</span>
+                                @endforelse
                             </div>
                         </td>
                         <td class="px-5 py-3.5 text-sm text-slate-700 align-middle text-center">
@@ -321,7 +337,7 @@
                         </td>
                         <td class="px-5 py-3.5 text-sm text-slate-700 align-middle text-center">
                             <div class="text-sm font-medium" style="color:var(--text-dark)">
-                                {{ $product->stock_available }}/{{ $product->stock_total }}
+                                {{ $product->available_stock }}/{{ $product->total_stock }}
                             </div>
                             <div class="text-xs" style="color:var(--text-soft)">tersedia</div>
                         </td>
@@ -396,13 +412,15 @@
 @push('scripts')
 <script>
 function setView(view) {
-    const ds-cardView = document.getElementById('view-ds-card');
+    const cardView = document.getElementById('view-ds-card');
     const tableView = document.getElementById('view-table');
     const btnCard = document.getElementById('btn-ds-card');
     const btnTable = document.getElementById('btn-table');
 
+    if (!cardView || !tableView) return;
+
     if (view === 'ds-card') {
-        ds-cardView.classList.remove('hidden');
+        cardView.classList.remove('hidden');
         tableView.classList.add('hidden');
         btnCard.style.background = 'var(--ds-card-bg)';
         btnCard.style.color = 'var(--text-dark)';
@@ -412,7 +430,7 @@ function setView(view) {
         btnTable.style.boxShadow = 'none';
         localStorage.setItem('productView', 'ds-card');
     } else {
-        ds-cardView.classList.add('hidden');
+        cardView.classList.add('hidden');
         tableView.classList.remove('hidden');
         btnTable.style.background = 'var(--ds-card-bg)';
         btnTable.style.color = 'var(--text-dark)';

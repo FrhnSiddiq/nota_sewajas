@@ -39,7 +39,7 @@ Cakupan:
     </div>
 @endif
 
-@if ($errors->any())
+@if ($errors->any() && !$errors->hasBag('payment'))
     <div class="mb-4 rounded-2xl border border-red-200 bg-red-50 text-red-800 p-4 shadow-sm">
         <div class="flex items-center gap-2 text-sm font-bold">
             <i data-lucide="alert-circle" class="h-5 w-5"></i>

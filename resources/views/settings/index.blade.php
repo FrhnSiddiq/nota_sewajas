@@ -59,7 +59,7 @@
                         <i data-lucide="upload-cloud" class="w-5 h-5" style="color:var(--primary)"></i>
                     </div>
                     <p class="text-sm font-medium" style="color:var(--text-dark)">Klik atau seret gambar QRIS</p>
-                    <p class="text-xs mt-1" style="color:var(--text-soft)">PNG, JPG, WEBP — Maks. 2MB</p>
+                    <p class="text-xs mt-1" style="color:var(--text-soft)">PNG, JPG, WEBP — Maks. 2MB, foto besar otomatis dikompres</p>
                 </div>
 
                 <input type="file" x-ref="qrisInput" name="qris_image" accept="image/png,image/jpeg,image/webp" class="hidden"
@@ -218,7 +218,7 @@
                         <i data-lucide="upload-cloud" class="w-5 h-5" style="color:var(--primary)"></i>
                     </div>
                     <p class="text-sm font-medium" style="color:var(--text-dark)">Klik atau seret logo aplikasi</p>
-                    <p class="text-xs mt-1" style="color:var(--text-soft)">PNG, JPG, WEBP — Maks. 2MB</p>
+                    <p class="text-xs mt-1" style="color:var(--text-soft)">PNG, JPG, WEBP — Maks. 2MB, foto besar otomatis dikompres</p>
                 </div>
 
                 <input type="file" x-ref="appLogoInput" name="app_logo" accept="image/*" class="hidden"
@@ -288,26 +288,32 @@ function imageUploadForm(initialUrl) {
         currentPhotoUrl: initialUrl || '',
         isDragging: false,
 
-        handlePhotoSelect(event) {
+        async handlePhotoSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
-            const reader = new FileReader();
-            reader.onload = e => {
-                this.photoPreview = e.target.result;
-                this.hasCurrentPhoto = true;
-            };
-            reader.readAsDataURL(file);
+            await this.applyPhoto(file);
         },
 
-        handleDrop(event) {
+        async handleDrop(event) {
             const file = event.dataTransfer.files[0];
             if (!file) return;
+            await this.applyPhoto(file);
+        },
+
+        // Kompres bila perlu + sinkronkan file hasilnya ke input.
+        // (Jalur drop dulu tidak pernah mengisi input sehingga gambar hasil
+        // drop tidak terkirim — kini ikut terkirim seperti jalur pilih file.)
+        async applyPhoto(file) {
+            const inputEl = this.$refs.appLogoInput;
+            const finalFile = window.compressAndAssign
+                ? await window.compressAndAssign(inputEl, file)
+                : file;
             const reader = new FileReader();
             reader.onload = e => {
                 this.photoPreview = e.target.result;
                 this.hasCurrentPhoto = true;
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(finalFile);
         },
 
         clearPhoto() {
@@ -333,29 +339,22 @@ function qrisUploadForm(initialUrl) {
         resolutionOk: false,
         formatOk: false,
 
-        handlePhotoSelect(event) {
+        async handlePhotoSelect(event) {
             const file = event.target.files[0];
             if (!file) return;
-            const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
-            this.formatOk = allowedTypes.includes(file.type);
-            if (!this.formatOk) {
-                this.checked = true;
-                this.verified = false;
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = e => {
-                this.photoPreview = e.target.result;
-                this.hasCurrentPhoto = true;
-                this.runQrisQualityChecks();
-            };
-            reader.readAsDataURL(file);
+            await this.applyPhoto(file);
         },
 
-        handleDrop(event) {
+        async handleDrop(event) {
             const file = event.dataTransfer.files[0];
             if (!file) return;
+            await this.applyPhoto(file);
+        },
+
+        // Cek format dari file ASLI dulu, baru kompres — quality check
+        // (resolusi min 200x200) dijalankan pada artefak final yang akan dikirim.
+        // Kompresi tidak pernah upscale, jadi aturan dimensions tetap aman.
+        async applyPhoto(file) {
             const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
             this.formatOk = allowedTypes.includes(file.type);
             if (!this.formatOk) {
@@ -364,13 +363,17 @@ function qrisUploadForm(initialUrl) {
                 return;
             }
 
+            const finalFile = window.compressAndAssign
+                ? await window.compressAndAssign(this.$refs.qrisInput, file)
+                : file;
+
             const reader = new FileReader();
             reader.onload = e => {
                 this.photoPreview = e.target.result;
                 this.hasCurrentPhoto = true;
                 this.runQrisQualityChecks();
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(finalFile);
         },
 
         runQrisQualityChecks() {

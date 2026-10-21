@@ -48,7 +48,7 @@
                 'items' => $rental->items->map(function ($item) {
                     return [
                         'id' => $item->id,
-                        'product_name' => optional($item->product)->name,
+                        'product_name' => $item->product_name ?? optional($item->product)->name ?? 'Produk #' . $item->product_id,
                         'size' => $item->product_size,
                         'category_name' => optional($item->product?->category)->name ?? '-',
                         'quantity' => $item->quantity,
@@ -102,7 +102,7 @@
     @else
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <div x-data="returnOperationalDashboard(@json($rentalData))" x-init="init()" class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+        <div x-data="returnOperationalDashboard({{ \Illuminate\Support\Js::from($rentalData) }})" x-init="init()" class="max-w-7xl mx-auto px-4 py-6 space-y-6">
             {{-- Header --}}
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6">
                 <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
@@ -121,7 +121,7 @@
                     <div class="flex flex-wrap gap-3 items-center">
                         <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold" :class="badgeClass(rental.rental_status, 'rental')" x-text="statusBadgeText(rental.rental_status, 'rental')"></span>
                         <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold" :class="badgeClass(rental.payment_status, 'payment')" x-text="statusBadgeText(rental.payment_status, 'payment')"></span>
-                        <template x-if="rental.fine_status === 'unpaid' || rental.fine_status === 'partial'">
+                        <template x-if="rental.rental_status !== 'returned' && (rental.fine_status === 'unpaid' || rental.fine_status === 'partial')">
                             <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold bg-amber-100 text-amber-700">Ada Denda Belum Dibayar</span>
                         </template>
                         <a href="{{ route('rentals.scan') }}" class="inline-flex items-center px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 text-sm font-semibold transition-all">
@@ -390,6 +390,7 @@
                         </div>
                     </template>
 
+                    @if(auth()->user()->isSuperAdmin())
                     {{-- Aktivitas Log --}}
                     <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                         <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -417,6 +418,7 @@
                                             </template>
                                         </p>
                                     </div>
+                                    @endif
                                 </div>
                             </template>
                             <template x-if="rental.activity_logs.length === 0">
@@ -589,7 +591,13 @@
 
                 get currentStep() {
                     if (!this.rental) return 1;
-                    if (this.rental.rental_status === 'returned') return 4;
+                    if (this.rental.rental_status === 'returned') {
+                        return this.rental.payment_status === 'paid'
+                            && ['none', 'paid'].includes(this.rental.fine_status)
+                            && Number(this.rental.fine_paid_amount || 0) >= Number(this.rental.fine_amount || 0)
+                            ? 4
+                            : 3;
+                    }
                     if (this.rental.rental_status === 'active' || this.rental.rental_status === 'overdue') return 2;
                     return 1;
                 },
@@ -629,7 +637,11 @@
                         return 'bg-red-100 text-red-700';
                     }
                     if (kind === 'rental') {
-                        if (status === 'returned') return 'bg-green-100 text-green-700';
+                        if (status === 'returned') {
+                            if (this.rental.fine_status === 'unpaid' || this.rental.fine_status === 'partial' || Number(this.rental.fine_amount || 0) > Number(this.rental.fine_paid_amount || 0)) return 'bg-amber-100 text-amber-700';
+                            if (this.rental.payment_status !== 'paid' || !['none', 'paid'].includes(this.rental.fine_status)) return 'bg-amber-100 text-amber-700';
+                            return 'bg-green-100 text-green-700';
+                        }
                         if (status === 'overdue') return 'bg-red-100 text-red-700';
                         if (status === 'cancelled') return 'bg-slate-100 text-slate-700';
                         if (status === 'active') return 'bg-blue-100 text-blue-700';
@@ -648,7 +660,11 @@
                         if (status === 'waiting') return 'Booking';
                         if (status === 'active') return 'Sedang Disewa';
                         if (status === 'overdue') return 'Terlambat';
-                        if (status === 'returned') return 'Sudah Dikembalikan';
+                        if (status === 'returned') {
+                            if (this.rental.fine_status === 'unpaid' || this.rental.fine_status === 'partial' || Number(this.rental.fine_amount || 0) > Number(this.rental.fine_paid_amount || 0)) return 'Denda belum lunas';
+                            if (this.rental.payment_status !== 'paid' || !['none', 'paid'].includes(this.rental.fine_status)) return 'Belum lunas';
+                            return 'Selesai';
+                        }
                         if (status === 'cancelled') return 'Dibatalkan';
                     }
                     return status;

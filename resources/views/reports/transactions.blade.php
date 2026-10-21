@@ -10,12 +10,21 @@
     <div class="ds-card p-5">
         <form method="GET" action="{{ route('reports.transactions') }}" class="flex flex-wrap items-end gap-3">
             <div>
+                <label class="block text-xs font-medium mb-1" style="color:var(--text-soft)">Periode</label>
+                <select name="period" class="form-input" onchange="toggleTransactionPeriod(this)">
+                    <option value="">Pilih Tanggal</option>
+                    <option value="today" {{ $period === 'today' ? 'selected' : '' }}>Hari Ini</option>
+                    <option value="week" {{ $period === 'week' ? 'selected' : '' }}>Minggu Ini</option>
+                    <option value="month" {{ $period === 'month' ? 'selected' : '' }}>Bulan Ini</option>
+                </select>
+            </div>
+            <div>
                 <label class="block text-xs font-medium mb-1" style="color:var(--text-soft)">Dari Tanggal</label>
-                <input type="date" name="date_from" value="{{ $dateFrom }}" class="form-input">
+                <input type="date" name="date_from" id="date_from" value="{{ $dateFrom }}" class="form-input">
             </div>
             <div>
                 <label class="block text-xs font-medium mb-1" style="color:var(--text-soft)">Sampai Tanggal</label>
-                <input type="date" name="date_to" value="{{ $dateTo }}" class="form-input">
+                <input type="date" name="date_to" id="date_to" value="{{ $dateTo }}" class="form-input">
             </div>
             <div>
                 <label class="block text-xs font-medium mb-1" style="color:var(--text-soft)">Status</label>
@@ -28,7 +37,7 @@
                                 'pending'   => 'Menunggu',
                                 'active'    => 'Aktif',
                                 'rented'    => 'Disewa',
-                                'returned'  => 'Selesai',
+                                'returned'  => 'Dikembalikan',
                                 'completed' => 'Selesai',
                                 'cancelled' => 'Dibatalkan',
                                 default     => ucfirst($s)
@@ -47,6 +56,16 @@
             </button>
             <a href="{{ route('reports.transactions') }}" class="btn-secondary">Reset</a>
         </form>
+    </div>
+
+    {{-- ── EXPORT BUTTONS ───────────────────────────────────────── --}}
+    <div class="flex items-center justify-end gap-2 mb-6">
+        <a href="{{ route('reports.export.transactions.excel', request()->query()) }}" class="btn-secondary text-sm py-1.5 px-3">
+            <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Export Excel
+        </a>
+        <a href="{{ route('reports.export.transactions.pdf', request()->query()) }}" class="btn-secondary text-sm py-1.5 px-3">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Export PDF
+        </a>
     </div>
 
     {{-- ── SUMMARY CARDS ───────────────────────────────────────── --}}
@@ -132,7 +151,7 @@
                     {{-- controller: rental_status --}}
                     <td class="px-5 py-3.5 text-sm text-slate-700 align-middle text-center">
                         <div class="flex justify-center">
-                        <span class="badge {{ match($t->rental_status) {
+                        <span class="badge {{ $t->rental_status === 'returned' && !$t->isCompleted() ? 'badge-red' : match($t->rental_status) {
                             'pending'   => 'badge-gold',
                             'active'    => 'badge-blue',
                             'rented'    => 'badge-blue',
@@ -144,7 +163,7 @@
                             'pending'   => 'Menunggu',
                             'active'    => 'Aktif',
                             'rented'    => 'Disewa',
-                            'returned'  => 'Selesai',
+                            'returned'  => $t->status_label,
                             'completed' => 'Selesai',
                             'cancelled' => 'Dibatalkan',
                             default     => ucfirst($t->rental_status)
@@ -179,6 +198,29 @@
     </div>
 </div>
 @push('scripts')
-<script>lucide.createIcons();</script>
+<script>
+lucide.createIcons();
+
+function toggleTransactionPeriod(select) {
+    const dateFrom = document.getElementById('date_from');
+    const dateTo = document.getElementById('date_to');
+    if (!dateFrom || !dateTo) return;
+
+    if (select.value === 'today' || select.value === 'week' || select.value === 'month') {
+        dateFrom.disabled = true;
+        dateTo.disabled = true;
+    } else {
+        dateFrom.disabled = false;
+        dateTo.disabled = false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const periodSelect = document.querySelector('select[name="period"]');
+    if (periodSelect) {
+        toggleTransactionPeriod(periodSelect);
+    }
+});
+</script>
 @endpush
 @endsection

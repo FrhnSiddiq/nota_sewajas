@@ -19,6 +19,7 @@ return new class extends Migration
 
         if (Schema::hasColumn('notifications', 'user_id')) {
             Schema::table('notifications', function (Blueprint $table) {
+                $table->dropForeign(['user_id']);
                 $table->dropColumn('user_id');
             });
         }

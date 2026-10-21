@@ -4,19 +4,19 @@
 @section('page-title', 'Buat Penyewaan')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-5">
+<div class="mx-auto w-full max-w-4xl space-y-5">
     <div class="flex items-center gap-3 mb-5">
         <a href="{{ route('rentals.index') }}" class="btn-secondary">
             <i data-lucide="arrow-left" class="w-4 h-4"></i>
             Kembali ke Penyewaan
         </a>
     </div>
-        <form method="POST" action="{{ route('rentals.store') }}" enctype="multipart/form-data" x-data="rentalForm()" @submit.prevent="submitForm()" novalidate>
+    <form method="POST" action="{{ route('rentals.store') }}" enctype="multipart/form-data" x-data="rentalForm()" @submit.prevent="submitForm()" novalidate class="space-y-5">
         @csrf
 
         <!-- Customer & Rental Info -->
-        <div class="card p-6">
-            <h3 class="font-playfair font-semibold text-base mb-5" style="color: var(--text-dark)">
+        <div class="card p-4 sm:p-6">
+            <h3 class="font-playfair font-semibold text-base mb-4 sm:mb-5" style="color: var(--text-dark)">
                 <i data-lucide="user" class="w-4 h-4 inline mr-2" style="color: var(--primary)"></i>
                 Informasi Pelanggan & Penyewaan
             </h3>
@@ -27,20 +27,21 @@
                         <input type="text"
                             x-model="customerSearch"
                             @focus="customerDropdownOpen = true"
-                            @input="selectedCustomer = null; customerError = false"
+                            @click="customerDropdownOpen = true"
+                            @input="selectedCustomer = null; customerError = false; customerDropdownOpen = true"
                             :class="{ 'is-error': customerError }"
                             class="form-input"
-                            placeholder="Ketik nama atau nomor HP pelanggan..."
+                            placeholder="Pilih pelanggan atau ketik untuk mencari..."
                             autocomplete="off"
                         >
                         <input type="hidden" name="customer_id" :value="selectedCustomer?.id ?? ''">
 
-                        <div x-show="customerDropdownOpen && customerSearch"
+                        <div x-show="customerDropdownOpen"
                              x-transition
                              class="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-60 overflow-auto"
                              style="display: none;">
                             <template x-if="filteredCustomers.length > 0">
-                                <template x-for="customer in filteredCustomers" :key="customer.id">
+                                <template x-for="customer in dropdownCustomers" :key="customer.id">
                                     <div @click="selectCustomer(customer)"
                                          class="px-4 py-2.5 cursor-pointer hover:bg-blue-50 text-sm flex items-center justify-between"
                                          :class="selectedCustomer?.id === customer.id ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700'">
@@ -49,6 +50,16 @@
                                     </div>
                                 </template>
                             </template>
+
+                            <div x-show="filteredCustomers.length > dropdownCustomers.length"
+                                 class="px-4 py-2 text-xs text-slate-400 border-t border-slate-100 bg-slate-50/60 text-center">
+                                Menampilkan <span x-text="dropdownCustomers.length"></span> dari <span x-text="filteredCustomers.length"></span> pelanggan — ketik untuk mempersempit
+                            </div>
+
+                            <div x-show="!customerSearch && filteredCustomers.length === 0"
+                                 class="px-4 py-3 text-sm text-slate-400">
+                                Belum ada pelanggan terdaftar.
+                            </div>
 
                             <div x-show="customerSearch && filteredCustomers.length === 0"
                                  @click="openAddModal()"
@@ -66,13 +77,13 @@
                 <div x-show="showAddModal" x-transition class="fixed inset-0 z-[100] flex items-center justify-center" style="display: none;">
                     <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" @click="showAddModal = false"></div>
                     <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-auto" @click.stop>
-                        <div class="flex items-center justify-between p-6 border-b border-slate-100">
+                        <div class="flex items-center justify-between p-4 sm:p-6 border-b border-slate-100">
                             <h3 class="font-semibold text-base text-slate-800">Tambah Pelanggan Baru</h3>
                             <button type="button" @click="showAddModal = false" class="p-2 rounded-xl hover:bg-slate-100 text-slate-400">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                             </button>
                         </div>
-                        <div class="p-6 space-y-4">
+                        <div class="p-4 sm:p-6 space-y-4">
                             <div>
                                 <label class="block text-sm font-medium mb-1.5 text-slate-700">Nama Lengkap <span class="text-red-400">*</span></label>
                                 <input type="text" x-model="newCustomer.name" class="form-input" @input="newCustomerNameError = false">
@@ -93,14 +104,6 @@
                                     >
                                 </div>
                                 <p x-show="newCustomerPhoneError" x-transition class="text-xs text-red-400 mt-1">Nomor handphone wajib diisi</p>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5 text-slate-700">Alamat</label>
-                                <textarea x-model="newCustomer.address" class="form-input" rows="2" placeholder="Alamat (opsional)"></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium mb-1.5 text-slate-700">Catatan</label>
-                                <textarea x-model="newCustomer.notes" class="form-input" rows="2" placeholder="Catatan (opsional)"></textarea>
                             </div>
                             <div class="flex items-center justify-end gap-3 pt-2">
                                 <button type="button" @click="showAddModal = false" class="btn-secondary px-5 py-2.5" :disabled="addingCustomer">Batal</button>
@@ -129,40 +132,47 @@
                     @error('duration_days')<p class="text-xs text-red-400 mt-1">{{ $message }}</p>@enderror
                     <p x-show="durationDaysError" x-transition class="text-xs text-red-400 mt-1">Durasi hari wajib diisi</p>
                 </div>
+            </div>
         </div>
 
         <!-- Produk -->
-        <div class="card p-6">
-            <h3 class="font-playfair font-semibold text-base mb-5" style="color: var(--text-dark)">
+        <div class="card p-4 sm:p-6">
+            <h3 class="font-playfair font-semibold text-base mb-4 sm:mb-5" style="color: var(--text-dark)">
                 <i data-lucide="package" class="w-4 h-4 inline mr-2" style="color: var(--primary)"></i>
                 Produk
             </h3>
             <div id="products-container" class="space-y-3">
                 <template x-for="(item, index) in items" :key="index">
-                    <div class="flex gap-3 items-center flex-wrap">
-                        <select x-model="item.product_id" :name="`items[${index}][product_id]`" class="form-input flex-1" :class="{ 'is-error': itemsErrors[index]?.product_id || itemsErrors[index]?.stock_exceeded }" @change="onProductChange(index)">
-                            <option value="">Pilih Produk</option>
-                            @foreach ($products as $product)
-                                <option value="{{ $product->id }}" data-price="{{ $product->rental_price }}" data-deposit-price="{{ $product->deposit_price }}" data-stock="{{ $product->stock_available }}">{{ $product->name }} (Stok: {{ $product->stock_available }}) - Rp {{ number_format($product->rental_price, 0, ',', '.') }}/hari</option>
-                            @endforeach
-                        </select>
-                        <p x-show="itemsErrors[index]?.product_id" x-transition class="text-xs text-red-400 mt-1">Pilih produk</p>
-                        <p x-show="itemsErrors[index]?.stock_exceeded" x-transition class="text-xs text-red-400 mt-1" x-text="itemsErrors[index]?.stock_message || 'Qty melebihi stok tersedia'"></p>
-                        <select x-model="item.product_size" :name="`items[${index}][product_size]`" class="form-input w-32" :class="{ 'is-error': itemsErrors[index]?.product_size }" @change="itemsErrors[index].product_size = false">
-                            <option value="">Ukuran</option>
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                            <option value="3XL">3XL</option>
-                            <option value="4XL">4XL</option>
-                        </select>
-                        <p x-show="itemsErrors[index]?.product_size" x-transition class="text-xs text-red-400 mt-1">Pilih ukuran</p>
-                        <input type="number" x-model="item.quantity" :name="`items[${index}][quantity]`" value="1" min="1" class="form-input w-24" :class="{ 'is-error': itemsErrors[index]?.quantity || itemsErrors[index]?.stock_exceeded }" @input="onQtyInput(index)">
-                        <p x-show="itemsErrors[index]?.quantity" x-transition class="text-xs text-red-400 mt-1">Jumlah minimal 1</p>
-                        <button type="button" x-show="items.length > 1" @click="removeItem(index)" class="btn-danger px-3 py-2">
+                    <div class="grid items-start gap-3 sm:grid-cols-[minmax(0,1fr)_8rem_6rem_2.75rem]" :class="items.length > 1 ? 'grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2.75rem]' : 'grid-cols-2'">
+                        <div class="min-w-0 sm:col-span-1" :class="items.length > 1 ? 'col-span-3 sm:col-span-1' : 'col-span-2 sm:col-span-1'">
+                            <select x-model="item.product_id" :name="`items[${index}][product_id]`" class="form-input min-w-0 w-full" :class="{ 'is-error': itemsErrors[index]?.product_id || itemsErrors[index]?.stock_exceeded }" @change="onProductChange(index)">
+                                <option value="">Pilih Produk</option>
+                                @foreach ($products as $product)
+                                    @php
+                                        $fallbackSizes = $product->size ? [$product->size => ['stock_total' => $product->stock_total, 'stock_available' => $product->stock_available]] : [];
+                                        $sizesData = $product->sizesData ?: $fallbackSizes;
+                                    @endphp
+                                    <option value="{{ $product->id }}" data-price="{{ $product->rental_price }}" data-deposit-price="{{ $product->deposit_price }}" data-stock="{{ $product->stock_available }}" data-sizes='@json($sizesData)'>{{ $product->name }} (Stok: {{ $product->stock_available }}) - Rp {{ number_format($product->rental_price, 0, ',', '.') }}/hari</option>
+                                @endforeach
+                            </select>
+                            <p x-show="itemsErrors[index]?.product_id" x-transition class="mt-1 text-xs text-red-400">Pilih produk</p>
+                            <p x-show="itemsErrors[index]?.stock_exceeded" x-transition class="mt-1 text-xs text-red-400" x-text="itemsErrors[index]?.stock_message || 'Qty melebihi stok tersedia'"></p>
+                        </div>
+                        <div class="min-w-0">
+                            <select x-model="item.product_size" :name="`items[${index}][product_size]`" class="form-input min-w-0 w-full sm:w-32" :class="{ 'is-error': itemsErrors[index]?.product_size }" @change="onSizeChange(index)">
+                                <option value="">Ukuran</option>
+                                <template x-for="sz in sizesForItem(index)" :key="sz">
+                                    <option :value="sz" x-text="sz"></option>
+                                </template>
+                            </select>
+                            <span class="mt-1 block text-xs text-slate-500" x-show="item.product_size" x-text="'Stok: ' + getStockForProductAndSize(item.product_id, item.product_size)"></span>
+                            <p x-show="itemsErrors[index]?.product_size" x-transition class="mt-1 text-xs text-red-400">Pilih ukuran</p>
+                        </div>
+                        <div class="min-w-0">
+                            <input type="number" x-model="item.quantity" :name="`items[${index}][quantity]`" value="1" min="1" class="form-input min-w-0 w-full sm:w-24" :max="item.product_size ? getStockForProductAndSize(item.product_id, item.product_size) : ''" :class="{ 'is-error': itemsErrors[index]?.quantity || itemsErrors[index]?.stock_exceeded }" @input="onQtyInput(index)">
+                            <p x-show="itemsErrors[index]?.quantity" x-transition class="mt-1 text-xs text-red-400">Jumlah minimal 1</p>
+                        </div>
+                        <button type="button" x-show="items.length > 1" @click="removeItem(index)" class="btn-danger flex h-11 w-11 items-center justify-center px-3 py-2">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </button>
                     </div>
@@ -176,8 +186,8 @@
         </div>
 
         <!-- Diskon & Catatan -->
-        <div class="card p-6">
-            <h3 class="font-playfair font-semibold text-base mb-5" style="color: var(--text-dark)">
+        <div class="card p-4 sm:p-6">
+            <h3 class="font-playfair font-semibold text-base mb-4 sm:mb-5" style="color: var(--text-dark)">
                 <i data-lucide="file-text" class="w-4 h-4 inline mr-2" style="color: var(--primary)"></i>
                 Diskon & Catatan
             </h3>
@@ -192,11 +202,12 @@
                     <textarea name="notes" class="form-input" rows="1">{{ old('notes') }}</textarea>
                     @error('notes')<p class="text-xs text-red-400 mt-1">{{ $message }}</p>@enderror
                 </div>
+            </div>
         </div>
 
         <!-- Jaminan & Pembayaran -->
-        <div class="card p-6">
-            <h3 class="font-playfair font-semibold text-base mb-5" style="color: var(--text-dark)">
+        <div class="card p-4 sm:p-6">
+            <h3 class="font-playfair font-semibold text-base mb-4 sm:mb-5" style="color: var(--text-dark)">
                 <i data-lucide="shield" class="w-4 h-4 inline mr-2" style="color: var(--primary)"></i>
                 Jaminan & Pembayaran
             </h3>
@@ -273,7 +284,8 @@
                                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 <p class="text-sm font-medium">Seret &amp; lepas foto di sini</p>
                                 <p class="text-xs">atau klik untuk memilih file</p>
-                                <p class="text-xs text-slate-300">JPG/PNG, maks 2MB</p>
+                                <p x-show="photoState.compressing" class="text-xs font-semibold text-blue-500">Mengompres foto…</p>
+                                <p x-show="!photoState.compressing" class="text-xs text-slate-300">JPG/PNG, maks 2MB — foto besar otomatis dikompres</p>
                             </div>
                         </template>
                         <template x-if="photoState.file">
@@ -332,11 +344,13 @@
                             <span x-text="photoState.verified ? '&#x2713; Siap diupload' : 'Perbaiki kualitas foto sebelum upload'"></span>
                         </div>
                 </div>
+            </div>
         </div>
+    </div>
 
         <!-- Submit -->
-        <div class="flex items-center justify-between">
-            <a href="{{ route('rentals.index') }}" class="btn-secondary">
+        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <a href="{{ route('rentals.index') }}" class="btn-secondary w-full sm:w-auto">
                 <i data-lucide="x" class="w-4 h-4"></i>
                 Batal
             </a>
@@ -345,7 +359,7 @@
                     :class="{
                         'opacity-60 pointer-events-none': submitting || (photoState.file && !photoState.verified),
                     }"
-                    class="btn-primary px-8">
+                    class="btn-primary w-full px-8 sm:w-auto">
                 <span x-show="!submitting" class="flex items-center gap-2">
                     <i data-lucide="save" class="w-4 h-4"></i>
                     Simpan Penyewaan
@@ -387,6 +401,7 @@
             newCustomerNameError: false,
             newCustomerPhoneError: false,
             itemsErrors: [],
+            productSizesMap: @json($products->mapWithKeys(fn($p) => [$p->id => ($p->sizesData ?: ($p->size ? [$p->size => ['stock_total' => $p->stock_total, 'stock_available' => $p->stock_available]] : []))])->toArray()),
             items: [
                 { product_id: '', product_size: '', quantity: 1 }
             ],
@@ -395,6 +410,7 @@
             photoState: {
             file: null,
             previewUrl: null,
+            compressing: false,
             checked: false,
             verified: false,
             resolutionOk: false,
@@ -408,15 +424,25 @@
         customerDropdownOpen: false,
         showAddModal: false,
         addingCustomer: false,
-        newCustomer: { name: '', phone: '', address: '', notes: '' },
+        newCustomer: { name: '', phone: '' },
         customers: @json($customers->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'phone' => $c->phone])),
 
         get filteredCustomers() {
+            // Prefill "Nama - HP" pelanggan terpilih: saat dropdown dibuka tampilkan
+            // daftar lengkap, bukan "tidak ada hasil" (kueri prefill tak cocok nama mentah)
+            if (this.selectedCustomer
+                && this.customerSearch === this.selectedCustomer.name + ' - ' + this.selectedCustomer.phone) {
+                return this.customers;
+            }
             if (!this.customerSearch) return this.customers;
             const q = this.customerSearch.toLowerCase();
             return this.customers.filter(c =>
                 c.name.toLowerCase().includes(q) || c.phone.includes(q)
             );
+        },
+
+        get dropdownCustomers() {
+            return this.filteredCustomers.slice(0, 50);
         },
 
         get suggestedDeposit() {
@@ -445,25 +471,54 @@
             return option ? parseInt(option.dataset.stock || '0', 10) : 0;
         },
 
+        getStockForProductAndSize(productId, size) {
+            const sizes = this.productSizesMap[productId];
+            if (!sizes || !sizes[size]) return 0;
+            return parseInt(sizes[size].stock_available, 10);
+        },
+
+        sizesForItem(index) {
+            const productId = this.items[index]?.product_id;
+            if (!productId) return [];
+            const sizes = this.productSizesMap[productId];
+            if (!sizes) return [];
+            const order = ['XS','S','M','L','XL','XXL','3XL','4XL','5XL','6XL','7XL'];
+            return Object.keys(sizes).sort((a, b) => order.indexOf(a) - order.indexOf(b));
+        },
+
         onProductChange(index) {
             const item = this.items[index];
-            const stock = this.getStockForProduct(item.product_id);
-
-            if (item.product_id && stock > 0 && item.quantity > stock) {
-                item.quantity = stock;
-            }
+            item.product_size = '';
 
             if (!this.itemsErrors[index]) {
                 this.itemsErrors[index] = {};
             }
             this.itemsErrors[index].product_id = false;
+            this.itemsErrors[index].product_size = false;
             this.itemsErrors[index].stock_exceeded = false;
             this.itemsErrors[index].stock_message = '';
         },
 
+        onSizeChange(index) {
+            const item = this.items[index];
+            if (item.product_id && item.product_size) {
+                const stock = this.getStockForProductAndSize(item.product_id, item.product_size);
+                if (item.quantity > stock) {
+                    item.quantity = stock;
+                }
+                if (!this.itemsErrors[index]) {
+                    this.itemsErrors[index] = {};
+                }
+                this.itemsErrors[index].stock_exceeded = false;
+                this.itemsErrors[index].stock_message = '';
+            }
+        },
+
         onQtyInput(index) {
             const item = this.items[index];
-            const stock = this.getStockForProduct(item.product_id);
+            const stock = item.product_id && item.product_size
+                ? this.getStockForProductAndSize(item.product_id, item.product_size)
+                : this.getStockForProduct(item.product_id);
 
             if (!this.itemsErrors[index]) {
                 this.itemsErrors[index] = {};
@@ -490,8 +545,6 @@
         openAddModal() {
             this.newCustomer.name = this.customerSearch;
             this.newCustomer.phone = '';
-            this.newCustomer.address = '';
-            this.newCustomer.notes = '';
             this.newCustomerNameError = false;
             this.newCustomerPhoneError = false;
             this.showAddModal = true;
@@ -540,7 +593,14 @@
                     stock_message: ''
                 };
 
-                if (item.product_id) {
+                if (item.product_id && item.product_size) {
+                    const stock = this.getStockForProductAndSize(item.product_id, item.product_size);
+                    if (stock > 0 && item.quantity > stock) {
+                        errors.stock_exceeded = true;
+                        errors.stock_message = `Qty melebihi stok tersedia (maks: ${stock})`;
+                        itemsInvalid = true;
+                    }
+                } else if (item.product_id) {
                     const stock = this.getStockForProduct(item.product_id);
                     if (stock > 0 && item.quantity > stock) {
                         errors.stock_exceeded = true;
@@ -702,17 +762,35 @@
             if (file) this.processFile(file);
         },
 
-        processFile(file) {
+        async processFile(file) {
             // Validate type
             if (!['image/jpeg', 'image/png'].includes(file.type)) {
                 alert('Format tidak didukung. Gunakan JPG atau PNG.');
                 return;
             }
-            // Validate size
+
+            // Kompresi di browser: foto HP 4-8MB di-resize/mampatkan dulu supaya
+            // aman melewati limit upload 2MB tanpa menolak file (lihat compressedUpload.js).
+            this.photoState.compressing = true;
+            try {
+                file = await window.compressImageFile(file);
+            } catch (e) {
+                console.error('Kompresi gambar gagal, memakai file asli:', e);
+            } finally {
+                this.photoState.compressing = false;
+            }
+
+            // Guard terakhir (jarang terjadi setelah kompresi)
             if (file.size > 2 * 1024 * 1024) {
-                alert('Ukuran file maksimal 2MB.');
+                alert('Ukuran file masih terlalu besar setelah kompresi. Coba foto ulang.');
                 return;
             }
+
+            // Sinkron ke <input type="file"> supaya file ikut terkirim saat submit,
+            // termasuk jalur drag & drop yang sebelumnya tidak terkirim.
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            this.$refs.fileInput.files = dt.files;
 
             const reader = new FileReader();
             reader.onload = (e) => {

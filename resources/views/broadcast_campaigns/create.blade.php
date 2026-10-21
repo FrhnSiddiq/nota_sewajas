@@ -5,8 +5,8 @@
 @section('subtitle', 'Buat campaign broadcast multi-channel')
 
 @section('content')
-<div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
-    <section class="rounded-3xl border border-slate-200 bg-white p-5 shadow-card-sm lg:p-7">
+<div class="w-full">
+    <section class="w-full rounded-3xl border border-slate-200 bg-white p-5 shadow-card-sm lg:p-8">
         <form method="POST" action="{{ route('broadcast-campaigns.store') }}" class="space-y-5" id="campaignForm">
             @csrf
             <div>
@@ -31,11 +31,7 @@
             <div class="grid gap-4 md:grid-cols-2">
                 <div>
                     <label class="mb-2 block text-sm font-bold text-slate-700">Tipe Penerima</label>
-                    <select name="recipient_type" id="recipient_type" class="form-input" required disabled>
-                        <option value="">Pilih channel terlebih dahulu</option>
-                        <option value="user" data-channel="in_app">User / Sales</option>
-                        <option value="customer" data-channel="whatsapp">Customer</option>
-                    </select>
+                    <p id="recipientTypeLabel" class="form-input bg-slate-50 text-slate-600">Tipe penerima mengikuti channel yang dipilih.</p>
                     @error('recipient_type') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                     <input type="hidden" name="recipient_type" id="recipient_type_hidden" value="{{ old('recipient_type') }}">
                 </div>
@@ -62,38 +58,71 @@
             <div id="filterContainer" class="hidden space-y-4">
                 <div id="branchFilter" class="hidden">
                     <label class="mb-2 block text-sm font-bold text-slate-700">Cabang</label>
-                    <select name="target_filters[branch_id]" class="form-input">
+                    <select name="target_filters[branch_id]" id="branchSelect" class="form-input">
                         <option value="">Semua cabang</option>
                         @foreach($branches as $branch)
                             <option value="{{ $branch->id }}" @selected(old('target_filters.branch_id') == $branch->id)>{{ $branch->name }}</option>
                         @endforeach
                     </select>
+                    @error('target_filters.branch_id') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
                 </div>
 
                 <div id="customerFilter" class="hidden">
                     <label class="mb-2 block text-sm font-bold text-slate-700">Pilih Pelanggan</label>
-                    <select name="recipient_ids[]" class="form-input" multiple size="8">
+                    <details id="customerDropdown" class="relative">
+                        <summary class="form-input flex cursor-pointer list-none items-center justify-between">
+                            <span id="customerSelectionLabel">Pilih satu atau beberapa Customer</span>
+                            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                        </summary>
+                        <div class="absolute z-20 mt-1 max-h-64 w-full overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
                         @foreach($customers as $customer)
-                            <option value="{{ $customer->id }}" @selected(in_array($customer->id, old('recipient_ids', [])))>{{ $customer->name }} ({{ $customer->phone }})</option>
+                            <label class="customer-option flex cursor-pointer items-center gap-2 rounded-lg px-2 py-2 text-sm hover:bg-slate-50">
+                                <input type="checkbox" name="recipient_ids[]" value="{{ $customer->id }}"
+                                    @checked(old('recipient_type') === 'customer' && old('target_type') === 'customer' && in_array($customer->id, old('recipient_ids', [])))>
+                                <span>{{ $customer->name }} ({{ $customer->phone }})</span>
+                            </label>
                         @endforeach
-                    </select>
-                    <p class="mt-1 text-xs text-slate-500">Tahan Ctrl untuk pilih multiple.</p>
+                        </div>
+                    </details>
+                    @error('recipient_ids') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                    <p class="mt-1 text-xs text-slate-500">Pilih satu atau beberapa Customer dari daftar.</p>
                 </div>
 
                 <div id="userFilter" class="hidden">
-                    <label class="mb-2 block text-sm font-bold text-slate-700">Pilih User</label>
-                    <select name="recipient_ids[]" class="form-input" multiple size="8">
+                    <label class="mb-2 block text-sm font-bold text-slate-700">Pilih Sales</label>
+                    <details id="salesDropdown" class="relative">
+                        <summary class="form-input flex cursor-pointer list-none items-center justify-between">
+                            <span id="salesSelectionLabel">Pilih satu atau beberapa Sales</span>
+                            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                        </summary>
+                        <div class="absolute z-20 mt-1 max-h-64 w-full overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
                         @foreach($users as $userItem)
-                            <option value="{{ $userItem->id }}" @selected(in_array($userItem->id, old('recipient_ids', [])))>{{ $userItem->name }} ({{ $userItem->role }})</option>
+                            @if($userItem->role === \App\Models\User::ROLE_SALES)
+                                <label class="sales-option flex cursor-pointer items-center gap-2 rounded-lg px-2 py-2 text-sm hover:bg-slate-50"
+                                    data-branch-id="{{ $userItem->branch_id }}"
+                                    data-role="{{ $userItem->role }}">
+                                    <input type="checkbox" name="recipient_ids[]" value="{{ $userItem->id }}"
+                                        @checked(old('recipient_type') === 'user' && old('target_type') === 'sales' && old('target_filters.branch_id') == $userItem->branch_id && in_array($userItem->id, old('recipient_ids', [])))>
+                                    <span>{{ $userItem->name }}</span>
+                                </label>
+                            @endif
                         @endforeach
-                    </select>
-                    <p class="mt-1 text-xs text-slate-500">Tahan Ctrl untuk pilih multiple.</p>
+                        </div>
+                    </details>
+                    @error('recipient_ids') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+                    <p class="mt-1 text-xs text-slate-500">Daftar menampilkan Sales aktif dari cabang yang dipilih.</p>
+                    <p id="noSalesOptions" class="mt-2 hidden text-sm text-amber-700">Tidak ada Sales aktif yang dapat menerima broadcast di cabang ini.</p>
                 </div>
             </div>
 
-            <div id="whatsappFields">
+            <div id="templateFields">
                 <div>
-                    <label class="mb-2 block text-sm font-bold text-slate-700">Template Pesan (Opsional)</label>
+                    <div class="mb-2 flex items-center justify-between gap-3">
+                        <label for="template_id" class="block text-sm font-bold text-slate-700">Template Pesan (Opsional)</label>
+                        <a href="{{ route('broadcast-campaigns.templates.index') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700">
+                            Kelola Template
+                        </a>
+                    </div>
                     <select name="template_id" id="template_id" class="form-input">
                         <option value="">Pilih template (opsional)</option>
                         @foreach($templates as $template)
@@ -112,15 +141,27 @@
 
             <div id="customMessageContainer">
                 <label class="mb-2 block text-sm font-bold text-slate-700">Pesan</label>
-                <textarea name="custom_message" rows="5" class="form-input" placeholder="Tulis pesan (jika tidak menggunakan template). Variabel: @{{name}}, @{{phone}}, @{{sender_name}}">{{ old('custom_message') }}</textarea>
+                <textarea id="customMessageInput" name="custom_message" rows="5" class="form-input" placeholder="Tulis pesan">{{ old('custom_message') }}</textarea>
                 @error('custom_message') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
             </div>
 
-            <div>
-                <label class="mb-2 block text-sm font-bold text-slate-700">Jadwalkan Pengiriman (Opsional)</label>
-                <input type="datetime-local" name="scheduled_at" value="{{ old('scheduled_at') }}" class="form-input">
+            <fieldset id="sendScheduling" class="space-y-3">
+                <legend class="mb-2 block text-sm font-bold text-slate-700">Waktu Pengiriman</legend>
+                <label class="flex items-center gap-2 text-sm text-slate-700">
+                    <input type="radio" name="send_mode" value="now" @checked(old('send_mode', 'now') === 'now')>
+                    <span>Kirim sekarang</span>
+                </label>
+                <label id="scheduledModeOption" class="flex items-center gap-2 text-sm text-slate-700">
+                    <input type="radio" name="send_mode" value="scheduled" @checked(old('send_mode') === 'scheduled')>
+                    <span>Jadwalkan</span>
+                </label>
+                <div id="scheduledAtContainer" class="hidden pl-6">
+                    <label for="scheduled_at" class="mb-2 block text-sm font-semibold text-slate-700">Tanggal dan waktu</label>
+                    <input type="datetime-local" id="scheduled_at" name="scheduled_at" value="{{ old('scheduled_at') }}" class="form-input">
+                </div>
                 @error('scheduled_at') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
-            </div>
+                @error('send_mode') <p class="mt-1 text-xs text-red-600">{{ $message }}</p> @enderror
+            </fieldset>
 
             <div class="flex items-center justify-end gap-3 border-t border-slate-200 pt-5">
                 <a href="{{ route('broadcast-campaigns.index') }}" class="btn-ghost px-4 py-2">Batal</a>
@@ -131,50 +172,41 @@
             </div>
         </form>
     </section>
-
-    <aside class="rounded-3xl border border-slate-200 bg-white p-5 shadow-card-sm lg:p-6">
-        <h3 class="mb-4 text-sm font-extrabold text-slate-900">Panduan</h3>
-        <ul class="space-y-3 text-sm text-slate-600">
-            <li class="flex gap-2">
-                <i data-lucide="info" class="h-4 w-4 shrink-0 text-blue-600"></i>
-                <span>Pilih tipe penerima dahulu, lalu pilih target yang sesuai.</span>
-            </li>
-            <li class="flex gap-2">
-                <i data-lucide="info" class="h-4 w-4 shrink-0 text-blue-600"></i>
-                <span>Kombinasi <strong>customer</strong> dengan target <strong>sales</strong> tidak valid.</span>
-            </li>
-            <li class="flex gap-2">
-                <i data-lucide="info" class="h-4 w-4 shrink-0 text-blue-600"></i>
-                <span>Jika memilih template, pesan custom tidak perlu diisi.</span>
-            </li>
-            <li class="flex gap-2">
-                <i data-lucide="clock" class="h-4 w-4 shrink-0 text-orange-600"></i>
-                <span>Biarkan kosong untuk mengirim segera, atau isi jadwal untuk pengiriman tertunda.</span>
-            </li>
-        </ul>
-    </aside>
 </div>
 @endsection
 
 @push('scripts')
 <script>
-const recipientTypeSelect = document.getElementById('recipient_type');
 const recipientTypeHidden = document.getElementById('recipient_type_hidden');
+const recipientTypeLabel = document.getElementById('recipientTypeLabel');
 const targetTypeSelect = document.getElementById('target_type');
 const filterContainer = document.getElementById('filterContainer');
 const branchFilter = document.getElementById('branchFilter');
+const branchSelect = document.getElementById('branchSelect');
 const customerFilter = document.getElementById('customerFilter');
+const customerDropdown = document.getElementById('customerDropdown');
+const customerSelectionLabel = document.getElementById('customerSelectionLabel');
+const customerOptions = document.querySelectorAll('.customer-option');
 const userFilter = document.getElementById('userFilter');
+const salesDropdown = document.getElementById('salesDropdown');
+const salesSelectionLabel = document.getElementById('salesSelectionLabel');
+const noSalesOptions = document.getElementById('noSalesOptions');
+const salesOptions = document.querySelectorAll('.sales-option');
 const templateIdSelect = document.getElementById('template_id');
 const templatePreview = document.getElementById('templatePreview');
 const templateContent = document.getElementById('templateContent');
 const templateVariables = document.getElementById('templateVariables');
 const channelInputs = document.querySelectorAll('input[name="channel"]');
-const whatsappFields = document.getElementById('whatsappFields');
+const sendModeInputs = document.querySelectorAll('input[name="send_mode"]');
+const sendScheduling = document.getElementById('sendScheduling');
+const scheduledModeOption = document.getElementById('scheduledModeOption');
+const scheduledAtContainer = document.getElementById('scheduledAtContainer');
+const scheduledAtInput = document.getElementById('scheduled_at');
 const customMessageContainer = document.getElementById('customMessageContainer');
+const customMessageInput = document.getElementById('customMessageInput');
 
 const validCombinations = {
-    customer: ['all', 'branch', 'rental_status', 'product', 'category', 'customer'],
+    customer: ['all', 'branch', 'customer'],
     user: ['all', 'branch', 'sales'],
     both: ['all', 'branch'],
 };
@@ -194,32 +226,37 @@ function updateRecipientTypeLock() {
     const selectedChannel = getSelectedChannel();
     
     if (selectedChannel === 'in_app') {
-        recipientTypeSelect.value = 'user';
-        recipientTypeSelect.disabled = true;
         if (recipientTypeHidden) recipientTypeHidden.value = 'user';
+        recipientTypeLabel.textContent = 'User internal (Admin Toko dan Sales)';
     } else if (selectedChannel === 'whatsapp') {
-        recipientTypeSelect.value = 'customer';
-        recipientTypeSelect.disabled = true;
         if (recipientTypeHidden) recipientTypeHidden.value = 'customer';
+        recipientTypeLabel.textContent = 'Customer';
     } else {
-        recipientTypeSelect.value = '';
-        recipientTypeSelect.disabled = true;
         if (recipientTypeHidden) recipientTypeHidden.value = '';
+        recipientTypeLabel.textContent = 'Tipe penerima mengikuti channel yang dipilih.';
     }
 }
 
-function updateWhatsappFields() {
-    if (whatsappFields) {
-        whatsappFields.style.display = isWhatsappSelected() ? 'block' : 'none';
+function updateSendMode() {
+    const whatsapp = isWhatsappSelected();
+    sendScheduling.classList.toggle('hidden', whatsapp);
+    scheduledModeOption.classList.toggle('hidden', whatsapp);
+    if (whatsapp) {
+        document.querySelector('input[name="send_mode"][value="now"]').checked = true;
     }
+    const scheduled = document.querySelector('input[name="send_mode"]:checked')?.value === 'scheduled';
+    scheduledAtContainer.classList.toggle('hidden', !scheduled);
+    scheduledAtInput.disabled = !scheduled;
+    scheduledAtInput.required = scheduled;
+    sendModeInputs.forEach(input => {
+        input.disabled = whatsapp && input.value === 'scheduled';
+    });
 }
 
 function updateTargetOptions() {
-    const recipientType = recipientTypeSelect.value;
-    const allowedTargets = validCombinations[recipientType] || [];
     const selectedChannel = getSelectedChannel();
-
-    const currentAllowed = selectedChannel === 'whatsapp' ? validCombinations.customer : allowedTargets;
+    const recipientType = selectedChannel === 'in_app' ? 'user' : (selectedChannel === 'whatsapp' ? 'customer' : null);
+    const allowedTargets = recipientType ? validCombinations[recipientType] : [];
 
     Array.from(targetTypeSelect.options).forEach(option => {
         if (option.value === '') {
@@ -227,9 +264,18 @@ function updateTargetOptions() {
             return;
         }
 
-        const isAllowed = currentAllowed.includes(option.value);
+        if (option.value === 'all') {
+            option.textContent = selectedChannel === 'in_app'
+                ? 'Semua User Internal'
+                : (selectedChannel === 'whatsapp' ? 'Semua Customer' : 'Semua');
+        }
+        if (option.value === 'sales') {
+            option.textContent = 'Pilih Sales';
+        }
+        const isAllowed = allowedTargets.includes(option.value);
         const channelMatch = !option.dataset.channel || option.dataset.channel === selectedChannel;
         option.disabled = !(isAllowed && channelMatch);
+        option.hidden = option.disabled;
     });
 
     if (targetTypeSelect.value && targetTypeSelect.querySelector('option:checked')?.disabled) {
@@ -237,44 +283,75 @@ function updateTargetOptions() {
     }
 
     updateFilters();
-    updateWhatsappFields();
 }
 
 function updateFilters() {
-    const recipientType = recipientTypeSelect.value;
+    const selectedChannel = getSelectedChannel();
     const targetType = targetTypeSelect.value;
+    const isInApp = selectedChannel === 'in_app';
+    const showBranchFilter = targetType === 'branch' || (isInApp && targetType === 'sales');
+    const showCustomerFilter = !isInApp && targetType === 'customer';
+    const showSalesFilter = isInApp && targetType === 'sales';
 
-    filterContainer.classList.add('hidden');
-    branchFilter.classList.add('hidden');
-    customerFilter.classList.add('hidden');
-    userFilter.classList.add('hidden');
+    branchFilter.classList.toggle('hidden', !showBranchFilter);
+    customerFilter.classList.toggle('hidden', !showCustomerFilter);
+    userFilter.classList.toggle('hidden', !showSalesFilter);
+    filterContainer.classList.toggle('hidden', !(showBranchFilter || showCustomerFilter || showSalesFilter));
 
-    if (!targetType) return;
+    branchSelect.disabled = !showBranchFilter;
+    branchSelect.required = isInApp && showBranchFilter;
+    branchSelect.options[0].textContent = branchSelect.required ? 'Pilih cabang' : 'Semua cabang';
 
-    filterContainer.classList.remove('hidden');
+    let selectedCustomerCount = 0;
+    customerOptions.forEach(option => {
+        const checkbox = option.querySelector('input[type="checkbox"]');
+        checkbox.disabled = !showCustomerFilter;
+        if (!showCustomerFilter) checkbox.checked = false;
+        if (checkbox.checked) selectedCustomerCount++;
+    });
+    customerSelectionLabel.textContent = selectedCustomerCount
+        ? `${selectedCustomerCount} Customer dipilih`
+        : 'Pilih satu atau beberapa Customer';
+    customerDropdown.classList.toggle('hidden', !showCustomerFilter);
 
-    if (targetType === 'branch') {
-        branchFilter.classList.remove('hidden');
-    }
+    const selectedBranchId = branchSelect.value;
+    let selectedSalesCount = 0;
+    let availableSalesCount = 0;
+    salesOptions.forEach(option => {
+        const checkbox = option.querySelector('input[type="checkbox"]');
+        const isAvailable = showSalesFilter && selectedBranchId !== '' && option.dataset.branchId === selectedBranchId;
+        option.classList.toggle('hidden', !isAvailable);
+        checkbox.disabled = !isAvailable;
+        if (!isAvailable) checkbox.checked = false;
+        if (isAvailable) availableSalesCount++;
+        if (checkbox.checked) selectedSalesCount++;
+    });
 
-    if (targetType === 'customer') {
-        customerFilter.classList.remove('hidden');
-    }
-
-    if ((recipientType === 'user' || recipientType === 'both') && (targetType === 'all' || targetType === 'branch' || targetType === 'sales')) {
-        userFilter.classList.remove('hidden');
-    }
+    salesSelectionLabel.textContent = selectedSalesCount
+        ? `${selectedSalesCount} Sales dipilih`
+        : 'Pilih satu atau beberapa Sales';
+    salesDropdown.classList.toggle('hidden', !selectedBranchId || availableSalesCount === 0);
+    noSalesOptions.classList.toggle('hidden', !showSalesFilter || !selectedBranchId || availableSalesCount > 0);
 }
 
 function updateTemplatePreview() {
     const templateId = templateIdSelect.value;
     if (!templateId) {
         templatePreview.classList.add('hidden');
+        customMessageContainer.classList.remove('hidden');
+        customMessageInput.disabled = false;
+        customMessageInput.required = true;
         return;
     }
 
     const template = templates.find(t => t.id == templateId);
-    if (!template) return;
+    if (!template) {
+        templatePreview.classList.add('hidden');
+        customMessageContainer.classList.remove('hidden');
+        customMessageInput.disabled = false;
+        customMessageInput.required = true;
+        return;
+    }
 
     templateContent.textContent = template.content;
     if (template.variables && template.variables.length > 0) {
@@ -284,17 +361,28 @@ function updateTemplatePreview() {
         templateVariables.classList.add('hidden');
     }
     templatePreview.classList.remove('hidden');
+    customMessageContainer.classList.add('hidden');
+    customMessageInput.disabled = true;
+    customMessageInput.required = false;
 }
 
 channelInputs.forEach(input => {
     input.addEventListener('change', function () {
         updateRecipientTypeLock();
         updateTargetOptions();
+        updateSendMode();
     });
 });
 
-recipientTypeSelect.addEventListener('change', updateTargetOptions);
 targetTypeSelect.addEventListener('change', updateFilters);
+branchSelect.addEventListener('change', updateFilters);
+sendModeInputs.forEach(input => input.addEventListener('change', updateSendMode));
+salesOptions.forEach(option => {
+    option.querySelector('input[type="checkbox"]').addEventListener('change', updateFilters);
+});
+customerOptions.forEach(option => {
+    option.querySelector('input[type="checkbox"]').addEventListener('change', updateFilters);
+});
 templateIdSelect.addEventListener('change', updateTemplatePreview);
 
 document.getElementById('campaignForm').addEventListener('submit', function (e) {
@@ -305,7 +393,7 @@ document.getElementById('campaignForm').addEventListener('submit', function (e) 
         return;
     }
     if (selectedChannel === 'whatsapp') {
-        const recipientType = recipientTypeSelect.value;
+        const recipientType = recipientTypeHidden.value;
         const targetType = targetTypeSelect.value;
         if (recipientType !== 'customer') {
             e.preventDefault();
@@ -319,10 +407,14 @@ document.getElementById('campaignForm').addEventListener('submit', function (e) 
         }
     }
     if (selectedChannel === 'in_app') {
-        const recipientType = recipientTypeSelect.value;
-        if (recipientType !== 'user' && recipientType !== 'both') {
+        if (['branch', 'sales'].includes(targetTypeSelect.value) && !branchSelect.value) {
             e.preventDefault();
-            alert('Channel Notifikasi In-App hanya mendukung target User/Sales.');
+            alert('Pilih cabang terlebih dahulu.');
+            return;
+        }
+        if (targetTypeSelect.value === 'sales' && !Array.from(salesOptions).some(option => option.querySelector('input[type="checkbox"]').checked)) {
+            e.preventDefault();
+            alert('Pilih minimal satu Sales.');
             return;
         }
     }
@@ -331,6 +423,8 @@ document.getElementById('campaignForm').addEventListener('submit', function (e) 
 document.addEventListener('DOMContentLoaded', () => {
     updateRecipientTypeLock();
     updateTargetOptions();
+    updateSendMode();
+    updateTemplatePreview();
     lucide.createIcons();
 });
 </script>

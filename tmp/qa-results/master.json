@@ -1,0 +1,49 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Malam, Super Administrator\n\nThursday, 01 Oct 2026 • 20:46 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/create",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/create",
+    "title": "Buat Penyewaan",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBuat Penyewaan\n2\nSU\nKembali ke Penyewaan\n Informasi Pelanggan & Penyewaan\nPelanggan *\nTanggal Sewa *\nDurasi (Hari) *\n Produk\nPilih Produk\nJas Sabuk Biru Modern (Stok: 10) - Rp 35.000/hari\nJas Polos Putih Premium (Stok: 8) - Rp 45.000/hari\nJas Formal Hitam Classic (Stok: 24) - Rp 100.000/hari\nQA_E2E_20261001 Product (Stok: 4) - Rp 10.000/hari\nPilih Ukuran\nTambah Produk\n Diskon & Catatan\nDiskon (Rp)\nCatatan\n Jaminan & Pembayaran\nMetode Pembayaran *\nPilih Metode\nCash\nQRIS\nTransfer\nJenis Jaminan *\nPilih Jenis Jaminan\nKTP\nSIM\nDeposit Uang\nJaminan Custom\nBatal\nSimpan Penyewaan"
+  },
+  {
+    "role": "super_admin",
+    "path": "SUBMIT /rentals",
+    "status": 302,
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDetail Penyewaan\n2\nSU\nPenyewaan berhasil dibuat!\n\nDetail Penyewaan\n\nInvoice INV20261001010002\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nBooking\nBelum Bayar\nKembali ke Penyewaan\nEdit\nMulai Sewa / Serah Terima\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nHapus\n1\nBooking\n2\nDisewa\n3\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Customer\n\n6289900261001\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nSuper Administrator\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n01/10/2026\n\nDEADLINE\n\n02/10/2026\n\nINVOICE\n\nINV20261001010002\n\nCatatan\n\nQA_E2E_20261001\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBelum Dicek\nRiwayat Pembayaran\nBelum ada pembayaran.\nAktivitas\nDownload Log\n\nPenyewaan Rental #18 berhasil dibuat\n\n01/10/2026 20:46 • Super Administrator\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA temporary guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nBELUM BAYAR\nTOTAL TAGIHAN\nRp 10.000\nInput Pembayaran\nTIPE PEMBAYARAN\nSewa\nDenda Telat\nDenda Kerusakan\nDeposit\nJUMLAH\nMETODE\nTunai\nTransfer\nQRIS\nProses Pembayaran",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ]
+  }
+]

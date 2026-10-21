@@ -1,0 +1,53 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Pagi, Super Administrator\n\nFriday, 02 Oct 2026 • 09:24 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nQA_E2E_20261001 User\nQA_E2E_20261001 Excluded\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/broadcast-campaigns/create",
+    "status": 200,
+    "url": "http://localhost:8000/broadcast-campaigns/create",
+    "title": "Buat Broadcast Campaign - SewaJas",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBuat Broadcast Campaign\n2\nSU\nNama Campaign\nChannel\nNotifikasi In-App\nWhatsApp\nTipe Penerima\nPilih channel terlebih dahulu\nUser / Sales\nCustomer\nTarget\nPilih target\nSemua\nPer Cabang\nSales\nStatus Rental\nProduk\nKategori\nPilih Customer\nPesan\nJadwalkan Pengiriman (Opsional)\nBatal\nBuat Campaign\nPanduan\nPilih tipe penerima dahulu, lalu pilih target yang sesuai.\nKombinasi customer dengan target sales tidak valid.\nJika memilih template, pesan custom tidak perlu diisi.\nBiarkan kosong untuk mengirim segera, atau isi jadwal untuk pengiriman tertunda."
+  },
+  {
+    "role": "super_admin",
+    "path": "Campaign submit",
+    "text": "Internal Server Error\nCopy as Markdown\nTypeError\napp\\Services\\NotificationService.php:18\n\nApp\\Services\\NotificationService::broadcast(): Argument #6 ($branchId) must be of type ?int, string given, called in C:\\xampp82\\htdocs\\sewajas\\app\\Models\\Broadcast\\BroadcastCampaign.php on line 93\n\nLARAVEL\n12.62.0\nPHP\n8.2.12\nUNHANDLED\nCODE 0\n500\nPOST\nhttp://localhost:8000/broadcast-campaigns\nException trace\nApp\\Services\\NotificationService->broadcast(array, string, string, string, array, string, null, string, string)\napp\\Services\\NotificationService.php:18\n13        $flipped = array_flip($map);\n14\n15        return $flipped[$class] ?? $class;\n16    }\n17\n18    public function broadcast(\n19        array $recipients,\n20        string $type,\n21        string $title,\n22        string $message,\n23        array $meta = [],\n24        ?int $branchId = null,\n25        ?string $actionUrl = null,\n26        string $icon = 'bell',\n27        string $color = 'blue'\n28    ): void {\n29        $recipients = array_values(array_filter($recipients));\n30\nApp\\Services\\NotificationService->broadcast(array, string, string, string, array, string, null, string, string)\napp\\Models\\Broadcast\\BroadcastCampaign.php:93\nApp\\Models\\Broadcast\\BroadcastCampaign->queueMessages()\napp\\Http\\Controllers\\BroadcastCampaignController.php:168\n5 vendor frames\nIlluminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(object(Illuminate\\Http\\Request))\napp\\Http\\Middleware\\CheckRole.php:20\n1 vendor frame\nIlluminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(object(Illuminate\\Http\\Request))\napp\\Http\\Middleware\\EnsureBranchScope.php:30\n45 vendor frames\nIlluminate\\Foundation\\Application->handleRequest(object(Illuminate\\Http\\Request))\npublic\\index.php:20\n1 vendor frame\nQueries\n1-10 of 100\nmysql\nselect * from `users` where `id` = 1 and `users`.`deleted_at` is null limit 1\n6.05ms\nmysql\nselect count(*) as aggregate from `branches` where `id` = '5'\n0.59ms\nmysql\ninsert into `broadcast_campaigns` (`name`, `recipient_type`, `target_type`, `template_id`, `custom_message`, `target_filters`, `scheduled_at`, `branch_id`, `created_by`, `status`, `type`, `channels`, `provider`, `delay_seconds`, `updated_at`, `created_at`) values ('QA_E2E_20261001 Selected', 'user', 'branch', NULL, '\"QA_E2E test message for temporary QA accounts only\"', '{\"branch_id\":\"5\"}', NULL, '5', 1, 'draft', 'manual', '[\"in_app\"]', 'in_app', 0, '2026-10-02 09:24:50', '2026-10-02 09:24:50')\n3.5ms\nmysql\nselect `id`, `name`, `phone`, `role`, `branch_id` from `users` where `is_active` = 1 and `opt_out` = 0 and `branch_id` = '5' and `users`.`deleted_at` is null\n0.77ms\nmysql\nselect count(*) as aggregate from `broadcast_logs` where `status` in ('submitted', 'sent', 'delivered', 'read') and date(`created_at`) = '2026-10-02'\n1.08ms\nmysql\nupdate `broadcast_campaigns` set `status` = 'processing', `started_at` = '2026-10-02 09:24:50', `total_target` = 2, `broadcast_campaigns`.`updated_at` = '2026-10-02 09:24:50' where `id` = 66\n2.24ms\nmysql\nselect * from `users` where `users`.`id` = 1 and `users`.`deleted_at` is null limit 1\n0.81ms\nmysql\nselect count(*) as aggregate from `rentals` where `rental_status` = 'overdue'\n1.19ms\nmysql\nselect count(*) as aggregate from `notifications` where `notifiable_type` = 'user' and `notifiable_id` = 1 and `is_read` = 0\n0.78ms\nmysql\nselect count(*) as aggregate from `rentals` where `rental_status` = 'overdue'\n0.8ms\n1\n2\n3\n4\n5\n...\n10\nHeaders\nHOST\nlocalhost:8000\nCONNECTION\nkeep-alive\nCONTENT-LENGTH\n278\nCACHE-CONTROL\nmax-age=0\nSEC-CH-UA\n\"Chromium\";v=\"153\", \"Not_A Brand\";v=\"8\"\nSEC-CH-UA-MOBILE\n?0\nSEC-CH-UA-PLATFORM\n\"Windows\"\nUPGRADE-INSECURE-REQUESTS\n1\nCONTENT-TYPE\napplication/x-www-form-urlencoded\nUSER-AGENT\nMozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36\nORIGIN\nhttp://localhost:8000\nACCEPT\ntext/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7\nSEC-FETCH-SITE\nsame-origin\nSEC-FETCH-MODE\nnavigate\nSEC-FETCH-USER\n?1\nSEC-FETCH-DEST\ndocument\nREFERER\nhttp://localhost:8000/broadcast-campaigns/create\nACCEPT-ENCODING\ngzip, deflate, br, zstd\nACCEPT-LANGUAGE\nen-US,en;q=0.9\nCOOKIE\nXSRF-TOKEN=eyJpdiI6IjMwNDBLaXc0ZjBLbW9neW9CWDNiVUE9PSIsInZhbHVlIjoiajNhVXlNNlVyWmMzVTNzRkJFajVGQVFkQWRvZTJsZG1wdzc2Uy9LNlUwV2thS3VnRlJRNFJGZXVib0ZhVzB5S3d2Yy9HQXpXZDltTmtrV0dGZ012ZFNqYi9DemRpNHZJZmJlUGp5NVVqdTlIME9NYzJpMFNRWEZlWXBuTGo5S2IiLCJtYWMiOiJjN2JmNDMyMDVlYTkwNzA5YzFlNjllMWQxMmE0MTA5NmVmZmE5OWVmMDRjM2IwMTRhYzVlOTg3ZjIxYzY3MzBhIiwidGFnIjoiIn0%3D; rentaljas-session=eyJpdiI6IjRLOGwzazNWbDg3dVBZT3AyVlFjcmc9PSIsInZhbHVlIjoiOG9oV2NTTlk3d2lPQ25neE96MEJhN05BLzJIYTZoSFppaG9GenM1YmhDS0QzZU1yVHVIT09NelJKYVIreVJpeFVVZ1F0N2JCbFdjeXVlYnlsblY2WVgrOHR2a2R4TWNBVlN1bVBjUUFWRnVhY1JxWFZaTGVoUnhESGFEN3lHRS8iLCJtYWMiOiI4YWM5YjRhZDA0YmI1MDUyYzlkZDY3NGUzMjg0YmI4ZGViN2I1ZjcyMmRhMDExNTY0YzA3NWJkZTJlOGU4ZGM0IiwidGFnIjoiIn0%3D\nBody\n{\n    \"_token\": \"Q7M6yT6hNFYW2kEKDvOU4FAq85sUFRh1FolESErd\",\n    \"name\": \"QA_E2E_20261001 Selected\",\n    \"channel\": \"in_app\",\n    \"recipient_type\": \"user\",\n    \"target_type\": \"branch\",\n    \"target_filters\": {\n        \"branch_id\": \"5\"\n    },\n    \"recipient_ids\": [\n        \"8\"\n    ],\n    \"template_id\": null,\n    \"custom_message\": \"QA_E2E test message for temporary QA accounts only\",\n    \"scheduled_at\": null\n}\nRouting\nCONTROLLER\nApp\\Http\\Controllers\\BroadcastCampaignController@store\nROUTE NAME\nbroadcast-campaigns.store\nMIDDLEWARE\nweb, auth, App\\Http\\Middleware\\EnsureBranchScope, App\\Http\\Middleware\\CheckRole:super_admin,admin_toko\nRouting parameters\n// NO ROUTING PARAMETERS",
+    "events": [
+      {
+        "kind": "http",
+        "status": 500,
+        "url": "http://localhost:8000/broadcast-campaigns"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      }
+    ]
+  }
+]

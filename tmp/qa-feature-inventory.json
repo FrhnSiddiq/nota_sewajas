@@ -1,0 +1,194 @@
+{
+  "root": [
+    "GET|HEAD /"
+  ],
+  "api": [
+    "GET|HEAD api/worker/daily-limit",
+    "POST api/worker/opt-out",
+    "POST api/worker/update-status"
+  ],
+  "branches": [
+    "GET|HEAD branches",
+    "POST branches",
+    "GET|HEAD branches/create",
+    "GET|HEAD branches/{branch}",
+    "PATCH branches/{branch}",
+    "DELETE branches/{branch}",
+    "GET|HEAD branches/{branch}/edit"
+  ],
+  "broadcast-campaigns": [
+    "GET|HEAD broadcast-campaigns",
+    "POST broadcast-campaigns",
+    "GET|HEAD broadcast-campaigns/create",
+    "GET|HEAD broadcast-campaigns/{campaign}",
+    "DELETE broadcast-campaigns/{campaign}",
+    "POST broadcast-campaigns/{campaign}/message",
+    "POST broadcast-campaigns/{campaign}/send/{customer}"
+  ],
+  "broadcasts": [
+    "GET|HEAD broadcasts",
+    "POST broadcasts",
+    "DELETE broadcasts/{broadcast}"
+  ],
+  "categories": [
+    "GET|HEAD categories",
+    "POST categories",
+    "GET|HEAD categories/create",
+    "PATCH categories/{category}",
+    "DELETE categories/{category}",
+    "GET|HEAD categories/{category}/edit"
+  ],
+  "customers": [
+    "GET|HEAD customers",
+    "POST customers",
+    "GET|HEAD customers/create",
+    "GET|HEAD customers/export",
+    "GET|HEAD customers/search",
+    "PATCH customers/{customer}",
+    "GET|HEAD customers/{customer}",
+    "DELETE customers/{customer}",
+    "PATCH customers/{customer}/blacklist",
+    "GET|HEAD customers/{customer}/edit",
+    "DELETE customers/{customer}/force-destroy",
+    "POST customers/{customer}/restore"
+  ],
+  "dashboard": [
+    "GET|HEAD dashboard",
+    "GET|HEAD dashboard/activity-log/download",
+    "GET|HEAD dashboard/data"
+  ],
+  "login": [
+    "GET|HEAD login",
+    "POST login"
+  ],
+  "logout": [
+    "POST logout"
+  ],
+  "notifications": [
+    "GET|HEAD notifications",
+    "GET|HEAD notifications/count",
+    "GET|HEAD notifications/data",
+    "POST notifications/read-all",
+    "DELETE notifications/{id}",
+    "GET|HEAD notifications/{id}",
+    "POST notifications/{id}/read"
+  ],
+  "payments": [
+    "POST payments/{invoice}/store",
+    "PATCH payments/{invoice}/{payment}",
+    "DELETE payments/{invoice}/{payment}",
+    "PATCH payments/{invoice}/{payment}/refund",
+    "PATCH payments/{invoice}/{payment}/void"
+  ],
+  "points": [
+    "GET|HEAD points"
+  ],
+  "products": [
+    "POST products",
+    "GET|HEAD products",
+    "GET|HEAD products/create",
+    "PUT products/{product}",
+    "DELETE products/{product}",
+    "GET|HEAD products/{product}",
+    "GET|HEAD products/{product}/edit",
+    "PATCH products/{product}/update-stock"
+  ],
+  "profile": [
+    "GET|HEAD profile",
+    "PATCH profile",
+    "DELETE profile",
+    "PUT profile/password",
+    "PUT profile/theme"
+  ],
+  "rentals": [
+    "GET|HEAD rentals",
+    "POST rentals",
+    "GET|HEAD rentals/activity-log",
+    "GET|HEAD rentals/activity-log/export/excel",
+    "GET|HEAD rentals/activity-log/export/pdf",
+    "GET|HEAD rentals/create",
+    "GET|HEAD rentals/scan",
+    "GET|HEAD rentals/scan/{invoice}",
+    "GET|HEAD rentals/{rental}",
+    "PATCH rentals/{rental}",
+    "DELETE rentals/{rental}",
+    "GET|HEAD rentals/{rental}/activity-log/download",
+    "PATCH rentals/{rental}/cancel",
+    "PATCH rentals/{rental}/cancel-return",
+    "PATCH rentals/{rental}/confirm-return-ajax",
+    "GET|HEAD rentals/{rental}/edit",
+    "PATCH rentals/{rental}/handover",
+    "POST rentals/{rental}/mark-refund-given",
+    "POST rentals/{rental}/payment",
+    "PATCH rentals/{rental}/payments/{payment}",
+    "DELETE rentals/{rental}/payments/{payment}",
+    "POST rentals/{rental}/payments/{payment}/refund",
+    "POST rentals/{rental}/payments/{payment}/void",
+    "GET|HEAD rentals/{rental}/pdf",
+    "GET|HEAD rentals/{rental}/receipt",
+    "GET|HEAD rentals/{rental}/receipt/pdf",
+    "GET|HEAD rentals/{rental}/receipt/qr",
+    "GET|HEAD rentals/{rental}/receipt/whatsapp",
+    "GET|HEAD rentals/{rental}/reminder",
+    "POST rentals/{rental}/return",
+    "GET|HEAD rentals/{rental}/thermal",
+    "PATCH rentals/{rental}/update-status",
+    "GET|HEAD rentals/{rental}/whatsapp"
+  ],
+  "reports": [
+    "GET|HEAD reports/activity-log",
+    "GET|HEAD reports/activity-log/export/csv",
+    "GET|HEAD reports/activity-log/export/pdf",
+    "GET|HEAD reports/customers",
+    "GET|HEAD reports/customers/export/excel",
+    "GET|HEAD reports/customers/export/pdf",
+    "GET|HEAD reports/export/excel",
+    "GET|HEAD reports/export/pdf",
+    "GET|HEAD reports/payments",
+    "GET|HEAD reports/payments/export/excel",
+    "GET|HEAD reports/payments/export/pdf",
+    "GET|HEAD reports/returns",
+    "GET|HEAD reports/returns/export/excel",
+    "GET|HEAD reports/returns/export/pdf",
+    "GET|HEAD reports/revenue",
+    "GET|HEAD reports/revenue/export/excel",
+    "GET|HEAD reports/revenue/export/pdf",
+    "GET|HEAD reports/stock",
+    "GET|HEAD reports/stock/export/excel",
+    "GET|HEAD reports/stock/export/pdf",
+    "GET|HEAD reports/transactions",
+    "GET|HEAD reports/transactions/export/excel",
+    "GET|HEAD reports/transactions/export/pdf"
+  ],
+  "search": [
+    "GET|HEAD search"
+  ],
+  "settings": [
+    "GET|HEAD settings",
+    "POST settings"
+  ],
+  "storage": [
+    "GET|HEAD storage/{path}",
+    "PUT storage/{path}"
+  ],
+  "transactions": [
+    "GET|HEAD transactions",
+    "GET|HEAD transactions/{transaction}",
+    "PATCH transactions/{transaction}",
+    "DELETE transactions/{transaction}",
+    "GET|HEAD transactions/{transaction}/edit"
+  ],
+  "up": [
+    "GET|HEAD up"
+  ],
+  "users": [
+    "GET|HEAD users",
+    "POST users",
+    "GET|HEAD users/create",
+    "PATCH users/{user}",
+    "DELETE users/{user}",
+    "GET|HEAD users/{user}",
+    "GET|HEAD users/{user}/edit",
+    "PATCH users/{user}/toggle"
+  ]
+}

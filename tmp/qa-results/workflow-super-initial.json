@@ -1,0 +1,194 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Pagi, Super Administrator\n\nFriday, 02 Oct 2026 • 09:09 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/18",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/18",
+    "title": "Detail Penyewaan - INV20261001010002",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDetail Penyewaan\n2\nSU\n\nDetail Penyewaan\n\nInvoice INV20261001010002\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nBooking\nBelum Bayar\nKembali ke Penyewaan\nEdit\nMulai Sewa / Serah Terima\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nHapus\n1\nBooking\n2\nDisewa\n3\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Customer\n\n6289900261001\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nSuper Administrator\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n01/10/2026\n\nDEADLINE\n\n02/10/2026\n\nINVOICE\n\nINV20261001010002\n\nCatatan\n\nQA_E2E_20261001\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBelum Dicek\nRiwayat Pembayaran\nBelum ada pembayaran.\nAktivitas\nDownload Log\n\nPenyewaan Rental #18 berhasil dibuat\n\n01/10/2026 20:46 • Super Administrator\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA temporary guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nBELUM BAYAR\nTOTAL TAGIHAN\nRp 10.000\nInput Pembayaran\nTIPE PEMBAYARAN\nSewa\nDenda Telat\nDenda Kerusakan\nDeposit\nJUMLAH\nMETODE\nTunai\nTransfer\nQRIS\nProses Pembayaran"
+  },
+  {
+    "role": "super_admin",
+    "path": "Payment via form",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDetail Penyewaan\n2\nSU\nPembayaran berhasil diproses!\n\nDetail Penyewaan\n\nInvoice INV20261001010002\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nBooking\nLunas\nKembali ke Penyewaan\nTidak Dapat Diedit\nMulai Sewa / Serah Terima\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nHapus\n1\nBooking\n2\nDisewa\n3\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Customer\n\n6289900261001\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nSuper Administrator\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n01/10/2026\n\nDEADLINE\n\n02/10/2026\n\nINVOICE\n\nINV20261001010002\n\nCatatan\n\nQA_E2E_20261001\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBelum Dicek\nRiwayat Pembayaran\n\nPAY202610020001\n\n02/10/2026 09:09\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #18 berhasil dibuat\n\n01/10/2026 20:46 • Super Administrator\n\nPenyewaan #INV20261001010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02/10/2026 09:09 • Super Administrator\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA temporary guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nLUNAS\nKembalian\nKembalian harus diberikan: Rp 1.000\nTOTAL TAGIHAN\nRp 10.000\nKembalian Pelanggan\n\nAda kelebihan pembayaran sebesar Rp 1.000. Jangan lupa memberikan kembalian kepada pelanggan.\n\nTandai Kembalian Sudah Diberikan",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ]
+  },
+  {
+    "role": "super_admin",
+    "path": "Handover modal and submit",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDetail Penyewaan\n2\nSU\nPembayaran berhasil diproses!\n\nDetail Penyewaan\n\nInvoice INV20261001010002\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nSedang Disewa\nLunas\nKembali ke Penyewaan\nTidak Dapat Diedit\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nHapus\nBooking\n2\nDisewa\n3\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Customer\n\n6289900261001\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nSuper Administrator\n\nDIPROSES PENGEMBALIAN OLEH\n\nSuper Administrator\n\nTANGGAL SEWA\n\n01/10/2026\n\nDEADLINE\n\n02/10/2026\n\nINVOICE\n\nINV20261001010002\n\nCatatan\n\nQA_E2E_20261001\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBelum Dicek\nPanel Operasional Pengembalian\nAktif\n✓\nTandai Semua Baik\n↺\nReset\nQA_E2E_20261001 Product\n\nUkuran M\n\nBelum Dicek\nBaik\nRusak\nHilang\nKonfirmasi Pengembalian\n\nSubmit dinonaktifkan jika ada item belum dipilih atau nominal denda wajib belum diisi.\n\nRiwayat Pembayaran\n\nPAY202610020001\n\n02/10/2026 09:09\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #18 berhasil dibuat\n\n01 Oct 2026 20:46 • Super Administrator\n\nPenyewaan #INV20261001010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02 Oct 2026 09:09 • Super Administrator\n\nRental #18 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n02 Oct 2026 09:09 • Super Administrator\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA temporary guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nLUNAS\nKembalian\nKembalian harus diberikan: Rp 1.000\nTOTAL TAGIHAN\nRp 10.000\nKembalian Pelanggan\n\nAda kelebihan pembayaran sebesar Rp 1.000. Jangan lupa memberikan kembalian kepada pelanggan.\n\nTandai Kembalian Sudah Diberikan\nBerhasil\nSerah terima berhasil! Rental sekarang aktif.\nOK",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ],
+    "data": {
+      "id": 18,
+      "invoice_number": "INV20261001010002",
+      "rental_status": "active",
+      "payment_status": "paid",
+      "rental_date": "01/10/2026",
+      "return_due_date": "02/10/2026",
+      "created_by": "Super Administrator",
+      "subtotal": 10000,
+      "discount": 0,
+      "deposit": 0,
+      "total_amount": 10000,
+      "paid_amount": 11000,
+      "remaining_amount": 0,
+      "late_fee": 0,
+      "fine_amount": 0,
+      "fine_paid_amount": 0,
+      "fine_status": "none",
+      "payment_method": "cash",
+      "notes": "QA_E2E_20261001",
+      "change_amount": 1000,
+      "total_owed": 10000,
+      "overpayment": 1000,
+      "refund_given": 0,
+      "customer": {
+        "name": "QA_E2E_20261001 Customer",
+        "phone": "6289900261001"
+      },
+      "branch": {
+        "name": "Toko Pusat - Yogyakarta"
+      },
+      "items": [
+        {
+          "id": 21,
+          "product_name": "QA_E2E_20261001 Product",
+          "size": "M",
+          "category_name": "Jas QA_E2E_20261001",
+          "quantity": 1,
+          "price": 10000,
+          "subtotal": 10000,
+          "photo": null,
+          "return_condition": null,
+          "damage_fee": 0,
+          "return_notes": null,
+          "is_returned": false
+        }
+      ],
+      "guarantees": [
+        {
+          "id": 18,
+          "type": "custom",
+          "type_label": "Jaminan Custom",
+          "id_number": null,
+          "deposit_amount": 0,
+          "status": "held",
+          "notes": "QA temporary guarantee",
+          "id_photo_url": null
+        }
+      ],
+      "payments": [
+        {
+          "id": 32,
+          "payment_number": "PAY202610020001",
+          "amount": 11000,
+          "method": "cash",
+          "method_label": "Tunai",
+          "paid_at": "02/10/2026 09:09",
+          "notes": null
+        }
+      ],
+      "activity_logs": [
+        {
+          "id": 280,
+          "description": "Penyewaan Rental #18 berhasil dibuat",
+          "user": "Super Administrator",
+          "created_at": "01 Oct 2026 20:46"
+        },
+        {
+          "id": 281,
+          "description": "Penyewaan #INV20261001010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'",
+          "user": "Super Administrator",
+          "created_at": "02 Oct 2026 09:09"
+        },
+        {
+          "id": 282,
+          "description": "Rental #18 diubah: Status penyewaan dari 'waiting' menjadi 'active'",
+          "user": "Super Administrator",
+          "created_at": "02 Oct 2026 09:09"
+        }
+      ],
+      "returned_at": null,
+      "returned_by": "Super Administrator",
+      "overdue_days": 0
+    }
+  },
+  {
+    "role": "super_admin",
+    "path": "Return all items good",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDetail Penyewaan\n2\nSU\nPembayaran berhasil diproses!\n\nDetail Penyewaan\n\nInvoice INV20261001010002\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nSelesai\nLunas\nAda Denda Belum Dibayar\nKembali ke Penyewaan\nTidak Dapat Diedit\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nHapus\nBooking\nDisewa\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Customer\n\n6289900261001\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nSuper Administrator\n\nDIPROSES PENGEMBALIAN OLEH\n\nSuper Administrator\n\nTANGGAL SEWA\n\n01/10/2026\n\nDEADLINE\n\n02/10/2026\n\nINVOICE\n\nINV20261001010002\n\nCatatan\n\nQA_E2E_20261001\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBaik\nPanel Operasional Pengembalian\nRead Only\n✓\nTandai Semua Baik\n↺\nReset\nQA_E2E_20261001 Product\n\nUkuran M\n\nBaik\nBaik\nRusak\nHilang\nPengembalian Sudah Diproses\n\nSubmit dinonaktifkan jika ada item belum dipilih atau nominal denda wajib belum diisi.\n\nRiwayat Pembayaran\n\nPAY202610020001\n\n02/10/2026 09:09\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #18 berhasil dibuat\n\n01 Oct 2026 20:46 • Super Administrator\n\nPenyewaan #INV20261001010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02 Oct 2026 09:09 • Super Administrator\n\nRental #18 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n02 Oct 2026 09:09 • Super Administrator\n\nPenyewaan #INV20261001010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'partial', Denda dibayar dari '0' menjadi 'Rp 1.000', Total denda dari '0' menjadi 'Rp 1.907'\n\n02 Oct 2026 09:09 • Super Administrator\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA temporary guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nDenda\nRp 1.907\nStatus Sewa\nLUNAS\nStatus Denda\nSEBAGIAN\nKembalian\nKembalian harus diberikan: Rp 1.000\nTOTAL TAGIHAN\nRp 11.907\nKembalian Pelanggan\n\nAda kelebihan pembayaran sebesar Rp 1.000. Jangan lupa memberikan kembalian kepada pelanggan.\n\nTandai Kembalian Sudah Diberikan\nBerhasil\nPengembalian berhasil diproses.\nOK",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ]
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/18",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/18",
+    "title": "Detail Penyewaan - INV20261001010002",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDetail Penyewaan\n2\nSU\n\nDetail Penyewaan\n\nInvoice INV20261001010002\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nSelesai\nLunas\nAda Denda Belum Dibayar\nKembali ke Penyewaan\nTidak Dapat Diedit\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nHapus\nBooking\nDisewa\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Customer\n\n6289900261001\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nSuper Administrator\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n01/10/2026\n\nDEADLINE\n\n02/10/2026\n\nINVOICE\n\nINV20261001010002\n\nCatatan\n\nQA_E2E_20261001\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBaik\nPanel Operasional Pengembalian\nRead Only\n✓\nTandai Semua Baik\n↺\nReset\nQA_E2E_20261001 Product\n\nUkuran M\n\nBaik\nBaik\nRusak\nHilang\nPengembalian Sudah Diproses\n\nSubmit dinonaktifkan jika ada item belum dipilih atau nominal denda wajib belum diisi.\n\nRiwayat Pembayaran\n\nPAY202610020001\n\n02/10/2026 09:09\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #18 berhasil dibuat\n\n01/10/2026 20:46 • Super Administrator\n\nPenyewaan #INV20261001010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02/10/2026 09:09 • Super Administrator\n\nRental #18 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n02/10/2026 09:09 • Super Administrator\n\nPenyewaan #INV20261001010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'partial', Denda dibayar dari '0' menjadi 'Rp 1.000', Total denda dari '0' menjadi 'Rp 1.907'\n\n02/10/2026 09:09 • Super Administrator\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDikembalikan\nDeposit\nRp 0\nCatatan\nQA temporary guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nDenda\nRp 1.907\nStatus Sewa\nLUNAS\nStatus Denda\nSEBAGIAN\nSisa Denda Belum Tertutup\nRp 907\nTOTAL TAGIHAN\nRp 11.907\nInput Pembayaran\nTIPE PEMBAYARAN\nSewa\nDenda Telat\nDenda Kerusakan\nDeposit\nJUMLAH\nMETODE\nTunai\nTransfer\nQRIS\nProses Pembayaran"
+  },
+  {
+    "role": "super_admin",
+    "path": "Return persisted after reload",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDetail Penyewaan\n2\nSU\n\nDetail Penyewaan\n\nInvoice INV20261001010002\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nSelesai\nLunas\nAda Denda Belum Dibayar\nKembali ke Penyewaan\nTidak Dapat Diedit\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nHapus\nBooking\nDisewa\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Customer\n\n6289900261001\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nSuper Administrator\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n01/10/2026\n\nDEADLINE\n\n02/10/2026\n\nINVOICE\n\nINV20261001010002\n\nCatatan\n\nQA_E2E_20261001\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBaik\nPanel Operasional Pengembalian\nRead Only\n✓\nTandai Semua Baik\n↺\nReset\nQA_E2E_20261001 Product\n\nUkuran M\n\nBaik\nBaik\nRusak\nHilang\nPengembalian Sudah Diproses\n\nSubmit dinonaktifkan jika ada item belum dipilih atau nominal denda wajib belum diisi.\n\nRiwayat Pembayaran\n\nPAY202610020001\n\n02/10/2026 09:09\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #18 berhasil dibuat\n\n01/10/2026 20:46 • Super Administrator\n\nPenyewaan #INV20261001010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02/10/2026 09:09 • Super Administrator\n\nRental #18 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n02/10/2026 09:09 • Super Administrator\n\nPenyewaan #INV20261001010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'partial', Denda dibayar dari '0' menjadi 'Rp 1.000', Total denda dari '0' menjadi 'Rp 1.907'\n\n02/10/2026 09:09 • Super Administrator\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDikembalikan\nDeposit\nRp 0\nCatatan\nQA temporary guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nDenda\nRp 1.907\nStatus Sewa\nLUNAS\nStatus Denda\nSEBAGIAN\nSisa Denda Belum Tertutup\nRp 907\nTOTAL TAGIHAN\nRp 11.907\nInput Pembayaran\nTIPE PEMBAYARAN\nSewa\nDenda Telat\nDenda Kerusakan\nDeposit\nJUMLAH\nMETODE\nTunai\nTransfer\nQRIS\nProses Pembayaran",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ]
+  }
+]

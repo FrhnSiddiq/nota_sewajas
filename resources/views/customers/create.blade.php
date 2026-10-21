@@ -5,17 +5,22 @@
 @section('subtitle', isset($customer) ? $customer->name : 'Input data pelanggan baru')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-5">
+<div class="max-w-2xl mx-auto space-y-4 sm:space-y-5">
 
-<div class="flex items-center gap-3 mb-5">
-        <a href="{{ isset($customer) ? route('customers.show', $customer) : route('customers.index') }}" class="btn-secondary">
+<div class="flex items-center gap-3">
+        <a href="{{ isset($customer) ? route('customers.show', $customer) : route('customers.index') }}" class="btn-secondary w-fit max-w-full">
             <i data-lucide="arrow-left" class="w-4 h-4"></i>
             {{ isset($customer) ? 'Kembali ke Detail Pelanggan' : 'Kembali ke Pelanggan' }}
         </a>
     </div>
 
     @php
-        $phoneOld = old('phone', $customer->phone ?? '');
+        $phoneOld = preg_replace('/\D+/', '', (string) old('phone', $customer->phone ?? ''));
+        if (str_starts_with($phoneOld, '62')) {
+            $phoneOld = substr($phoneOld, 2);
+        } elseif (str_starts_with($phoneOld, '0')) {
+            $phoneOld = substr($phoneOld, 1);
+        }
     @endphp
 
 
@@ -25,26 +30,26 @@
         @if(isset($customer)) @method('PATCH') @endif
 
         <!-- Basic Info -->
-        <div class="ds-card p-6">
-            <h3 class="font-semibold text-base mb-5" style="color: var(--text-dark)">
+        <div class="ds-card p-4 sm:p-6">
+            <h3 class="font-semibold text-base mb-4 sm:mb-5" style="color: var(--text-dark)">
                 <i data-lucide="user" class="w-4 h-4 inline mr-2" style="color: var(--primary)"></i>
                 Informasi Dasar
             </h3>
             <div class="grid sm:grid-cols-2 gap-4">
                 <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium mb-1.5" style="color: var(--text-dark)">Nama Lengkap <span class="text-red-400">*</span></label>
-                    <input type="text" name="name" value="{{ old('name', $customer->name ?? '') }}"
+                    <label for="customer-name" class="block text-sm font-medium mb-1.5" style="color: var(--text-dark)">Nama Lengkap <span class="text-red-400">*</span></label>
+                    <input id="customer-name" type="text" name="name" value="{{ old('name', $customer->name ?? '') }}"
                            class="form-input" placeholder="Nama lengkap pelanggan" required>
                     @error('name')<p class="text-xs text-red-400 mt-1">{{ $message }}</p>@enderror
                 </div>
 
-<div>
-                    <label class="block text-sm font-medium mb-1.5" style="color: var(--text-dark)">Nomor Handphone <span class="text-red-400">*</span></label>
+                <div class="sm:col-span-2">
+                    <label for="customer-phone" class="block text-sm font-medium mb-1.5" style="color: var(--text-dark)">Nomor Handphone <span class="text-red-400">*</span></label>
                     <div class="input-group-phone">
                         <span class="input-group-phone__prefix">+62</span>
-<input type="text"
+                        <input id="customer-phone" type="text"
                                name="phone"
-                               value="{{ old('phone', $customer->phone ?? '') }}"
+                               value="{{ $phoneOld }}"
                                class="input-group-phone__input"
                                placeholder="8123456789"
                                required
@@ -54,7 +59,7 @@
                                autocomplete="tel">
                     </div>
                     <p class="text-xs text-stone-500 mt-1" style="color: var(--text-soft)">Format: angka saja. Prefix +62 akan disimpan otomatis.</p>
-                     @error('phone')<p class="text-xs text-red-400 mt-1">{{ $message }}</p>@enderror
+                    @error('phone')<p class="text-xs text-red-400 mt-1">{{ $message }}</p>@enderror
 
                     @if(session('deleted_customer'))
                         <div class="mt-3 ds-card p-4 bg-amber-50 border border-amber-200">
@@ -64,54 +69,42 @@
                                 </div>
                                 <div class="flex-1 min-w-0">
                                     <p class="text-sm font-semibold text-amber-900">Pelanggan Ditemukan</p>
-                                    <div class="mt-2 space-y-1 text-sm text-amber-800">
-                                        <p><span class="font-medium">Name:</span> {{ session('deleted_customer.name') }}</p>
-                                        <p><span class="font-medium">Phone:</span> {{ session('deleted_customer.phone') }}</p>
-                                        <p><span class="font-medium">Deleted At:</span> {{ session('deleted_customer.deleted_at') }}</p>
+                                    <div class="mt-2 space-y-1 text-sm text-amber-800 break-words">
+                                        <p><span class="font-medium">Nama:</span> {{ session('deleted_customer.name') }}</p>
+                                        <p><span class="font-medium">Nomor HP:</span> {{ session('deleted_customer.phone') }}</p>
+                                        <p><span class="font-medium">Dinonaktifkan:</span> {{ session('deleted_customer.deleted_at') }}</p>
                                     </div>
                                     <p class="text-xs text-amber-700 mt-2">Pelanggan ini telah dinonaktifkan.</p>
-                                    <form method="POST" action="{{ route('customers.restore', session('deleted_customer.id')) }}" class="mt-3">
-                                        @csrf
-                                        <button type="submit" class="btn-primary">
-                                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-                                            Restore Pelanggan
-                                        </button>
-                                    </form>
+                                    <button type="submit" form="restore-deleted-customer-form" class="btn-primary mt-3 w-full justify-center sm:w-auto">
+                                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                                        Pulihkan Pelanggan
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     @endif
                 </div>
+            </div>
 
-
-                <!-- Disederhanakan: hanya Name + Phone. Kolom lain disembunyikan di UI (tetap ada di database) -->
-                <div class="sm:col-span-2">
-                    <div class="rounded-xl border border-cream-sand/70 bg-cream/20 p-4">
-                        <div class="flex items-start gap-3">
-                            <i data-lucide="info" class="w-4 h-4 text-stone-400 mt-0.5"></i>
-                            <div class="min-w-0">
-                                <p class="text-sm font-semibold text-bark-dark">Identitas utama</p>
-                                <p class="text-xs text-stone-500 mt-0.5">Hanya Nama dan Nomor Handphone yang ditampilkan di form ini.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Submit -->
+            <div class="customer-form-actions mt-5 flex flex-col-reverse gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                <a href="{{ isset($customer) ? route('customers.show', $customer) : route('customers.index') }}" class="btn-secondary w-full justify-center sm:w-auto">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                    Batal
+                </a>
+                <button type="submit" class="btn-primary w-full justify-center sm:w-auto">
+                    <i data-lucide="{{ isset($customer) ? 'save' : 'user-plus' }}" class="w-4 h-4"></i>
+                    {{ isset($customer) ? 'Simpan Perubahan' : 'Tambah Pelanggan' }}
+                </button>
             </div>
         </div>
 
-        <!-- Submit -->
-        <div class="flex items-center justify-between">
-            <a href="{{ isset($customer) ? route('customers.show', $customer) : route('customers.index') }}" class="btn-secondary">
-                <i data-lucide="x" class="w-4 h-4"></i>
-                Batal
-            </a>
-            <button type="submit" class="btn-primary px-8">
-                <i data-lucide="{{ isset($customer) ? 'save' : 'user-plus' }}" class="w-4 h-4"></i>
-                {{ isset($customer) ? 'Simpan Perubahan' : 'Tambah Pelanggan' }}
-            </button>
-        </div>
-
     </form>
+    @if (session('deleted_customer'))
+        <form id="restore-deleted-customer-form" method="POST" action="{{ route('customers.restore', session('deleted_customer.id')) }}" class="hidden">
+            @csrf
+        </form>
+    @endif
 </div>
 @endsection
 
@@ -146,9 +139,11 @@ function customerForm() {
             const input = event.target;
             let digits = input.value.replace(/[^0-9]/g, ''); // Keep only digits
 
-            // If user types 08..., convert to 62... (without leading 0)
-            if (digits.startsWith('0')) {
-                digits = '62' + digits.slice(1);
+            // The +62 prefix is displayed separately, so keep only the local number here.
+            if (digits.startsWith('62')) {
+                digits = digits.slice(2);
+            } else if (digits.startsWith('0')) {
+                digits = digits.slice(1);
             }
 
             input.value = digits;

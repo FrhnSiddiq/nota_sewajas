@@ -9,6 +9,7 @@ use App\Models\Rental;
 use App\Models\Notification;
 use App\Models\Customer;
 use App\Models\User;
+use App\Models\Laundry;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,11 +23,12 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'customer' => Customer::class,
             'user' => User::class,
+            'rental' => Rental::class,
+            'laundry' => Laundry::class,
         ]);
 
         View::composer('*', function ($view) {
             $user = auth()->user();
-            $branchId = $user?->branch_id;
 
             if (!$user) {
                 $view->with('overdueCount', 0);
@@ -39,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
             if ($user->role === 'sales') {
                 $overdueQuery->where('created_by', $user->id);
             } elseif (!$user->isSuperAdmin()) {
-                $overdueQuery->where('branch_id', $branchId);
+                $overdueQuery->whereIn('branch_id', $user->accessible_branch_ids);
             }
 
             $overdueCount = $overdueQuery->count();

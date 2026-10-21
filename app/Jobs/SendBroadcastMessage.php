@@ -25,7 +25,11 @@ class SendBroadcastMessage implements ShouldQueue
         ]);
 
         try {
-            $workerUrl = rtrim(config('services.broadcast_worker.url', env('BROADCAST_WORKER_URL', 'http://localhost:3001')), '/');
+            $workerUrl = rtrim(config('services.broadcast_worker.url', env('BROADCAST_WORKER_URL')), '/');
+
+            if (!$workerUrl) {
+                throw new \RuntimeException('BROADCAST_WORKER_URL is not configured.');
+            }
 
             $response = Http::timeout(30)
                 ->post("{$workerUrl}/api/broadcast/send", [

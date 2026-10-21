@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class BroadcastCampaignController extends Controller
 {
@@ -19,7 +21,7 @@ class BroadcastCampaignController extends Controller
         $user = $request->user();
 
         $campaigns = BroadcastCampaign::query()
-            ->when(!$user->isSuperAdmin(), fn ($q) => $q->where('branch_id', $user->branch_id))
+            ->when(!$user->isSuperAdmin(), fn ($q) => $q->whereIn('branch_id', $user->accessible_branch_ids))
             ->latest()
             ->paginate(20);
 
@@ -32,25 +34,27 @@ class BroadcastCampaignController extends Controller
 
         $templates = BroadcastTemplate::query()
             ->where('is_active', true)
-            ->when(!$user->isSuperAdmin(), fn ($q) => $q->where('branch_id', $user->branch_id))
-            ->get(['id', 'name', 'category', 'variables']);
+            ->when(!$user->isSuperAdmin(), function ($query) use ($user) {
+                $query->where(function ($query) use ($user) {
+                    $query->whereNull('branch_id')->orWhere('branch_id', $user->branch_id);
+                });
+            })
+            ->get(['id', 'name', 'category', 'content', 'variables']);
 
         $branches = $user->isSuperAdmin()
             ? Branch::orderBy('name')->get(['id', 'name'])
-            : Branch::where('id', $user->branch_id)->get(['id', 'name']);
+            : Branch::whereIn('id', $user->accessible_branch_ids)->get(['id', 'name']);
 
         $customers = Customer::query()
-            ->when(!$user->isSuperAdmin(), fn ($q) => $q->where('branch_id', $user->branch_id))
+            ->when(!$user->isSuperAdmin(), fn ($q) => $q->whereIn('branch_id', $user->accessible_branch_ids))
             ->get(['id', 'name', 'phone', 'branch_id']);
 
         $users = User::query()
-            ->where('is_active', true)
-            ->when(!$user->isSuperAdmin(), fn ($q) => $q->where('branch_id', $user->branch_id))
-            ->when($user->isSuperAdmin(), fn ($q) => $q->where('id', '!=', $user->id))
-            ->when($user->isAdminToko(), function ($q) use ($user) {
-                $q->whereIn('role', [User::ROLE_ADMIN_TOKO, User::ROLE_SALES])
-                  ->where('id', '!=', $user->id);
-            })
+            ->active()
+            ->where('opt_out', false)
+            ->whereIn('role', [User::ROLE_ADMIN_TOKO, User::ROLE_SALES])
+            ->where('id', '!=', $user->id)
+            ->whereIn('branch_id', $user->accessible_branch_ids)
             ->get(['id', 'name', 'phone', 'role', 'branch_id']);
 
         return view('broadcast_campaigns.create', [
@@ -84,30 +88,89 @@ class BroadcastCampaignController extends Controller
         $user = $request->user();
 
         $channel = $request->input('channel');
+        $targetType = $request->input('target_type');
+        $sendMode = $request->input('send_mode')
+            ?? ($channel === 'whatsapp' ? 'now' : ($request->filled('scheduled_at') ? 'scheduled' : 'now'));
+        $request->merge(['send_mode' => $sendMode]);
+        $requiresInAppBranch = $channel === 'in_app' && in_array($targetType, ['branch', 'sales'], true);
+        $requiresSalesSelection = $channel === 'in_app' && $targetType === 'sales';
+        $recipientTable = $request->input('recipient_type') === 'customer' ? 'customers' : 'users';
 
-        $customMessageRule = $channel === 'whatsapp'
-            ? ['nullable', 'string', 'max:2000']
-            : ['nullable', 'string', 'max:2000'];
+        $allowedTargets = $channel === 'whatsapp'
+            ? ['all', 'branch', 'customer']
+            : ['all', 'branch', 'sales'];
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'channel' => ['required', 'in:in_app,whatsapp'],
             'provider' => ['nullable', 'string', 'max:120'],
             'recipient_type' => ['required', 'in:customer,user,both'],
-            'target_type' => ['required', 'in:all,branch,sales,rental_status,product,category,customer'],
+            'target_type' => ['required', Rule::in($allowedTargets)],
+            'send_mode' => [
+                'required',
+                Rule::in($channel === 'whatsapp' ? ['now'] : ['now', 'scheduled']),
+            ],
             'template_id' => ['nullable', 'exists:broadcast_templates,id'],
             'custom_message' => ['nullable', 'string', 'max:2000'],
             'custom_message_single' => ['nullable', 'string', 'max:2000'],
             'message_template' => ['nullable', 'string', 'max:2000'],
             'target_filters' => ['nullable', 'array'],
-            'scheduled_at' => ['nullable', 'date', 'after:now'],
-            'recipient_ids' => ['nullable', 'array'],
-            'recipient_ids.*' => ['integer'],
+            'target_filters.branch_id' => [
+                Rule::requiredIf($requiresInAppBranch),
+                'nullable',
+                'integer',
+                'exists:branches,id',
+            ],
+            'scheduled_at' => [
+                Rule::prohibitedIf($channel === 'whatsapp'),
+                Rule::requiredIf($sendMode === 'scheduled'),
+                'nullable',
+                'date',
+                'after:now',
+            ],
+            'recipient_ids' => [
+                $requiresSalesSelection ? 'required' : 'nullable',
+                'array',
+                ...($requiresSalesSelection ? ['min:1'] : []),
+            ],
+            'recipient_ids.*' => ['integer', Rule::exists($recipientTable, 'id')],
             'delay_seconds' => ['nullable', 'integer', 'min:0', 'max:3600'],
         ]);
 
+        $targetBranchId = $validated['target_filters']['branch_id'] ?? null;
+        $validated['target_filters'] = $validated['target_filters'] ?? [];
+        if ($targetBranchId !== null && !$user->isSuperAdmin()) {
+            abort_unless($user->canAccessBranch((int) $targetBranchId), 403, 'Cabang di luar cakupan akses.');
+        }
+
         if ($channel === 'in_app' && !empty($validated['custom_message_single'])) {
             $validated['custom_message'] = $validated['custom_message_single'];
+        }
+
+        if (!empty($validated['template_id'])) {
+            $templateQuery = BroadcastTemplate::query()
+                ->whereKey($validated['template_id'])
+                ->where('is_active', true);
+
+            if (!$user->isSuperAdmin()) {
+                $templateQuery->where(function ($query) use ($user) {
+                    $query->whereNull('branch_id')
+                        ->orWhere('branch_id', $user->branch_id);
+                });
+            }
+
+            if (!$templateQuery->exists()) {
+                return back()
+                    ->withErrors(['template_id' => 'Template tidak aktif atau tidak tersedia untuk cabang Anda.'])
+                    ->withInput();
+            }
+
+            $validated['custom_message'] = null;
+            $validated['message_template'] = null;
+        } elseif (blank($validated['custom_message'] ?? null) && blank($validated['message_template'] ?? null)) {
+            return back()
+                ->withErrors(['custom_message' => 'Pilih template atau isi pesan custom.'])
+                ->withInput();
         }
 
         if ($channel === 'whatsapp') {
@@ -124,41 +187,55 @@ class BroadcastCampaignController extends Controller
                 return back()->withErrors(['channel' => 'Channel Notifikasi In-App hanya bisa digunakan untuk target User/Sales.'])->withInput();
             }
 
-            $selectedUserIds = $validated['target_filters']['recipient_ids'] ?? [];
-            
-            if (!empty($selectedUserIds)) {
-                $allowedUserIds = User::query()
-                    ->where('is_active', true)
-                    ->when(!$user->isSuperAdmin(), fn ($q) => $q->where('branch_id', $user->branch_id))
-                    ->when($user->isSuperAdmin(), fn ($q) => $q->where('id', '!=', $user->id))
-                    ->when($user->isAdminToko(), function ($q) use ($user) {
-                        $q->whereIn('role', [User::ROLE_ADMIN_TOKO, User::ROLE_SALES])
-                          ->where('id', '!=', $user->id);
-                    })
-                    ->pluck('id')
-                    ->toArray();
-                
-                $invalidUsers = array_diff($selectedUserIds, $allowedUserIds);
-                
-                if (!empty($invalidUsers)) {
-                    return back()->withErrors(['recipient_ids' => 'Anda tidak memiliki akses untuk memilih beberapa user yang dipilih.'])->withInput();
-                }
+            if (!in_array($validated['target_type'], ['all', 'branch', 'sales'], true)) {
+                return back()->withErrors(['target_type' => 'Target Notifikasi In-App harus Semua User, Per Cabang, atau Sales.'])->withInput();
             }
+
+            $selectedUserIds = array_values(array_unique($validated['recipient_ids'] ?? []));
+            if ($validated['target_type'] === 'sales') {
+                $allowedUserIds = User::query()
+                    ->active()
+                    ->where('opt_out', false)
+                    ->where('role', User::ROLE_SALES)
+                    ->where('branch_id', $targetBranchId)
+                    ->where('id', '!=', $user->id)
+                    ->whereIn('branch_id', $user->accessible_branch_ids)
+                    ->whereIn('id', $selectedUserIds)
+                    ->pluck('id')
+                    ->map(fn ($id) => (int) $id)
+                    ->all();
+
+                if (count($allowedUserIds) !== count($selectedUserIds)) {
+                    return back()->withErrors(['recipient_ids' => 'Pilih Sales aktif dari cabang yang dipilih.'])->withInput();
+                }
+
+                $validated['target_filters']['recipient_ids'] = $selectedUserIds;
+            } else {
+                $validated['target_filters']['recipient_ids'] = [];
+            }
+            $validated['target_filters']['branch_id'] = $requiresInAppBranch ? $targetBranchId : null;
+            $validated['branch_id'] = $requiresInAppBranch ? $targetBranchId : $user->branch_id;
+        } else {
+            $validated['target_filters']['recipient_ids'] = $validated['recipient_ids'] ?? [];
+            $validated['branch_id'] = $targetBranchId ?? $user->branch_id;
         }
 
         $channels = [$channel];
 
         $validated['created_by'] = $user->id;
-        $validated['branch_id'] = $validated['branch_id'] ?? $user->branch_id;
         $validated['status'] = 'draft';
         $validated['type'] = 'manual';
         $validated['channels'] = $channels;
-        $validated['provider'] = $validated['provider'] ?? ($channel === 'in_app' ? 'in_app' : null);
+        $validated['provider'] = $validated['provider'] ?? ($channel === 'in_app' ? 'in_app' : 'whatsapp');
         $validated['delay_seconds'] = $channel === 'whatsapp' ? 0 : (int) ($validated['delay_seconds'] ?? 0);
+        $validated['scheduled_at'] = $sendMode === 'scheduled' ? $validated['scheduled_at'] : null;
+        unset($validated['send_mode']);
 
-        $campaign = BroadcastCampaign::create($validated);
-
-        $campaign->queueMessages();
+        $campaign = DB::transaction(function () use ($validated) {
+            $campaign = BroadcastCampaign::create($validated);
+            $campaign->queueMessages();
+            return $campaign;
+        });
 
         return redirect()
             ->route('broadcast-campaigns.show', $campaign)
@@ -167,6 +244,7 @@ class BroadcastCampaignController extends Controller
 
     public function show(Request $request, BroadcastCampaign $campaign)
     {
+        $this->authorizeCampaignBranch($request, $campaign);
         $campaign = $campaign->load(['logs.recipient', 'template', 'creator', 'branch']);
 
         return view('broadcast_campaigns.show', compact('campaign'));
@@ -174,10 +252,16 @@ class BroadcastCampaignController extends Controller
 
     public function sendToCustomer(Request $request, BroadcastCampaign $campaign, Customer $customer)
     {
+        $this->authorizeCampaignBranch($request, $campaign);
+        if ($request->user()->isAdminToko()) {
+            abort_unless((int) $customer->branch_id === (int) $campaign->branch_id, 403);
+        }
+
         if ($campaign->status === 'completed') {
             return back()->with('error', 'Campaign ini sudah selesai.');
         }
 
+        /** @var BroadcastLog|null $log */
         $log = $campaign->logs()
             ->where('recipient_type', 'customer')
             ->where('recipient_id', $customer->id)
@@ -187,8 +271,8 @@ class BroadcastCampaignController extends Controller
             return back()->with('error', 'Customer ini bukan bagian dari campaign ini.');
         }
 
-        if ($log->status === 'sent') {
-            return back()->with('info', 'Pesan sudah dikirim ke customer ini.');
+        if ($log->status !== 'pending') {
+            return back()->with('info', 'Tidak ada pesan yang menunggu untuk dibuka di WhatsApp.');
         }
 
         $recipient = [
@@ -205,18 +289,55 @@ class BroadcastCampaignController extends Controller
 
         $waUrl = "https://wa.me/{$phone}?text={$encodedMessage}";
 
+        return redirect()->away($waUrl);
+    }
+
+    public function confirmCustomerSent(Request $request, BroadcastCampaign $campaign, Customer $customer)
+    {
+        $this->authorizeCampaignBranch($request, $campaign);
+
+        if ($request->user()->isAdminToko()) {
+            abort_unless((int) $customer->branch_id === (int) $campaign->branch_id, 403);
+        }
+
+        abort_unless(in_array('whatsapp', $campaign->channels ?? [], true), 404);
+
+        $log = $campaign->logs()
+            ->where('recipient_type', 'customer')
+            ->where('recipient_id', $customer->id)
+            ->first();
+
+        if (!$log) {
+            return back()->with('error', 'Customer ini bukan bagian dari campaign ini.');
+        }
+
+        if ($log->status === 'sent') {
+            return back()->with('info', 'Pengiriman customer ini sudah dikonfirmasi.');
+        }
+
+        if ($log->status !== 'pending') {
+            return back()->with('error', 'Hanya pesan yang menunggu konfirmasi yang dapat ditandai terkirim.');
+        }
+
         $log->update([
             'status' => 'sent',
             'sent_at' => now(),
         ]);
 
+        $campaign->update([
+            'total_success' => $campaign->logs()->where('status', 'sent')->count(),
+        ]);
         $campaign->checkCompletion();
 
-        return redirect()->away($waUrl);
+        return redirect()
+            ->route('broadcast-campaigns.show', $campaign)
+            ->with('success', 'Pengiriman ditandai sudah dilakukan. Pastikan pesan benar-benar sudah dikirim di WhatsApp.');
     }
 
     public function updateMessage(Request $request, BroadcastCampaign $campaign)
     {
+        $this->authorizeCampaignBranch($request, $campaign);
+
         if ($campaign->status === 'completed') {
             return response()->json(['error' => 'Campaign ini sudah selesai.'], 400);
         }
@@ -234,11 +355,7 @@ class BroadcastCampaignController extends Controller
 
     public function destroy(Request $request, BroadcastCampaign $campaign)
     {
-        $user = $request->user();
-
-        if (!$user->isSuperAdmin()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+        $this->authorizeCampaignBranch($request, $campaign);
 
         DB::transaction(function () use ($campaign) {
             BroadcastLog::where('campaign_id', $campaign->id)->delete();
@@ -248,10 +365,29 @@ class BroadcastCampaignController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
+    private function authorizeCampaignBranch(Request $request, BroadcastCampaign $campaign): void
+    {
+        $user = $request->user();
+        abort_unless($user && ($user->isSuperAdmin() || $user->isAdminToko()), 403);
+
+        if ($user->isAdminToko()) {
+            abort_unless($campaign->branch_id && $user->canAccessBranch((int) $campaign->branch_id), 403);
+        }
+    }
+
+    private function hasValidWorkerToken(Request $request): bool
+    {
+        $expected = config('services.broadcast_worker.token');
+        $token = $request->header('X-Worker-Token') ?? $request->query('token');
+
+        return is_string($expected) && $expected !== ''
+            && is_string($token) && $token !== ''
+            && hash_equals($expected, $token);
+    }
+
     public function handleOptOut(Request $request)
     {
-        $token = $request->header('X-Worker-Token') ?? $request->query('token');
-        if ($token !== env('BROADCAST_WORKER_TOKEN')) {
+        if (!$this->hasValidWorkerToken($request)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -284,8 +420,7 @@ class BroadcastCampaignController extends Controller
 
     public function checkDailyLimit(Request $request)
     {
-        $token = $request->header('X-Worker-Token') ?? $request->query('token');
-        if ($token !== env('BROADCAST_WORKER_TOKEN')) {
+        if (!$this->hasValidWorkerToken($request)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -303,8 +438,7 @@ class BroadcastCampaignController extends Controller
 
     public function updateMessageStatus(Request $request)
     {
-        $token = $request->header('X-Worker-Token') ?? $request->query('token');
-        if ($token !== env('BROADCAST_WORKER_TOKEN')) {
+        if (!$this->hasValidWorkerToken($request)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

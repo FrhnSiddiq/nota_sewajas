@@ -2,14 +2,14 @@
     $rental = $rental ?? null;
     $rentalStatus = $rental->rental_status ?? 'waiting';
     $rentalStatusBadge = match($rentalStatus) {
-        'returned' => 'DIKEMBALIKAN',
+        'returned' => strtoupper($rental->status_label),
         'active', 'waiting' => 'SEDANG DISEWA',
         'overdue' => 'TERLAMBAT',
         'cancelled' => 'DIBATALKAN',
         default => strtoupper($rentalStatus),
     };
     $rentalStatusBadgeClass = match($rentalStatus) {
-        'returned' => 'status-paid',
+        'returned' => $rental->isCompleted() ? 'status-paid' : 'status-unpaid',
         'active', 'waiting' => 'status-paid',
         'overdue' => 'status-overdue',
         'cancelled' => 'status-unpaid',

@@ -115,9 +115,10 @@
                     </a>
                 @endcan
                 <div class="border-t my-1" style="border-color: var(--border)"></div>
-                <form method="POST" action="{{ route('logout') }}">
+                <form id="logoutNavbarForm" method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit"
+                    <button type="button"
+                            onclick="confirmAction('logoutNavbarForm', 'Keluar dari Sistem', 'Apakah Anda yakin ingin keluar dari web ini?', 'Ya, Keluar', '#dc2626')"
                             class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm w-full text-left transition-colors hover:bg-red-50"
                             style="color: #C0392B">
                         <i data-lucide="log-out" class="w-4 h-4"></i>

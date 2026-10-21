@@ -53,14 +53,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">
-                                Kode Produk <span class="text-red-500">*</span>
+                                Kode Produk
                             </label>
-                            <input type="text" name="code" value="{{ old('code') }}"
-                                   placeholder="Contoh: JAS-001"
-                                   class="form-input @error('code') border-red-400 @enderror">
-                            @error('code')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
+                            <input type="text" value="{{ $nextCode }}" disabled
+                                   class="form-input cursor-not-allowed bg-slate-100 text-slate-500">
+                            <p class="text-xs mt-1" style="color:var(--text-soft)">Kode dibuat otomatis saat produk disimpan.</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">
@@ -129,20 +126,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {{-- Ukuran --}}
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">Ukuran</label>
-                            <select name="size" class="form-input @error('size') border-red-400 @enderror">
-                                <option value="">Pilih Ukuran</option>
-                                @foreach(['XS','S','M','L','XL','XXL'] as $sz)
-                                    <option value="{{ $sz }}" {{ old('size') === $sz ? 'selected' : '' }}>{{ $sz }}</option>
-                                @endforeach
-                            </select>
-                            @error('size')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
                         {{-- Warna --}}
                         <div>
                             <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">Warna</label>
@@ -171,7 +154,66 @@
                     </div>
                 </div>
 
-                {{-- Stok & Harga --}}
+                {{-- Ukuran & Stok --}}
+                <div class="card p-6 space-y-5">
+                    <div class="flex items-center gap-2 pb-3 border-b" style="border-color:var(--border)">
+                        <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--secondary)">
+                            <i data-lucide="ruler" class="w-3.5 h-3.5" style="color:var(--primary)"></i>
+                        </div>
+                        <h2 class="font-semibold text-sm" style="color:var(--text-dark)">Ukuran & Stok</h2>
+                    </div>
+
+                    <div x-data='sizeForm({!! json_encode(old("sizes", []), JSON_UNESCAPED_UNICODE) !!})'>
+                        {{-- Size checkbox grid — pill, 2 col mobile / 4 col desktop, gap rapi --}}
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                            <template x-for="sz in allSizes" :key="sz">
+                                <label class="inline-flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 cursor-pointer transition-colors"
+                                       :class="selected.includes(sz) ? 'bg-blue-50 border-blue-300' : 'bg-white border-slate-200 hover:bg-slate-50'">
+                                    <input type="checkbox"
+                                           :value="sz"
+                                           x-model="selected"
+                                           @change="onToggle(sz, $event)"
+                                           class="rounded w-4 h-4 shrink-0 text-blue-600 border-slate-300 focus:ring-blue-500 focus:ring-2">
+                                    <span class="text-sm font-medium leading-none" :style="selected.includes(sz) ? 'color:#1d4ed8' : 'color:var(--text-dark)'" x-text="sz"></span>
+                                </label>
+                            </template>
+                        </div>
+                        @error('sizes')
+                            <p class="text-xs text-red-500 mt-2">{{ $message }}</p>
+                        @enderror
+
+                        {{-- Dynamic stock cards — 2 kolom sejajar, padding konsisten --}}
+                        <div x-show="selected.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-5" x-cloak>
+                            <template x-for="sz in selected" :key="sz">
+                                <div class="border border-slate-200 rounded-2xl p-4 bg-[#f8fafc]">
+                                    <h4 class="font-bold text-[15px] leading-none mb-3.5" style="color:var(--text-dark)" x-text="sz"></h4>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="flex flex-col">
+                                            <label class="flex items-end min-h-[34px] pb-1.5 text-[11px] font-semibold tracking-wide uppercase leading-none" style="color:var(--text-soft)">Stok Total</label>
+                                            <input type="number" min="0"
+                                                   :name="`sizes[${sz}][stock_total]`"
+                                                   x-model.number="stocks[sz].stock_total"
+                                                   class="form-input !min-h-0 !h-[42px] !py-0 !px-3 text-sm font-semibold">
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <label class="flex flex-col justify-end min-h-[34px] pb-1.5 text-[11px] font-semibold tracking-wide uppercase leading-none" style="color:var(--text-soft)">
+                                                <span class="leading-none">Stok Tersedia</span>
+                                                <span class="normal-case font-medium tracking-normal text-[10px] leading-none mt-0.5">(otomatis)</span>
+                                            </label>
+                                            <input type="number" min="0"
+                                                   :name="`sizes[${sz}][stock_available]`"
+                                                   x-model.number="stocks[sz].stock_available"
+                                                   class="form-input !min-h-0 !h-[42px] !py-0 !px-3 text-sm font-semibold">
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <p x-show="selected.length === 0" class="mt-4 text-xs text-center py-3 rounded-xl border border-dashed border-slate-200 bg-slate-50" style="color:var(--text-soft)">Pilih ukuran di atas untuk mengatur stok</p>
+                    </div>
+                </div>
+
+                {{-- Harga --}}
                 <div class="card p-6 space-y-5">
                     <div class="flex items-center gap-2 pb-3 border-b" style="border-color:var(--border)">
                         <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:var(--secondary)">
@@ -181,30 +223,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {{-- Stok Total --}}
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">
-                                Stok Total <span class="text-red-500">*</span>
-                            </label>
-                            <input type="number" name="stock_total" value="{{ old('stock_total', 1) }}" min="0"
-                                   class="form-input @error('stock_total') border-red-400 @enderror">
-                            @error('stock_total')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        {{-- Stok Tersedia --}}
-                        <div>
-                            <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">
-                                Stok Tersedia <span class="text-red-500">*</span>
-                            </label>
-                            <input type="number" name="stock_available" value="{{ old('stock_available', 1) }}" min="0"
-                                   class="form-input @error('stock_available') border-red-400 @enderror">
-                            @error('stock_available')
-                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
                         {{-- Harga Sewa --}}
                         <div>
                             <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">
@@ -217,6 +235,23 @@
                                        class="form-input @error('rental_price') border-red-400 @enderror" style="padding-left: 40px !important">
                             </div>
                             @error('rental_price')
+                                <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Poin Sales --}}
+                        <div>
+                            <label class="block text-sm font-medium mb-1.5" style="color:var(--text-dark)">
+                                Poin Sales <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium" style="color:var(--text-soft)">★</span>
+                                <input type="number" name="points" value="{{ old('points', 3) }}" min="0" step="1" required
+                                       placeholder="3"
+                                       class="form-input @error('points') border-red-400 @enderror" style="padding-left: 40px !important">
+                            </div>
+                            <p class="text-xs mt-1" style="color:var(--text-soft)">Poin untuk sales per serah &amp; pengembalian (× jumlah barang).</p>
+                            @error('points')
                                 <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
@@ -249,7 +284,7 @@
                                 <i data-lucide="upload-cloud" class="w-6 h-6" style="color:var(--primary)"></i>
                             </div>
                             <p class="text-sm font-medium" style="color:var(--text-dark)">Klik atau seret foto ke sini</p>
-                            <p class="text-xs mt-1" style="color:var(--text-soft)">PNG, JPG, WEBP — Maks. 2MB</p>
+                            <p class="text-xs mt-1" style="color:var(--text-soft)">PNG, JPG, WEBP — Maks. 2MB, foto besar otomatis dikompres</p>
                         </div>
                         <input type="file" id="image-input" name="image" accept="image/*" class="hidden">
                     </div>
@@ -320,7 +355,7 @@
     const dropZone = document.getElementById('drop-zone');
 
     input.addEventListener('change', function () {
-        showPreview(this.files[0]);
+        handleFile(this.files[0]);
     });
 
     // Drag & drop
@@ -329,14 +364,17 @@
     dropZone.addEventListener('drop', e => {
         e.preventDefault();
         dropZone.style.borderColor = 'var(--border)';
-        const file = e.dataTransfer.files[0];
-        if (file) {
-            const dt = new DataTransfer();
-            dt.items.add(file);
-            input.files = dt.files;
-            showPreview(file);
-        }
+        handleFile(e.dataTransfer.files[0]);
     });
+
+    // Kompres bila perlu (>2MB), sinkronkan hasilnya ke input, lalu preview
+    async function handleFile(file) {
+        if (!file) return;
+        const finalFile = window.compressAndAssign
+            ? await window.compressAndAssign(input, file)
+            : file;
+        showPreview(finalFile);
+    }
 
     function showPreview(file) {
         if (!file) return;
@@ -361,6 +399,25 @@
                 selectAll.checked = Array.from(branchCheckboxes).every(c => c.checked);
             });
         });
+    }
+
+    // Size & Stock dynamic form (Alpine.js)
+    function sizeForm(initialStocks) {
+        return {
+            allSizes: ['XS','S','M','L','XL','XXL','3XL','4XL','5XL','6XL','7XL'],
+            selected: Object.keys(initialStocks || {}),
+            stocks: initialStocks || {},
+
+            onToggle(sz, event) {
+                if (event.target.checked) {
+                    if (!this.stocks[sz]) {
+                        this.stocks[sz] = { stock_total: 0, stock_available: 0 };
+                    }
+                } else {
+                    delete this.stocks[sz];
+                }
+            }
+        };
     }
 </script>
 @endpush

@@ -22,8 +22,8 @@ class DashboardService
     {
         return match ($user->role) {
             'super_admin' => $this->getSuperAdminDashboardPayload(),
-            'admin_toko'  => $this->getAdminDashboardPayload($user->branch_id),
-            'sales'       => $this->getSalesDashboardPayload($user->branch_id, $user->id),
+            'admin_toko'  => $this->getScopedDashboardPayload($user),
+            'sales'       => $this->getSalesDashboardPayload($user),
             default       => [],
         };
     }
@@ -32,30 +32,30 @@ class DashboardService
     {
         $filters = [
             'scope_type' => 'super_admin',
-            'branch_id' => null,
+            'branch_ids' => null,
             'sales_user_id' => null,
         ];
 
         return $this->buildPayload($filters);
     }
 
-    private function getAdminDashboardPayload(?int $branchId): array
+    private function getScopedDashboardPayload(User $user): array
     {
         $filters = [
             'scope_type' => 'admin',
-            'branch_id' => $branchId,
+            'branch_ids' => $user->isSuperAdmin() ? null : $user->accessible_branch_ids,
             'sales_user_id' => null,
         ];
 
         return $this->buildPayload($filters);
     }
 
-    private function getSalesDashboardPayload(?int $branchId, int $salesUserId): array
+    private function getSalesDashboardPayload(User $user): array
     {
         $filters = [
             'scope_type' => 'sales',
-            'branch_id' => $branchId,
-            'sales_user_id' => $salesUserId,
+            'branch_ids' => $user->isSuperAdmin() ? null : $user->accessible_branch_ids,
+            'sales_user_id' => $user->id,
         ];
 
         return $this->buildPayload($filters);
@@ -70,7 +70,7 @@ class DashboardService
         $startOfWeek = $now->copy()->startOfWeek();
         $startOfMonth = $now->copy()->startOfMonth();
 
-        $branchId = Arr::get($filters, 'branch_id');
+        $branchIds = Arr::get($filters, 'branch_ids');
         $salesUserId = Arr::get($filters, 'sales_user_id');
         $dateFrom = Arr::get($filters, 'date_from');
         $dateTo = Arr::get($filters, 'date_to');
@@ -87,10 +87,10 @@ class DashboardService
         $rentalQuery = Rental::query();
         $paymentQuery = Payment::query();
 
-        if (!is_null($branchId)) {
-            $customerQuery->where('branch_id', $branchId);
-            $productQuery->where('branch_id', $branchId);
-            $rentalQuery->where('branch_id', $branchId);
+        if (!empty($branchIds)) {
+            $customerQuery->whereIn('branch_id', $branchIds);
+            $productQuery->whereIn('branch_id', $branchIds);
+            $rentalQuery->whereIn('branch_id', $branchIds);
         }
 
         if (!is_null($salesUserId)) {
@@ -98,13 +98,25 @@ class DashboardService
             $rentalQuery->where('created_by', $salesUserId);
         }
 
+        $applyBranchFilter = function (Builder $q) use ($branchIds) {
+            if (!empty($branchIds)) {
+                $q->whereIn('branch_id', $branchIds);
+            }
+        };
+
+        $applyRentalBranchFilter = function (Builder $q) use ($branchIds) {
+            if (!empty($branchIds)) {
+                $q->whereIn('branch_id', $branchIds);
+            }
+        };
+
         // Dashboard statistics (aggregate queries)
         $totalCustomers = (clone $customerQuery)->count();
 
         // Customer Aktif: customer dengan rental_status active/overdue
         $customerActive = (clone $customerQuery)
-            ->whereHas('rentals', function (Builder $q) use ($branchId, $salesUserId) {
-                if (!is_null($branchId)) $q->where('branch_id', $branchId);
+            ->whereHas('rentals', function (Builder $q) use ($applyRentalBranchFilter, $salesUserId) {
+                $applyRentalBranchFilter($q);
                 if (!is_null($salesUserId)) $q->where('created_by', $salesUserId);
                 $q->whereIn('rental_status', ['active', 'overdue']);
             })->count();
@@ -132,30 +144,30 @@ class DashboardService
         $rentalActive = (clone $rentalQuery)->whereIn('rental_status', ['active', 'overdue'])->count();
         $rentalWaiting = (clone $rentalQuery)->where('rental_status', 'waiting')->count();
         $rentalLate = (clone $rentalQuery)->where('rental_status', 'overdue')->count();
-        $rentalFinished = (clone $rentalQuery)->where('rental_status', 'returned')->count();
+        $rentalFinished = (clone $rentalQuery)->completed()->count();
         $rentalCancelled = (clone $rentalQuery)->where('rental_status', 'cancelled')->count();
 
         // Finance: revenue = payments.amount where paid_at within period
         $revenueToday = (clone $paymentQuery)
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->whereDate('paid_at', $today)
             ->sum('amount');
 
         $revenueThisWeek = (clone $paymentQuery)
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->whereBetween('paid_at', [$startOfWeek->copy()->startOfDay(), $now->copy()->endOfDay()])
             ->sum('amount');
 
         $revenueThisMonth = (clone $paymentQuery)
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->whereBetween('paid_at', [$startOfMonth->copy()->startOfDay(), $now->copy()->endOfDay()])
             ->sum('amount');
 
         $revenueThisYear = (clone $paymentQuery)
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->whereBetween('paid_at', [$now->copy()->startOfYear(), $now->copy()->endOfYear()])
             ->sum('amount');
@@ -170,27 +182,27 @@ class DashboardService
         // Receipt Hari Ini: payment transaction count paid hari ini
         $receiptToday = (clone $paymentQuery)
             ->whereDate('paid_at', $today)
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->count();
 
         // Returns
         $returnedToday = RentalReturn::query()
             ->whereDate('returned_at', $today)
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->count();
 
         // Deposit & Denda
         $depositMasuk = \App\Models\Guarantee::query()
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->where('type', 'deposit')
             ->sum('deposit_amount');
 
         // Denda masuk = payments where type late_fee or damage_fee
         $dendaMasuk = (clone $paymentQuery)
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->whereIn('type', ['late_fee', 'damage_fee'])
             ->sum('amount');
@@ -203,7 +215,7 @@ class DashboardService
 
         // Rentals 30 days (aggregate group by date)
         $rentals30Raw = Rental::query()
-            ->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))
+            ->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))
             ->when(!is_null($salesUserId), fn($q) => $q->where('created_by', $salesUserId))
             ->whereBetween('rental_date', [$start30->toDateString(), $end30->toDateString()])
             ->selectRaw('DATE(rental_date) as d, COUNT(*) as c')
@@ -217,11 +229,10 @@ class DashboardService
             'count' => (int) $row->c,
         ])->values()->all();
 
-
         // Omzet 30 days
         $omzet30 = Payment::query()
             ->whereBetween('paid_at', [$start30->copy()->startOfDay(), $end30->copy()->endOfDay()])
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->selectRaw('DATE(paid_at) as d, SUM(amount) as s')
             ->groupByRaw('DATE(paid_at)')
@@ -250,7 +261,7 @@ class DashboardService
         // Top products
         $topProducts = RentalItem::query()
             ->join('rentals', 'rentals.id', '=', 'rental_items.rental_id')
-            ->when(!is_null($branchId), fn($q) => $q->where('rentals.branch_id', $branchId))
+            ->when(!empty($branchIds), fn($q) => $q->whereIn('rentals.branch_id', $branchIds))
             ->when(!is_null($salesUserId), fn($q) => $q->where('rentals.created_by', $salesUserId))
             ->selectRaw('rental_items.product_name, SUM(rental_items.quantity) as total')
             ->groupBy('rental_items.product_name')
@@ -261,21 +272,9 @@ class DashboardService
             ->values();
 
         // Widgets
-        $latestActivity = ActivityLog::query()
-            ->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))
-            ->when(!is_null($salesUserId), fn($q) => $q->where('user_id', $salesUserId))
-            ->orderByDesc('created_at')
-            ->with('user')
-            ->limit(10)
-            ->get()
-            ->map(fn($a) => [
-                'time' => optional($a->created_at)->format('H:i'),
-                'description' => $a->description,
-            ])
-            ->values();
 
         $latestTransactions = Rental::query()
-            ->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))
+            ->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))
             ->when(!is_null($salesUserId), fn($q) => $q->where('created_by', $salesUserId))
             ->with(['customer', 'payments' => fn($q) => $q->orderByDesc('paid_at')->limit(1)])
             ->latest('created_at')
@@ -292,7 +291,7 @@ class DashboardService
 
 
         $latestInvoices = Rental::query()
-            ->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))
+            ->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))
             ->when(!is_null($salesUserId), fn($q) => $q->where('created_by', $salesUserId))
             ->with(['customer'])
             ->latest('rental_date')
@@ -300,7 +299,7 @@ class DashboardService
             ->get(['id', 'invoice_number', 'customer_id', 'total_amount', 'payment_status', 'rental_date']);
 
         $reminderPengembalian = Rental::query()
-            ->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))
+            ->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))
             ->when(!is_null($salesUserId), fn($q) => $q->where('created_by', $salesUserId))
             ->whereIn('rental_status', ['active', 'overdue'])
             ->whereDate('return_due_date', $today)
@@ -310,7 +309,7 @@ class DashboardService
             ->get(['id', 'invoice_number', 'customer_id', 'return_due_date', 'total_amount']);
 
         $reminderBelumLunas = Rental::query()
-            ->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))
+            ->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))
             ->when(!is_null($salesUserId), fn($q) => $q->where('created_by', $salesUserId))
             ->whereIn('payment_status', ['unpaid', 'partial'])
             ->whereDate('rental_date', $today)
@@ -319,7 +318,7 @@ class DashboardService
             ->get(['id', 'invoice_number', 'customer_id', 'rental_date', 'payment_status', 'total_amount', 'paid_amount']);
 
         $almostEmptyProducts = Product::query()
-            ->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))
+            ->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))
             ->where('stock_available', '>', 0)
             ->where('stock_available', '<=', 3)
             ->where('status', 'available')
@@ -328,7 +327,7 @@ class DashboardService
             ->get(['id', 'name', 'stock_available', 'rental_price', 'photo']);
 
         $newCustomers = Customer::query()
-            ->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))
+            ->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))
             ->latest('created_at')
             ->limit(8)
             ->get(['id', 'name', 'phone', 'created_at']);
@@ -336,9 +335,78 @@ class DashboardService
         // Calculate pengembalian_hari_ini
         $pengembalianHariIni = RentalReturn::query()
             ->whereDate('returned_at', $today)
-            ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+            ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
             ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
             ->count();
+
+        $performance = null;
+        if (!is_null($salesUserId)) {
+            $salesUser = User::query()->where('role', 'sales')->find($salesUserId);
+            if ($salesUser) {
+                $performanceRentals = Rental::query()
+                    ->where('created_by', $salesUserId)
+                    ->when(!empty($branchIds), fn ($q) => $q->whereIn('branch_id', $branchIds))
+                    ->when($dateFrom, fn ($q) => $q->whereDate('rental_date', '>=', $dateFrom))
+                    ->when($dateTo, fn ($q) => $q->whereDate('rental_date', '<=', $dateTo));
+
+                $performancePayments = Payment::query()
+                    ->whereHas('rental', function (Builder $q) use ($salesUserId, $branchIds) {
+                        $q->where('created_by', $salesUserId)
+                            ->when(!empty($branchIds), fn ($rental) => $rental->whereIn('branch_id', $branchIds));
+                    })
+                    ->when($dateFrom, fn ($q) => $q->whereDate('paid_at', '>=', $dateFrom))
+                    ->when($dateTo, fn ($q) => $q->whereDate('paid_at', '<=', $dateTo));
+
+                $performanceReturns = Rental::query()
+                    ->where('created_by', $salesUserId)
+                    ->where('rental_status', Rental::STATUS_RETURNED)
+                    ->when(!empty($branchIds), fn ($q) => $q->whereIn('branch_id', $branchIds))
+                    ->when($dateFrom, fn ($q) => $q->whereDate('actual_return_date', '>=', $dateFrom))
+                    ->when($dateTo, fn ($q) => $q->whereDate('actual_return_date', '<=', $dateTo));
+
+                $performanceRows = (clone $performanceRentals)
+                    ->with([
+                        'branch',
+                        'customer',
+                        'createdBy',
+                        'returnedBy',
+                        'payments' => fn ($q) => $q->with('receivedBy')->orderByDesc('paid_at')->limit(1),
+                    ])
+                    ->latest('rental_date')
+                    ->limit(10)
+                    ->get()
+                    ->map(fn (Rental $rental) => [
+                        'date' => $rental->rental_date?->format('d/m/Y'),
+                        'invoice' => $rental->invoice_number,
+                        'customer' => $rental->customer?->name ?? '-',
+                        'sales' => $rental->createdBy?->name ?? '-',
+                        'branch' => $rental->branch?->name ?? '-',
+                        'amount' => (float) $rental->total_amount,
+                        'status' => $rental->rental_status,
+                        'status_label' => $rental->rental_status === Rental::STATUS_RETURNED
+                            ? $rental->status_label
+                            : null,
+                        'payment_operator' => $rental->payments->first()?->receivedBy?->name,
+                        'return_operator' => $rental->returnedBy?->name,
+                    ])
+                    ->values();
+
+                $performance = [
+                    'sales' => $salesUser->name,
+                    'branch' => $branchIds
+                        ? Branch::whereKey($branchIds[0])->value('name')
+                        : 'Semua cabang',
+                    'transactions' => (clone $performanceRentals)->count(),
+                    'completed' => (clone $performanceRentals)->completed()->count(),
+                    'active' => (clone $performanceRentals)->whereIn('rental_status', [Rental::STATUS_ACTIVE, Rental::STATUS_OVERDUE])->count(),
+                    'customers' => (clone $performanceRentals)->distinct('customer_id')->count('customer_id'),
+                    'revenue' => (float) (clone $performancePayments)->sum('amount'),
+                    'returns' => (clone $performanceReturns)->count(),
+                    'points' => (int) $salesUser->total_points,
+                    'rows' => $performanceRows,
+                ];
+            }
+        }
 
         return [
             'meta' => [
@@ -398,18 +466,19 @@ class DashboardService
                 'deposit_masuk' => (float) $depositMasuk,
                 'denda_keterlambatan' => (float) $dendaMasuk,
                 'denda_kerusakan' => (float) (clone $paymentQuery)
-                    ->when(!is_null($branchId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('branch_id', $branchId)))
+                    ->when(!empty($branchIds), fn($q) => $q->whereHas('rental', $applyRentalBranchFilter))
                     ->when(!is_null($salesUserId), fn($q) => $q->whereHas('rental', fn($r) => $r->where('created_by', $salesUserId)))
                     ->where('type', 'damage_fee')
                     ->sum('amount'),
                 'total_piutang' => (float) $piutang,
 
                 // Sales
-                'total_sales' => (int) User::query()->where('role', 'sales')->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))->count(),
-                'sales_aktif' => (int) User::query()->where('role', 'sales')->when(!is_null($branchId), fn($q) => $q->where('branch_id', $branchId))->where('is_active', 1)->count(),
+                'total_sales' => (int) User::query()->where('role', 'sales')->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))->count(),
+                'sales_aktif' => (int) User::query()->where('role', 'sales')->when(!empty($branchIds), fn($q) => $q->whereIn('branch_id', $branchIds))->where('is_active', 1)->count(),
                 'target_sales' => (int) (clone $rentalQuery)->count(),
                 'progress_target' => (int) (clone $rentalQuery)->count(),
             ],
+            'performance' => $performance,
             'charts' => [
                 'rentals_30_days' => $rentals30,
                 'omzet_30_days' => $omzet30,
@@ -418,7 +487,6 @@ class DashboardService
                 'chart_label' => $chartLabel,
             ],
             'widgets' => [
-                'activity_terbaru' => $latestActivity,
                 'transaksi_terbaru' => $latestTransactions,
                 'invoice_terbaru' => $latestInvoices,
                 'reminder_pengembalian' => $reminderPengembalian,
@@ -431,4 +499,3 @@ class DashboardService
         ];
     }
 }
-

@@ -50,7 +50,7 @@ class Notification extends Model
             'rental_late'   => '⚠️',
             'payment'       => '💰',
             'reminder'      => '🔔',
-            default         => '⚙️',
+            default         => '🔔',
         };
     }
 

@@ -1,0 +1,1932 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Sore, Super Administrator\n\nThursday, 01 Oct 2026 • 16:33 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/dashboard",
+    "status": 200,
+    "url": "http://localhost:8000/dashboard",
+    "title": "Dashboard Super Admin",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Sore, Super Administrator\n\nThursday, 01 Oct 2026 • 16:33 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/profile",
+    "status": 200,
+    "url": "http://localhost:8000/profile",
+    "title": "Edit Profil — Pengaturan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/profile",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/dashboard",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nDashboard\nProfil\nPengaturan Profil\n\nKelola informasi akun, keamanan, dan preferensi Anda.\n\nSU\nSuper Administrator\n\nsuperadmin@jasrental.id\n\nBERGABUNG SEJAK\n08 Jul 2026\nSTATUS AKUN\n● Aktif\nInformasi Akun\nNama & alamat email\nUbah Password\nKeamanan akun Anda\nZona Berbahaya\nHapus akun permanen\nEdit Informasi Akun\n\nPerbarui nama lengkap dan alamat email Anda\n\nNama Lengkap *\nAlamat Email *\n\nPerubahan pada alamat email akan memerlukan verifikasi ulang. Pastikan email yang Anda masukkan aktif dan dapat diakses.\n\nReset\nSimpan Perubahan"
+  },
+  {
+    "role": "super_admin",
+    "path": "/customers",
+    "status": 200,
+    "url": "http://localhost:8000/customers",
+    "title": "Pelanggan — RentalJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/profile",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nPelanggan\n2\nSU\n\n6 pelanggan dalam status dinonaktifkan.\n\nLihat\nTambah Pelanggan\nEkspor Excel\nAktif\nDinonaktifkan\nSemua\nDaftar Blokir: Semua\nNormal\nDaftar Blokir\nNAMA\tNOMOR HANDPHONE\tSTATUS\tJUMLAH TRANSAKSI\tTANGGAL BERGABUNG\tAKSI\n\nBM\nbmbng\n\t\n628907654346\n\t\nAktif\n\t\n1\n\t\n24 Sep 2026\n\t\n\n\nBE\nbernard\n\t\n628907654321\n\t\nAktif\n\t\n1\n\t\n24 Sep 2026\n\t\n\n\nBA\nBambang\n\t\n6283191863559\n\t\nAktif\n\t\n0\n\t\n04 Sep 2026\n\t\n\n\nLU\nLucent GT\n\t\n6281515102141\n\t\nAktif\n\t\n0\n\t\n04 Sep 2026\n\t\n\n\nLU\nlucius\n\t\n6283866684730\n\t\nAktif\n\t\n1\n\t\n23 Aug 2026\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/customers/create",
+    "status": 200,
+    "url": "http://localhost:8000/customers/create",
+    "title": "Tambah Pelanggan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nTambah Pelanggan Baru\n2\nSU\nKembali ke Pelanggan\n Informasi Dasar\nNama Lengkap *\nNomor Handphone *\n+62\n\nFormat: angka saja. Prefix +62 akan disimpan otomatis.\n\nIdentitas utama\n\nHanya Nama dan Nomor Handphone yang ditampilkan di form ini.\n\nBatal\nTambah Pelanggan"
+  },
+  {
+    "role": "super_admin",
+    "path": "/products",
+    "status": 200,
+    "url": "http://localhost:8000/products",
+    "title": "Produk Jas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/products",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "http",
+        "status": 404,
+        "url": "http://localhost:8000/storage/products/H6DA2rsixSXA5RmS7bHCJgPfhCm11phivAcqAc3q.jpg"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      },
+      {
+        "kind": "exception",
+        "message": "Missing initializer in const declaration"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nProduk Jas\n\nKelola stok dan produk rental\n\nTambah Produk\n\nTOTAL PRODUK\n\n3\n\nTERSEDIA\n\n3\n\nSEDANG DISEWA\n\n0\n\nMAINTENANCE\n\n0\n\nSemua Kategori\nJas Formal\nTuxedo\nJas Wisuda\nKebaya\nRompi\nSepatu\nAksesoris\nSemua Status\nTersedia\nDisewa\nMaintenance\nSemua Ukuran\nXS\nS\nM\nL\nXL\nXXL\n3XL\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nFilter\n\n3 produk ditemukan\n\nKartu\nTabel\nTersedia\n\nJas Formal Hitam Classic\n\nPRD-004\n\nXS\nS\nM\nL\nXL\nHitam\nJas Formal\n\nRp 100.000\n\n/hari\n\n24/30\n\nstok\n\nTidak ada foto\nTersedia\n\nJas Polos Putih Premium\n\nPRD-003\n\nM\nL\nXL\nXXL\n3XL\nPutih\nJas Formal\n\nRp 45.000\n\n/hari\n\n8/9\n\nstok\n\nTersedia\n\nJas Sabuk Biru Modern\n\nPRD-002\n\nS\nM\nL\nXL\nBiru\nJas Formal\n\nRp 35.000\n\n/hari\n\n10/14\n\nstok"
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals",
+    "status": 200,
+    "url": "http://localhost:8000/rentals",
+    "title": "Penyewaan — SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/products",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nPenyewaan\n2\nSU\nTambah Penyewaan\nSemua Status\nMenunggu\nDiproses\nAktif\nTerlambat\nSelesai\nFilter\nNO. INVOICE\tPELANGGAN\tKOLEKSI\tTANGGAL SEWA\tSTATUS\tTOTAL BAYAR\tAKSI\n\nINV20260925010002\n\t\nlucius\n6283866684730\n\t\n1 Item\n\t\n25 Sep 2026\nTempo: 26 Sep 2026\n\t\nSelesai\n\t\nRp35.000\n\t\n\n\nINV20260925010001\n\t\nbernard\n628907654321\n\t\n1 Item\n\t\n25 Sep 2026\nTempo: 26 Sep 2026\n\t\nSelesai\n\t\nRp25.000\n\t\n\n\nINV20260924010001\n\t\nbmbng\n628907654346\n\t\n1 Item\n\t\n24 Sep 2026\nTempo: 25 Sep 2026\n\t\nSelesai\n\t\nRp80.000\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/create",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/create",
+    "title": "Buat Penyewaan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBuat Penyewaan\n2\nSU\nKembali ke Penyewaan\n Informasi Pelanggan & Penyewaan\nPelanggan *\nTanggal Sewa *\nDurasi (Hari) *\n Produk\nPilih Produk\nJas Sabuk Biru Modern (Stok: 10) - Rp 35.000/hari\nJas Polos Putih Premium (Stok: 8) - Rp 45.000/hari\nJas Formal Hitam Classic (Stok: 24) - Rp 100.000/hari\nPilih Ukuran\nTambah Produk\n Diskon & Catatan\nDiskon (Rp)\nCatatan\n Jaminan & Pembayaran\nMetode Pembayaran *\nPilih Metode\nCash\nQRIS\nTransfer\nJenis Jaminan *\nPilih Jenis Jaminan\nKTP\nSIM\nDeposit Uang\nJaminan Custom\nBatal\nSimpan Penyewaan"
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/scan",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/scan",
+    "title": "Scan QR Code",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/scan",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nScan QR Code\n2\nSU\nDashboard\n/\nPenyewaan\n/\nScan QR Code\nScan QR Code\n\nArahkan kamera ke QR Code pada Invoice, Receipt, atau Rental untuk melihat detail. QR Code dapat diperoleh dari dokumen atau aplikasi SewaJas.\n\nPilih Kamera:\nMendeteksi kamera...\nKamera Tidak Aktif\n⚠ Dev Mode\nMulai Kamera\nHentikan\nTukar Kamera\nMulai kamera otomatis saat halaman dibuka\nHasil Scan Terakhir\n\nBelum ada QR yang dipindai\n\nRiwayat Scan\n\nTidak ada riwayat\n\nTips Scanning\n✓\nPastikan pencahayaan cukup\n✓\nArahkan QR Code ke tengah layar\n✓\nJangan menggerakkan terlalu cepat\n✓\nBrowser perlu akses ke kamera"
+  },
+  {
+    "role": "super_admin",
+    "path": "/rentals/activity-log",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/activity-log",
+    "title": "Log Aktivitas Penyewaan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/activity-log",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/scan",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLog Aktivitas Penyewaan\n2\nSU\nCabang\nSemua Cabang\nCabang Solo\nToko Pusat - Yogyakarta\nDari Tanggal\nSampai Tanggal\nCari\nTampilkan\nReset\nExport Excel\nExport PDF\nWAKTU\tCABANG\tUSER\tAKSI\tDESKRIPSI\tINVOICE\tIP\n2026-09-25 16:46:03\tToko Pusat - Yogyakarta\tSuper Administrator\treturn_rental\tPenyewaan #INV20260925010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Denda dibayar dari '0' menjadi 'Rp 115.000', Total denda dari '0' menjadi 'Rp 115.000'\tINV20260925010002\t127.0.0.1\n2026-09-25 16:45:41\tToko Pusat - Yogyakarta\tSuper Administrator\thandover_rental\tRental #16 diubah: Status penyewaan dari 'waiting' menjadi 'active'\tINV20260925010002\t127.0.0.1\n2026-09-25 16:45:23\tToko Pusat - Yogyakarta\tSuper Administrator\tprocess_payment\tPenyewaan #INV20260925010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 35.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 115.000'\tINV20260925010002\t127.0.0.1\n2026-09-25 16:44:50\tToko Pusat - Yogyakarta\tSuper Administrator\tcreate_rental\tPenyewaan Rental #16 berhasil dibuat\tINV20260925010002\t127.0.0.1\n2026-09-25 16:43:57\t-\tSuper Administrator\trental_deleted\tPenyewaan (invoice INV20260923010003, customer lucius) dihapus permanently\t13\t127.0.0.1\n2026-09-25 14:27:00\tToko Pusat - Yogyakarta\tSuper Administrator\treturn_rental\tPenyewaan #INV20260925010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'unpaid', Total denda dari '0' menjadi 'Rp 125.000', Kembalian dari 'Rp 125.000' menjadi '0'\tINV20260925010001\t127.0.0.1\n2026-09-25 14:26:40\tToko Pusat - Yogyakarta\tSuper Administrator\thandover_rental\tRental #15 diubah: Status penyewaan dari 'waiting' menjadi 'active'\tINV20260925010001\t127.0.0.1\n2026-09-25 14:26:30\tToko Pusat - Yogyakarta\tSuper Administrator\tprocess_payment\tPenyewaan #INV20260925010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 25.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 125.000'\tINV20260925010001\t127.0.0.1\n2026-09-25 14:26:18\tToko Pusat - Yogyakarta\tSuper Administrator\tcreate_rental\tPenyewaan Rental #15 berhasil dibuat\tINV20260925010001\t127.0.0.1\n2026-09-25 14:25:30\t-\tSuper Administrator\trental_deleted\tPenyewaan (invoice INV20260923010003, customer lucius) dihapus permanently\t13\t127.0.0.1\n2026-09-25 13:48:48\t-\tSuper Administrator\treturn_rental\tPenyewaan #INV20260923010003 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'partial', Total denda dari '0' menjadi 'Rp 185.145', Denda dari '0' menjadi 'Rp 55.145'\t13\t127.0.0.1\n2026-09-25 13:48:27\t-\tSuper Administrator\thandover_rental\tRental #13 diubah: Status penyewaan dari 'waiting' menjadi 'active', Hari terlambat dari '0' menjadi '1'\t13\t127.0.0.1\n2026-09-25 13:48:18\t-\tSuper Administrator\tprocess_payment\tPenyewaan #INV20260923010003 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 20.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 130.000'\t13\t127.0.0.1\n2026-09-24 16:20:26\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Status denda dari 'unpaid' menjadi 'paid'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:26\tToko Pusat - Yogyakarta\tAyyiipsss\treturn_rental\tPenyewaan #INV20260924010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Total denda dari '0' menjadi 'Rp 50.000', Dikembalikan oleh dari '-' menjadi '4'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:11\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:11\tToko Pusat - Yogyakarta\tAyyiipsss\trecord_refund\tPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tRental #14 dihitung ulang\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Kembalian dari '0' menjadi 'Rp 70.000'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\tprocess_payment\tPenyewaan #INV20260924010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 80.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 70.000'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:46\tToko Pusat - Yogyakarta\tAyyiipsss\thandover_rental\tPenyewaan #INV20260924010001 diubah: Id dari '14' menjadi '-', Nomor invoice dari 'INV20260924010001' menjadi '-', Cabang dari '1' menjadi '-', Pelanggan dari '15' menjadi '-'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:39\tToko Pusat - Yogyakarta\tAyyiipsss\tcreate_rental\tPenyewaan Rental #14 berhasil dibuat\tINV20260924010001\t127.0.0.1\n2026-09-24 14:09:33\tCabang Solo\tAdmin Cabang Solo\trental_deleted\tPenyewaan (invoice INV20260923010002, customer Lucent GT) dihapus permanently\t12\t127.0.0.1\n2026-09-24 11:04:16\t-\tSuper Administrator\trecalculate_payment_status\tPenyewaan #INV20260923010002 diubah: Total dibayar dari 'Rp 440.000' menjadi 'Rp 220.000', Kembalian dari 'Rp 365.000' menjadi 'Rp 145.000'\t12\t127.0.0.1\n2026-09-24 11:03:52\tToko Pusat - Yogyakarta\tSuper Administrator\tpayment_duplicate_removed\tPerbaikan data akibat bug double-click pembayaran (data cleanup). Payment ID 23 (PAY202609230002, Rp220.000) dihapus sebagai duplikat dari Payment ID 22.\t12\t-\n2026-09-23 16:58:49\t-\tSuper Administrator\tproduct_not_found_return\tProduk ID 7 tidak ditemukan di database saat memproses pengembalian item ID 14 (rental INV20260923010002). Stok tidak diperbarui untuk item ini.\t12\t-\n2026-09-23 16:58:49\t-\tSuper Administrator\trecalculate_payment_status\tRental #12 dihitung ulang\t12\t127.0.0.1\n2026-09-23 16:58:49\t-\tSuper Administrator\treturn_rental\tPenyewaan #INV20260923010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Dikembalikan oleh dari '-' menjadi '1', Tanggal kembali dari '-' menjadi '2026-09-23'\t12\t127.0.0.1\n2026-09-23 16:31:36\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tPenyewaan #INV20260923010002 diubah: Kembalian dari 'Rp 145.000' menjadi 'Rp 365.000'\t12\t127.0.0.1\n2026-09-23 16:31:36\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\tprocess_payment\tPenyewaan #INV20260923010002 diubah: Total dibayar dari 'Rp 220.000' menjadi 'Rp 440.000', Kembalian dari 'Rp 145.000' menjadi 'Rp 365.000'\t12\t127.0.0.1\n2026-09-23 16:31:36\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tRental #12 dihitung ulang\t12\t127.0.0.1\n2026-09-23 16:31:33\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tPenyewaan #INV20260923010002 diubah: Kembalian dari '0' menjadi 'Rp 145.000'\t12\t127.0.0.1\n2026-09-23 16:31:33\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\tprocess_payment\tPenyewaan #INV20260923010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 220.000', Sisa tagihan dari 'Rp 75.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 145.000'\t12\t127.0.0.1\n2026-09-23 16:31:33\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tRental #12 dihitung ulang\t12\t127.0.0.1\n2026-09-23 16:31:16\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trental_deleted\tPenyewaan (invoice INV20260923010001, customer lucius) dihapus permanently\t11\t127.0.0.1\n2026-09-23 16:12:27\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tRental #13 dihitung ulang\t13\t127.0.0.1\n2026-09-23 16:12:27\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\tupdate_rental\tPenyewaan #INV20260923010003 diubah: Subtotal dari 'Rp 300.000' menjadi 'Rp 70.000', Total dari 'Rp 250.000' menjadi 'Rp 20.000'\t13\t127.0.0.1\n2026-09-23 16:11:57\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\tcreate_rental\tPenyewaan Rental #13 berhasil dibuat\t13\t127.0.0.1\n2026-09-23 15:46:09\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\thandover_rental\tPenyewaan #INV20260923010002 diubah: Id dari '12' menjadi '-', Nomor invoice dari 'INV20260923010002' menjadi '-', Cabang dari '1' menjadi '-', Pelanggan dari '5' menjadi '-'\t12\t127.0.0.1\n2026-09-23 15:45:49\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tRental #12 dihitung ulang\t12\t127.0.0.1\n2026-09-23 15:45:49\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\tupdate_rental\tPenyewaan #INV20260923010002 diubah: Subtotal dari 'Rp 35.000' menjadi 'Rp 100.000', Total dari 'Rp 10.000' menjadi 'Rp 75.000'\t12\t127.0.0.1\n2026-09-23 15:45:28\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\tcreate_rental\tPenyewaan Rental #12 berhasil dibuat\t12\t127.0.0.1\n2026-09-23 15:44:15\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tPenyewaan #INV20260923010001 diubah: Status denda dari 'unpaid' menjadi 'paid'\t11\t127.0.0.1\n2026-09-23 15:44:15\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\treturn_rental\tPenyewaan #INV20260923010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Total denda dari '0' menjadi 'Rp 10.000', Dikembalikan oleh dari '-' menjadi '2'\t11\t127.0.0.1\n2026-09-23 15:28:33\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tPenyewaan #INV20260923010001 diubah: Kembalian dari 'Rp 60.000' menjadi '0'\t11\t127.0.0.1\n2026-09-23 15:28:33\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecord_refund\tPenyewaan #INV20260923010001 diubah: Kembalian dari 'Rp 60.000' menjadi '0'\t11\t127.0.0.1\n2026-09-23 15:28:27\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tPenyewaan #INV20260923010001 diubah: Kembalian dari '0' menjadi 'Rp 60.000'\t11\t127.0.0.1\n2026-09-23 15:28:27\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\tprocess_payment\tPenyewaan #INV20260923010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 90.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 60.000'\t11\t127.0.0.1\n2026-09-23 15:28:27\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\trecalculate_payment_status\tRental #11 dihitung ulang\t11\t127.0.0.1\n2026-09-23 15:28:01\tToko Pusat - Yogyakarta\tAdmin Pusat Yogya\thandover_rental\tPenyewaan #INV20260923010001 diubah: Id dari '11' menjadi '-', Nomor invoice dari 'INV20260923010001' menjadi '-', Cabang dari '1' menjadi '-', Pelanggan dari '1' menjadi '-'\t11\t127.0.0.1\n\nShowing 1 to 50 of 228 results\n\n1\n2\n3\n4\n5"
+  },
+  {
+    "role": "super_admin",
+    "path": "/notifications",
+    "status": 200,
+    "url": "http://localhost:8000/notifications",
+    "title": "Notifikasi",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/notifications",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/activity-log",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nNotifikasi\n\nDaftar notifikasi untuk akun Anda\n\nTandai semua dibaca\nTipe\nSemua\nPenyewaan Baru\nPengembalian\nKeterlambatan\nPembayaran\nReminder\nSistem\nTerapkan\nReset\nNOTIFIKASI\tWAKTU\tSTATUS\tAKSI\n\n⚙️\n\nBroadcast: Test Final In-App Valid\n\nTest\n\n\t\n\n1 month ago\n\n\tBelum dibaca\t-\n\n\n⚙️\n\nBroadcast: khjkhk\n\nnm,n,m\n\n\t\n\n1 month ago\n\n\tBelum dibaca\t-"
+  },
+  {
+    "role": "super_admin",
+    "path": "/points",
+    "status": 200,
+    "url": "http://localhost:8000/points",
+    "title": "Poin Saya",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/points",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/notifications",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nLaporan Poin\n\nMenampilkan data semua cabang\n\nCABANG\n— Semua Cabang —\nCabang Solo\nToko Pusat - Yogyakarta\n—\nTampilkan\n\nTOTAL POIN\n\n38\n\nJUMLAH SALES\n\n3\n\nSALES\tCABANG\tTOTAL POIN\nAyyiipsss\tToko Pusat - Yogyakarta\t19\nLucius\tCabang Solo\t16\nAndi Pratama\tCabang Solo\t3"
+  },
+  {
+    "role": "super_admin",
+    "path": "/search?q=QA_NOT_FOUND_20261001",
+    "status": 200,
+    "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+    "title": "Pencarian - SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/points",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nPencarian\n2\nSU\nCari\nPelanggan\n0\n\nTidak ada pelanggan yang cocok.\n\nInvoice\n0\n\nTidak ada invoice yang cocok.\n\nProduk\n0\n\nTidak ada produk yang cocok."
+  },
+  {
+    "role": "super_admin",
+    "path": "/categories",
+    "status": 200,
+    "url": "http://localhost:8000/categories",
+    "title": "Kategori",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/categories",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nKategori\n2\nSU\nKategori\n\nKelola kategori produk jas\n\nTambah Kategori\nKATEGORI\tSLUG\tICON\tURUTAN\tJUMLAH PRODUK\tSTATUS\tAKSI\n\n\nJas Formal\n\n\tjas-formal\t\n\t1\t\n3 PRODUK\n\t\nAktif\n\t\n\n\n\nTuxedo\n\n\ttuxedo\t\n\t2\t\n0 PRODUK\n\t\nAktif\n\t\n\n\n\nJas Wisuda\n\n\tjas-wisuda\t\n\t3\t\n0 PRODUK\n\t\nAktif\n\t\n\n\n\nKebaya\n\n\tkebaya\t\n\t4\t\n0 PRODUK\n\t\nAktif\n\t\n\n\n\nRompi\n\n\trompi\t\n\t5\t\n0 PRODUK\n\t\nAktif\n\t\n\n\n\nSepatu\n\n\tsepatu\t\n\t6\t\n0 PRODUK\n\t\nAktif\n\t\n\n\n\nAksesoris\n\n\taksesoris\t\n\t7\t\n0 PRODUK\n\t\nAktif\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/categories/create",
+    "status": 200,
+    "url": "http://localhost:8000/categories/create",
+    "title": "Tambah Kategori",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/categories/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/categories",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nTambah Kategori\n\nBuat kategori produk baru\n\nNama Kategori *\nSlug *\nIcon (Lucide)\n\nNama icon dari lucide.dev\n\nUrutan Tampil\nKategori Aktif\nSimpan\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "/branches",
+    "status": 200,
+    "url": "http://localhost:8000/branches",
+    "title": "Kelola Cabang",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/branches",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/categories/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nKelola Cabang\n\nManajemen cabang toko JasRental\n\nTambah Cabang\n\nTOTAL CABANG\n\n2\n\nCABANG AKTIF\n\n2\n\nCABANG NONAKTIF\n\n0\n\nCABANG\tKODE\tKOTA\tKONTAK\tPENGGUNA\tPRODUK\tSTATUS\tAKSI\n\n\nCabang Solo\n\nJl. Slamet Riyadi No. 45, Solo\n\n\tSLO01\t\n\nSurakarta\n\nJawa Tengah\n\n\t\n\n0271-654321\n\nsolo@jasrental.id\n\n\t\n3\n\t\n0\n\t\nAktif\n\t\n\n\n\nToko Pusat - Yogyakarta\n\nJl. Malioboro No. 88, Yogyakarta\n\n\tYGY01\t\n\nYogyakarta\n\nDI Yogyakarta\n\n\t\n\n0274-123456\n\npusat@jasrental.id\n\n\t\n2\n\t\n1\n\t\nAktif\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/branches/create",
+    "status": 200,
+    "url": "http://localhost:8000/branches/create",
+    "title": "Tambah Cabang",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/branches/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/branches",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nTambah Cabang\n\nDaftarkan cabang baru\n\nNama Cabang *\nKode Cabang *\nNo. Telepon\nEmail\nKota\nProvinsi\nAlamat Lengkap\nCabang Aktif\nSimpan\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "/users",
+    "status": 200,
+    "url": "http://localhost:8000/users",
+    "title": "Kelola Pengguna",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/users",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/branches/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nKelola Pengguna\n2\nSU\n\n1 Super Admin\n\nAkses penuh semua cabang\n\n2 Admin Toko\n\nKelola satu cabang\n\n3 Sales\n\nTransaksi harian saja\n\nSemua Role\nSuper admin\nAdmin toko\nSales\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nFilter\nTambah Pengguna\n#\tPENGGUNA\tROLE\tCABANG\tTOTAL POIN\tKONTAK\tSTATUS\tAKSI\n1\t\n\nLucius\n\nLuciusgg365@gmail.com\n\n\t\nSales\n\t\n\nCabang Solo\n\nSLO01\n\n\t16\t083866684730\t\nAktif\n\t\n\n2\t\n\nAdmin Cabang Solo\n\nadmin.solo@jasrental.id\n\n\t\nAdmin toko\n\t\n\nCabang Solo\n\nSLO01\n\n\t-\t082187654321\t\nAktif\n\t\n\n3\t\n\nAyyiipsss\n\nbudi.santoso@jasrental.id\n\n\t\nSales\n\t\n\nToko Pusat - Yogyakarta\n\nYGY01\n\n\t19\t085312345678\t\nAktif\n\t\n\n4\t\n\nAndi Pratama\n\nandi.pratama@jasrental.id\n\n\t\nSales\n\t\n\nCabang Solo\n\nSLO01\n\n\t3\t085398765432\t\nAktif\n\t\n\n5\t\n\nSuper Administrator ANDA\n\nsuperadmin@jasrental.id\n\n\t\nSUPER ADMIN\n\tSemua Cabang\t-\t081234567890\t\nAktif\n\t\n\n6\t\n\nAdmin Pusat Yogya\n\nadmin.pusat@jasrental.id\n\n\t\nAdmin toko\n\t\n\nToko Pusat - Yogyakarta\n\nYGY01\n\n\t-\t081298765432\t\nAktif\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/users/create",
+    "status": 200,
+    "url": "http://localhost:8000/users/create",
+    "title": "Tambah Pengguna",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/users/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/users",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nTambah Pengguna\n2\nSU\nTambah Pengguna\n\nIsi data akun pengguna baru\n\nInformasi Akun\nNama Lengkap *\nEmail *\nNo. Telepon\nPassword\nPassword *\nKonfirmasi Password *\nFoto Profil\n\nKlik untuk upload foto\n\nHak Akses\nRole *\nPilih Role\nSuper admin\nAdmin toko\nSales\nTipe Akses Cabang *\n\nSemua Cabang\n\nUser dapat melihat dan mengelola data di semua cabang.\n\nCabang Tertentu\n\nUser hanya dapat mengakses cabang yang dipilih di bawah ini.\n\nCabang Utama / Cabang yang Diizinkan *\nToko Pusat - Yogyakarta\n(YGY01)\nCabang Solo\n(SLO01)\nSimpan Pengguna\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "/products/create",
+    "status": 200,
+    "url": "http://localhost:8000/products/create",
+    "title": "Tambah Produk Jas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/products/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/users/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nTambah Produk Baru\n\nIsi detail produk jas untuk rental\n\nInformasi Dasar\nNama Produk *\nKode Produk\n\nKode dibuat otomatis saat produk disimpan.\n\nKategori *\nPilih Kategori\nJas Formal\nTuxedo\nJas Wisuda\nKebaya\nRompi\nSepatu\nAksesoris\nDeskripsi\nCabang Tersedia\nPilih Semua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nDetail Fisik\nWarna\nKondisi\nPilih Kondisi\nExcellent\nGood\nFair\nPoor\nUkuran & Stok\nXS\nS\nM\nL\nXL\nXXL\n3XL\n4XL\n5XL\n6XL\n7XL\nStok & Harga\nHarga Sewa/Hari *\nRp\nFoto Produk\n\nKlik atau seret foto ke sini\n\nPNG, JPG, WEBP — Maks. 2MB\n\nStatus Produk\nStatus\nTersedia\nMaintenance\nCatatan Internal\nSimpan Produk\nBatal"
+  },
+  {
+    "role": "super_admin",
+    "path": "/broadcasts",
+    "status": 200,
+    "url": "http://localhost:8000/broadcasts",
+    "title": "Broadcast - SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcasts",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/products/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBroadcast\n2\nSU\nBuat Broadcast\n\nPesan akan masuk ke notifikasi penerima sesuai target yang dipilih.\n\nJudul\nPesan\nSemua\n\nSemua user aktif dalam scope akses.\n\nRole\n\nKirim hanya ke role tertentu.\n\nCabang\n\nKirim ke semua user di cabang.\n\nLink Aksi Opsional\nKirim Broadcast\nRiwayat Terakhir\n\nNotifikasi broadcast yang baru dikirim.\n\n17\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Final In-App Valid\n\nTest\n\n26 Aug 2026 15:48\n· 6 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:32\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:32\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:31\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:31\n· 2 penerima\nTest Radio In-App Only\n\nTest in-app message\n\n26 Aug 2026 15:11\n· 2 penerima\nTest Radio In-App Only\n\nTest in-app message\n\n26 Aug 2026 15:11\n· 2 penerima\nTest Both Channels to Customer\n\n26 Aug 2026 10:21\n· 1 penerima\nTest In-App to Customer\n\n26 Aug 2026 10:21\n· 1 penerima\nTest Both Channels to Customer\n\n26 Aug 2026 10:20\n· 1 penerima\nTest In-App to Customer\n\n26 Aug 2026 10:20\n· 1 penerima\nkhjkhk\n\nnm,n,m\n\n22 Aug 2026 21:14\n· 1 penerima"
+  },
+  {
+    "role": "super_admin",
+    "path": "/broadcast-campaigns",
+    "status": 200,
+    "url": "http://localhost:8000/broadcast-campaigns",
+    "title": "Broadcast Campaign - SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcast-campaigns",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcasts",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBroadcast Campaign\n2\nSU\nDaftar Campaign\n\nKelola dan pantau semua campaign broadcast WhatsApp.\n\nBuat Campaign\nCHANNEL\tNAMA CAMPAIGN\tTIPE PENERIMA\tTARGET\tSTATUS\tPROGRESS\tTANGGAL\tAKSI\n\nPromo akhir pekan\n\t\nWhatsApp\n\tCustomer\tAll\tProcessing\t\n0/5\n\t25 Sep 2026 10:41\tDetail "
+  },
+  {
+    "role": "super_admin",
+    "path": "/broadcast-campaigns/create",
+    "status": 200,
+    "url": "http://localhost:8000/broadcast-campaigns/create",
+    "title": "Buat Broadcast Campaign - SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcast-campaigns/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcast-campaigns",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBuat Broadcast Campaign\n2\nSU\nNama Campaign\nChannel\nNotifikasi In-App\nWhatsApp\nTipe Penerima\nPilih channel terlebih dahulu\nUser / Sales\nCustomer\nTarget\nPilih target\nSemua\nPer Cabang\nSales\nStatus Rental\nProduk\nKategori\nPilih Customer\nPesan\nJadwalkan Pengiriman (Opsional)\nBatal\nBuat Campaign\nPanduan\nPilih tipe penerima dahulu, lalu pilih target yang sesuai.\nKombinasi customer dengan target sales tidak valid.\nJika memilih template, pesan custom tidak perlu diisi.\nBiarkan kosong untuk mengirim segera, atau isi jadwal untuk pengiriman tertunda."
+  },
+  {
+    "role": "super_admin",
+    "path": "/reports/revenue",
+    "status": 200,
+    "url": "http://localhost:8000/reports/revenue",
+    "title": "Laporan Pendapatan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/revenue",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcast-campaigns/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nLaporan Pendapatan\n\nMenampilkan data semua cabang\n\nCABANG\n— Semua Cabang —\nCabang Solo\nToko Pusat - Yogyakarta\nPERIODE\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDARI\nSAMPAI\n—\nTampilkan\nEkspor akan mencakup\nsemua cabang\nExcel\nSemua\nPDF\nSemua\n\nTOTAL PENDAPATAN\n\nRp 140.000\n\nTOTAL DENDA KETERLAMBATAN\n\nRp 0\n\nTOTAL HARI TRANSAKSI\n\n2 hari\n\nRincian Pendapatan per Hari\n2 entri\nTANGGAL\tTOTAL RENTAL\tDENDA\tPENDAPATAN\nFriday, 25 September 2026\t2\t—\tRp 60.000\nThursday, 24 September 2026\t1\t—\tRp 80.000\nTotal Keseluruhan\t3\tRp 0\tRp 140.000"
+  },
+  {
+    "role": "super_admin",
+    "path": "/reports/transactions",
+    "status": 200,
+    "url": "http://localhost:8000/reports/transactions",
+    "title": "Laporan Transaksi",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/transactions",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/revenue",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Transaksi\n2\nSU\nPeriode\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDari Tanggal\nSampai Tanggal\nStatus\nSemua Status\nSelesai\nCari\nTampilkan\nReset\nExport Excel\nExport PDF\n\n3\n\nTotal\n\n0\n\nPending\n\n0\n\nAktif\n\n3\n\nSelesai\n\n0\n\nDibatalkan\n\nTotal nilai transaksi selesai periode ini: Rp 140.000\n\nDaftar Transaksi\n3 transaksi\nINVOICE\tPELANGGAN\tTGL TRANSAKSI\tTGL KEMBALI\tTOTAL\tSTATUS\tAKSI\nINV20260925010001\t\n\nbernard\n\n628907654321\n\n\t25 Sep 2026\t26 Sep 2026\tRp 25.000\t\nSelesai\n\t\n\nINV20260925010002\t\n\nlucius\n\n6283866684730\n\n\t25 Sep 2026\t26 Sep 2026\tRp 35.000\t\nSelesai\n\t\n\nINV20260924010001\t\n\nbmbng\n\n628907654346\n\n\t24 Sep 2026\t25 Sep 2026\tRp 80.000\t\nSelesai\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/reports/returns",
+    "status": 200,
+    "url": "http://localhost:8000/reports/returns",
+    "title": "Laporan Pengembalian",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/returns",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/transactions",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Pengembalian\n2\nSU\n\nSudah Dikembalikan\n\n3\n\nPeriode ini\n\nJatuh Tempo Hari Ini\n\n0\n\nHarus segera dikembalikan\n\nTerlambat Dikembalikan\n\n0\n\nMelewati batas waktu\n\nPeriode\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDari Tanggal\nSampai Tanggal\nTampilkan\nReset\nExport Excel\nExport PDF\nRiwayat Pengembalian\nINVOICE\tPELANGGAN\tTGL SEWA\tTGL DIKEMBALIKAN\tTOTAL\tSTATUS\tAKSI\nINV20260925010001\t\n\nbernard\n\n628907654321\n\n\t25 Sep 2026\t25 Sep 2026\tRp 25.000\t\nSelesai\n\t\n\nINV20260925010002\t\n\nlucius\n\n6283866684730\n\n\t25 Sep 2026\t25 Sep 2026\tRp 35.000\t\nSelesai\n\t\n\nINV20260924010001\t\n\nbmbng\n\n628907654346\n\n\t24 Sep 2026\t24 Sep 2026\tRp 80.000\t\nSelesai\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/reports/stock",
+    "status": 200,
+    "url": "http://localhost:8000/reports/stock",
+    "title": "Laporan Stok Jas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/stock",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/returns",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Stok Jas\n2\nSU\n\nTotal Produk\n\n3\n\nTotal Stok\n\n3\n\nStok Tersedia\n\n3\n\nSedang Disewa\n\n0\n\nStok Habis\n\n0\n\nCari Produk\nKategori\nSemua Kategori\nAksesoris\nJas Formal\nJas Wisuda\nKebaya\nRompi\nSepatu\nTuxedo\nFilter\nReset\nExport Excel\nExport PDF\nDaftar Stok Produk\n#\tNAMA PRODUK\tKODE\tKATEGORI\tSTOK TOTAL\tTERSEDIA\tKONDISI\tAKSI\n1\t\n\nJas Formal Hitam Classic\n\n\tPRD-004\tJas Formal\t30\t24\t\nTersedia\n\t\n\n2\t\n\nJas Polos Putih Premium\n\n\tPRD-003\tJas Formal\t9\t8\t\nTersedia\n\t\n\n3\t\n\nJas Sabuk Biru Modern\n\n\tPRD-002\tJas Formal\t14\t10\t\nTersedia\n\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/reports/customers",
+    "status": 200,
+    "url": "http://localhost:8000/reports/customers",
+    "title": "Laporan Customer",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/customers",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/stock",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Customer\n2\nSU\n\n5\n\nTotal Customer\n\n3\n\nDengan Transaksi\n\n2\n\nBlm Pernah Transaksi\n\nCari Customer\nTampilkan\nReset\nExport Excel\nExport PDF\nDaftar Customer\n5 customer\nNAMA\tNO. HP\tEMAIL\tTOTAL TRANSAKSI\tTOTAL NILAI\tTRANSAKSI TERAKHIR\tSTATUS\n\n\nlucius\n\n\t6283866684730\t-\t1\tRp 35.000\t25 Sep 2026\tAktif\n\n\nbernard\n\n\t628907654321\t-\t1\tRp 25.000\t25 Sep 2026\tAktif\n\n\nbmbng\n\n\t628907654346\t-\t1\tRp 80.000\t24 Sep 2026\tAktif\n\n\nLucent GT\n\n\t6281515102141\t-\t0\tRp 0\t-\tAktif\n\n\nBambang\n\n\t6283191863559\t-\t0\tRp 0\t-\tAktif"
+  },
+  {
+    "role": "super_admin",
+    "path": "/reports/payments",
+    "status": 200,
+    "url": "http://localhost:8000/reports/payments",
+    "title": "Laporan Pembayaran",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/payments",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/customers",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Pembayaran\n2\nSU\n\n4\n\nTotal Pembayaran\n\nRp 380.000\n\nTotal Nominal\n\n3\n\nTunai\n\n0\n\nTransfer\n\n0\n\nQRIS\n\nPeriode\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDari Tanggal\nSampai Tanggal\nCari\nTampilkan\nReset\nExport Excel\nExport PDF\nDaftar Pembayaran\n4 pembayaran\nTANGGAL\tINVOICE\tPELANGGAN\tJUMLAH\tMETODE\tTIPE\tCATATAN\tDITERIMA OLEH\n25 Sep 2026 16:45\tINV20260925010002\t\n\nlucius\n\n\tRp 150.000\tTunai\tSewa\t-\tSuper Administrator\n25 Sep 2026 14:26\tINV20260925010001\t\n\nbernard\n\n\tRp 150.000\tTunai\tSewa\t-\tSuper Administrator\n24 Sep 2026 16:20\tINV20260924010001\t\n\nbmbng\n\n\tRp -70.000\tLainnya\tRefund\tKembalian overpayment\tAyyiipsss\n24 Sep 2026 16:19\tINV20260924010001\t\n\nbmbng\n\n\tRp 150.000\tTunai\tSewa\t-\tAyyiipsss"
+  },
+  {
+    "role": "super_admin",
+    "path": "/reports/activity-log",
+    "status": 200,
+    "url": "http://localhost:8000/reports/activity-log",
+    "title": "Log Activity",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/activity-log",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/payments",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLog Activity\n2\nSU\n\nTOTAL AKTIVITAS\n\n272\n\nAKTIVITAS HARI INI\n\n0\n\nPENGGUNA AKTIF\n\n6\n\nSemua Aktivitas\nPenyewaan\nPembayaran\nPelanggan\nProduk\nPengguna\nCABANG\nSemua Cabang\nCabang Solo\nToko Pusat - Yogyakarta\nPERIODE\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDARI TANGGAL\nSAMPAI TANGGAL\nAKSI\nSemua Aksi\nBuat Sewa\nHapus Pelanggan\ndelete_invoice\nHapus Produk\nHapus Pengguna\nSelesaikan Sewa\npayment_duplicate_removed\nTerima Pembayaran\nproduct_not_found_return\nUbah Sewa\nBatalkan Pembayaran\nBatalkan Sewa\nPulihkan Pelanggan\nUbah Stok\nupdate_rental\nCARI\nTampilkan\nReset\nExport CSV\nExport PDF\n Riwayat Aktivitas\n272 entri\nWAKTU\tUSER\tCABANG\tAKSI\tDESKRIPSI\tDETAIL PERUBAHAN\tMODEL\tID\nPRODUK\n28 Sep 2026 09:12\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Stok\t\n\nUkuran M: Product #13 diperbarui: Stok tersedia dari '5' menjadi '4', Catatan stok dari '-' menjadi 'yang 1 nya hilang'\n\n\t\n5 → 4\n- → yang 1 nya hilang\n\tProduct\t13\nPENGEMBALIAN\n25 Sep 2026 16:46\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260925010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Denda dibayar dari '0' menjadi 'Rp 115.000', Total denda dari '0' menjadi 'Rp 115.000'\n\n\t\nactive → returned\nnone → paid\nRp 115.000 → 0\n0 → Rp 115.000\n\tRental\t16\nPENYEWAAN\n25 Sep 2026 16:45\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nRental #16 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n\t\nwaiting → active\n\tRental\t16\nPEMBAYARAN\n25 Sep 2026 16:45\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tTerima Pembayaran\t\n\nPenyewaan #INV20260925010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 35.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 115.000'\n\n\t\nunpaid → paid\n0 → Rp 150.000\nRp 35.000 → 0\n0 → Rp 115.000\n\tRental\t16\nPENYEWAAN\n25 Sep 2026 16:44\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tBuat Sewa\t\n\nPenyewaan Rental #16 berhasil dibuat\n\n\t\n- → waiting\n- → unpaid\n- → 0\n- → Rp 35.000\n\tRental\t16\n25 Sep 2026 16:43\t\n\nSuper Administrator\n\n\t-\tBatalkan Sewa\t\n\nPenyewaan (invoice INV20260923010003, customer lucius) dihapus permanently\n\n\t\nreturned → -\npaid → -\nRp 20.000 → -\n\tRental\t13\nPENGGUNA\n25 Sep 2026 16:42\t\n\nSuper Administrator\n\n\t-\tHapus Pengguna\t\n\nUser 'Budi' dihapus\n\n\t\nBudi → -\ndwa0fnuibwubg@gmail.com → -\nsales → -\n1 → -\n\tUser\t7\nPENGEMBALIAN\n25 Sep 2026 14:27\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260925010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'unpaid', Total denda dari '0' menjadi 'Rp 125.000', Kembalian dari 'Rp 125.000' menjadi '0'\n\n\t\nactive → returned\nnone → unpaid\nRp 125.000 → 0\n0 → Rp 125.000\n\tRental\t15\nPENYEWAAN\n25 Sep 2026 14:26\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nRental #15 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n\t\nwaiting → active\n\tRental\t15\nPEMBAYARAN\n25 Sep 2026 14:26\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tTerima Pembayaran\t\n\nPenyewaan #INV20260925010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 25.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 125.000'\n\n\t\nunpaid → paid\n0 → Rp 150.000\nRp 25.000 → 0\n0 → Rp 125.000\n\tRental\t15\nPENYEWAAN\n25 Sep 2026 14:26\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tBuat Sewa\t\n\nPenyewaan Rental #15 berhasil dibuat\n\n\t\n- → waiting\n- → unpaid\n- → 0\n- → Rp 25.000\n\tRental\t15\n25 Sep 2026 14:25\t\n\nSuper Administrator\n\n\t-\tBatalkan Sewa\t\n\nPenyewaan (invoice INV20260923010003, customer lucius) dihapus permanently\n\n\t\nreturned → -\npaid → -\nRp 20.000 → -\n\tRental\t13\nPENGEMBALIAN\n25 Sep 2026 13:48\t\n\nSuper Administrator\n\n\t-\tSelesaikan Sewa\t\n\nPenyewaan #INV20260923010003 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'partial', Total denda dari '0' menjadi 'Rp 185.145', Denda dari '0' menjadi 'Rp 55.145'\n\n\t\nactive → returned\nnone → partial\nRp 130.000 → 0\n0 → Rp 55.145\n\tRental\t13\nPENYEWAAN\n25 Sep 2026 13:48\t\n\nSuper Administrator\n\n\t-\tSelesaikan Sewa\t\n\nRental #13 diubah: Status penyewaan dari 'waiting' menjadi 'active', Hari terlambat dari '0' menjadi '1'\n\n\t\nwaiting → active\n0 → 1\n\tRental\t13\nPEMBAYARAN\n25 Sep 2026 13:48\t\n\nSuper Administrator\n\n\t-\tTerima Pembayaran\t\n\nPenyewaan #INV20260923010003 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 20.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 130.000'\n\n\t\nunpaid → paid\n0 → Rp 150.000\nRp 20.000 → 0\n0 → Rp 130.000\n\tRental\t13\nPENYEWAAN\n24 Sep 2026 16:20\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Status denda dari 'unpaid' menjadi 'paid'\n\n\t\nunpaid → paid\n\tRental\t14\nPENGEMBALIAN\n24 Sep 2026 16:20\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Total denda dari '0' menjadi 'Rp 50.000', Dikembalikan oleh dari '-' menjadi '4'\n\n\t\nactive → returned\nnone → paid\n0 → Rp 50.000\n\tRental\t14\nPENYEWAAN\n24 Sep 2026 16:20\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\n\n\t\nRp 70.000 → 0\n\tRental\t14\nPEMBAYARAN\n24 Sep 2026 16:20\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tBatalkan Pembayaran\t\n\nPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\n\n\t\nRp 70.000 → 0\n\tRental\t14\nPENYEWAAN\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nRental #14 dihitung ulang\n\n\t-\tRental\t14\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Kembalian dari '0' menjadi 'Rp 70.000'\n\n\t\n0 → Rp 70.000\n\tRental\t14\nPEMBAYARAN\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tTerima Pembayaran\t\n\nPenyewaan #INV20260924010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 80.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 70.000'\n\n\t\nunpaid → paid\n0 → Rp 150.000\nRp 80.000 → 0\n0 → Rp 70.000\n\tRental\t14\nPENYEWAAN\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Id dari '14' menjadi '-', Nomor invoice dari 'INV20260924010001' menjadi '-', Cabang dari '1' menjadi '-', Pelanggan dari '15' menjadi '-'\n\n\t\nwaiting → active\nunpaid → -\nnone → -\n0.00 → -\n\tRental\t14\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tBuat Sewa\t\n\nPenyewaan Rental #14 berhasil dibuat\n\n\t\n- → waiting\n- → unpaid\n- → 0\n- → Rp 80.000\n\tRental\t14\nPELANGGAN\n24 Sep 2026 14:11\t\n\nAdmin Cabang Solo\n\n\tCabang Solo\tHapus Pelanggan\t\n\nPelanggan 'bdndfcxm g' dihapus\n\n\t\nbdndfcxm g → -\nRp 62.865.434.576.543 → -\n\tCustomer\t7\nPENYEWAAN\n24 Sep 2026 14:09\t\n\nAdmin Cabang Solo\n\n\tCabang Solo\tBatalkan Sewa\t\n\nPenyewaan (invoice INV20260923010002, customer Lucent GT) dihapus permanently\n\n\t\nreturned → -\npaid → -\nRp 75.000 → -\n\tRental\t12\nPELANGGAN\n24 Sep 2026 11:21\t\n\nAdmin Cabang Solo\n\n\tCabang Solo\tHapus Pelanggan\t\n\nPelanggan 'nhgcyfvu' dihapus\n\n\t\nnhgcyfvu → -\nRp 62.890.987.654 → -\n\tCustomer\t13\nPENYEWAAN\n24 Sep 2026 11:04\t\n\nSuper Administrator\n\n\t-\tUbah Sewa\t\n\nPenyewaan #INV20260923010002 diubah: Total dibayar dari 'Rp 440.000' menjadi 'Rp 220.000', Kembalian dari 'Rp 365.000' menjadi 'Rp 145.000'\n\n\t\nRp 440.000 → Rp 220.000\nRp 365.000 → Rp 145.000\n\tRental\t12\nLAINNYA\n24 Sep 2026 11:03\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tpayment_duplicate_removed\t\n\nPerbaikan data akibat bug double-click pembayaran (data cleanup). Payment ID 23 (PAY202609230002, Rp220.000) dihapus sebagai duplikat dari Payment ID 22.\n\n\t-\tRental\t12\n23 Sep 2026 16:58\t\n\nSuper Administrator\n\n\t-\tproduct_not_found_return\t\n\nProduk ID 7 tidak ditemukan di database saat memproses pengembalian item ID 14 (rental INV20260923010002). Stok tidak diperbarui untuk item ini.\n\n\t-\tRental\t12\nPENYEWAAN\n23 Sep 2026 16:58\t\n\nSuper Administrator\n\n\t-\tUbah Sewa\t\n\nRental #12 dihitung ulang\n\n\t-\tRental\t12\nPENGEMBALIAN\n23 Sep 2026 16:58\t\n\nSuper Administrator\n\n\t-\tSelesaikan Sewa\t\n\nPenyewaan #INV20260923010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Dikembalikan oleh dari '-' menjadi '1', Tanggal kembali dari '-' menjadi '2026-09-23'\n\n\t\nactive → returned\n\tRental\t12\nPENYEWAAN\n23 Sep 2026 16:31\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260923010002 diubah: Kembalian dari 'Rp 145.000' menjadi 'Rp 365.000'\n\n\t\nRp 145.000 → Rp 365.000\n\tRental\t12\nPEMBAYARAN\n23 Sep 2026 16:31\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tTerima Pembayaran\t\n\nPenyewaan #INV20260923010002 diubah: Total dibayar dari 'Rp 220.000' menjadi 'Rp 440.000', Kembalian dari 'Rp 145.000' menjadi 'Rp 365.000'\n\n\t\nRp 220.000 → Rp 440.000\nRp 145.000 → Rp 365.000\n\tRental\t12\nPENYEWAAN\n23 Sep 2026 16:31\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nRental #12 dihitung ulang\n\n\t-\tRental\t12\n23 Sep 2026 16:31\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260923010002 diubah: Kembalian dari '0' menjadi 'Rp 145.000'\n\n\t\n0 → Rp 145.000\n\tRental\t12\nPEMBAYARAN\n23 Sep 2026 16:31\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tTerima Pembayaran\t\n\nPenyewaan #INV20260923010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 220.000', Sisa tagihan dari 'Rp 75.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 145.000'\n\n\t\nunpaid → paid\n0 → Rp 220.000\nRp 75.000 → 0\n0 → Rp 145.000\n\tRental\t12\nPENYEWAAN\n23 Sep 2026 16:31\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nRental #12 dihitung ulang\n\n\t-\tRental\t12\n23 Sep 2026 16:31\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tBatalkan Sewa\t\n\nPenyewaan (invoice INV20260923010001, customer lucius) dihapus permanently\n\n\t\nreturned → -\npaid → -\nRp 90.000 → -\n\tRental\t11\nLAINNYA\n23 Sep 2026 16:13\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tHapus Produk\t\n\nProduk 'Jas Formal Hitam Classic' dihapus\n\n\t\nJas Formal Hitam Classic → -\n7 → -\n15 → -\navailable → -\n\tProduct\t7\nPENYEWAAN\n23 Sep 2026 16:12\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nRental #13 dihitung ulang\n\n\t-\tRental\t13\nLAINNYA\n23 Sep 2026 16:12\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tupdate_rental\t\n\nPenyewaan #INV20260923010003 diubah: Subtotal dari 'Rp 300.000' menjadi 'Rp 70.000', Total dari 'Rp 250.000' menjadi 'Rp 20.000'\n\n\t\nRp 250.000 → Rp 20.000\nRp 300.000 → Rp 70.000\n\tRental\t13\nPENYEWAAN\n23 Sep 2026 16:11\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tBuat Sewa\t\n\nPenyewaan Rental #13 berhasil dibuat\n\n\t\n- → waiting\n- → unpaid\n- → 0\n- → Rp 250.000\n\tRental\t13\n23 Sep 2026 15:46\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260923010002 diubah: Id dari '12' menjadi '-', Nomor invoice dari 'INV20260923010002' menjadi '-', Cabang dari '1' menjadi '-', Pelanggan dari '5' menjadi '-'\n\n\t\nwaiting → active\nunpaid → -\nnone → -\n0.00 → -\n\tRental\t12\n23 Sep 2026 15:45\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nRental #12 dihitung ulang\n\n\t-\tRental\t12\nLAINNYA\n23 Sep 2026 15:45\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tupdate_rental\t\n\nPenyewaan #INV20260923010002 diubah: Subtotal dari 'Rp 35.000' menjadi 'Rp 100.000', Total dari 'Rp 10.000' menjadi 'Rp 75.000'\n\n\t\nRp 10.000 → Rp 75.000\nRp 35.000 → Rp 100.000\n\tRental\t12\nPENYEWAAN\n23 Sep 2026 15:45\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tBuat Sewa\t\n\nPenyewaan Rental #12 berhasil dibuat\n\n\t\n- → waiting\n- → unpaid\n- → 0\n- → Rp 10.000\n\tRental\t12\n23 Sep 2026 15:44\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260923010001 diubah: Status denda dari 'unpaid' menjadi 'paid'\n\n\t\nunpaid → paid\n\tRental\t11\nPENGEMBALIAN\n23 Sep 2026 15:44\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260923010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Total denda dari '0' menjadi 'Rp 10.000', Dikembalikan oleh dari '-' menjadi '2'\n\n\t\nactive → returned\nnone → paid\n0 → Rp 10.000\n\tRental\t11\nPENYEWAAN\n23 Sep 2026 15:28\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260923010001 diubah: Kembalian dari 'Rp 60.000' menjadi '0'\n\n\t\nRp 60.000 → 0\n\tRental\t11\n\nShowing 1 to 50 of 272 results\n\n1\n2\n3\n4\n5\n6"
+  },
+  {
+    "role": "super_admin",
+    "path": "/transactions",
+    "status": 200,
+    "url": "http://localhost:8000/transactions",
+    "title": "Transactions",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/transactions",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/activity-log",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nTransactions\n2\nSU\nCari\nFilter\nINVOICE\tPELANGGAN\tSTATUS RENTAL\tSTATUS BAYAR\tAKSI\nINV20260925010001\tbernard\treturned\tpaid\t\n\nINV20260925010002\tlucius\treturned\tpaid\t\n\nINV20260924010001\tbmbng\treturned\tpaid Denda\t"
+  },
+  {
+    "role": "super_admin",
+    "path": "/settings",
+    "status": 200,
+    "url": "http://localhost:8000/settings",
+    "title": "Pengaturan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/settings",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/transactions",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nPengaturan\n\nKelola QRIS, rekening, informasi perusahaan, dan branding aplikasi\n\nQRIS Pembayaran\nInformasi Rekening Transfer\nNama Bank\nNomor Rekening\nAtas Nama\nInformasi Perusahaan\nTagline\nAlamat\nTelepon\nWebsite\nLogo & Nama Aplikasi\n\n(sidebar, login, dan invoice)\n\nGunakan gambar rasio 1:1 (persegi), minimal 200×200px, background transparan (PNG) untuk hasil terbaik di semua tampilan (sidebar, invoice, halaman login).\n\nKlik atau seret logo aplikasi\n\nPNG, JPG, WEBP — Maks. 2MB\n\nNama Aplikasi\nTagline\nPengaturan Sewa\nDenda per Hari Telat (Rp)\nDurasi Sewa Default (hari)\nKembali\nSimpan Semua"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "admin_toko",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n1\nAD\nUTAMA\nDASHBOARD\nSelamat Sore, Admin Cabang Solo\n\nThursday, 01 Oct 2026 • 16:36 WIB\n\nCabang: Cabang Solo\nCabang\nCabang Solo\nToko Pusat - Yogyakarta\nSales\nSemua Sales\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nTambah Pelanggan\nBuat Sewa\nPengembalian\nLaundry\nBroadcast\nScan QR\nPerforma Sales\n\nPilih Sales untuk melihat performanya.\n\nPilih cabang dan Sales untuk menampilkan performa.\n\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/dashboard",
+    "status": 200,
+    "url": "http://localhost:8000/dashboard",
+    "title": "Dashboard Admin Cabang",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n1\nAD\nUTAMA\nDASHBOARD\nSelamat Sore, Admin Cabang Solo\n\nThursday, 01 Oct 2026 • 16:36 WIB\n\nCabang: Cabang Solo\nCabang\nCabang Solo\nToko Pusat - Yogyakarta\nSales\nSemua Sales\nAndi Pratama\nLucius\nDari Tanggal\nSampai Tanggal\nAktif\nTambah Pelanggan\nBuat Sewa\nPengembalian\nLaundry\nBroadcast\nScan QR\nPerforma Sales\n\nPilih Sales untuk melihat performanya.\n\nPilih cabang dan Sales untuk menampilkan performa.\n\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/profile",
+    "status": 200,
+    "url": "http://localhost:8000/profile",
+    "title": "Edit Profil — Pengaturan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/profile",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/dashboard",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n1\nAD\nDashboard\nProfil\nPengaturan Profil\n\nKelola informasi akun, keamanan, dan preferensi Anda.\n\nAD\nAdmin Cabang Solo\n\nadmin.solo@jasrental.id\n\nCabang Solo\nBERGABUNG SEJAK\n08 Jul 2026\nSTATUS AKUN\n● Aktif\nInformasi Akun\nNama & alamat email\nUbah Password\nKeamanan akun Anda\nZona Berbahaya\nHapus akun permanen\nEdit Informasi Akun\n\nPerbarui nama lengkap dan alamat email Anda\n\nNama Lengkap *\nAlamat Email *\n\nPerubahan pada alamat email akan memerlukan verifikasi ulang. Pastikan email yang Anda masukkan aktif dan dapat diakses.\n\nReset\nSimpan Perubahan"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/customers",
+    "status": 200,
+    "url": "http://localhost:8000/customers",
+    "title": "Pelanggan — RentalJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/profile",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nPelanggan\n1\nAD\nTambah Pelanggan\nEkspor Excel\nDaftar Blokir: Semua\nNormal\nDaftar Blokir\nNAMA\tNOMOR HANDPHONE\tSTATUS\tJUMLAH TRANSAKSI\tTANGGAL BERGABUNG\tAKSI\n\nBM\nbmbng\n\t\n628907654346\n\t\nAktif\n\t\n1\n\t\n24 Sep 2026\n\t\n\n\nBE\nbernard\n\t\n628907654321\n\t\nAktif\n\t\n1\n\t\n24 Sep 2026\n\t\n\n\nBA\nBambang\n\t\n6283191863559\n\t\nAktif\n\t\n0\n\t\n04 Sep 2026\n\t\n\n\nLU\nLucent GT\n\t\n6281515102141\n\t\nAktif\n\t\n0\n\t\n04 Sep 2026\n\t\n\n\nLU\nlucius\n\t\n6283866684730\n\t\nAktif\n\t\n1\n\t\n23 Aug 2026\n\t"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/customers/create",
+    "status": 200,
+    "url": "http://localhost:8000/customers/create",
+    "title": "Tambah Pelanggan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nAD\nAdmin Cabang Solo\nAdmin Toko\nUtama\nDashboard\nOperasional\nPenyewaan Scan QR Broadcast\nMaster Data\nPelanggan Produk\nAkun\nProfil\nKeluar\nLog\nLog Keseluruhan\nTambah Pelanggan Baru\n 1\nAD\nKembali ke Pelanggan\nInformasi Dasar\nNama Lengkap * \nNomor Handphone *\n+62 \n\nFormat: angka saja. Prefix +62 akan disimpan otomatis.\n\nIdentitas utama\n\nHanya Nama dan Nomor Handphone yang ditampilkan di form ini.\n\nBatal Tambah Pelanggan\nDashboard Scan QR Pelanggan Notifs 1"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/products",
+    "status": 200,
+    "url": "http://localhost:8000/products",
+    "title": "Produk Jas",
+    "events": [
+      {
+        "kind": "http",
+        "status": 404,
+        "url": "http://localhost:8000/storage/products/H6DA2rsixSXA5RmS7bHCJgPfhCm11phivAcqAc3q.jpg"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n1\nAD\nProduk Jas\n\nKelola stok dan produk rental\n\nTambah Produk\n\nTOTAL PRODUK\n\n1\n\nTERSEDIA\n\n1\n\nSEDANG DISEWA\n\n0\n\nMAINTENANCE\n\n0\n\nSemua Kategori\nJas Formal\nTuxedo\nJas Wisuda\nKebaya\nRompi\nSepatu\nAksesoris\nSemua Status\nTersedia\nDisewa\nMaintenance\nSemua Ukuran\nXS\nS\nM\nL\nXL\nXXL\n3XL\nFilter\n\n1 produk ditemukan\n\nKartu\nTabel\nTersedia\n\nJas Formal Hitam Classic\n\nPRD-004\n\nL\nM\nS\nXL\nXS\nHitam\nJas Formal\n\nRp 100.000\n\n/hari\n\n24/30\n\nstok"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/rentals",
+    "status": 200,
+    "url": "http://localhost:8000/rentals",
+    "title": "Penyewaan — SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/products",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nPenyewaan\n1\nAD\nTambah Penyewaan\nSemua Status\nMenunggu\nDiproses\nAktif\nTerlambat\nSelesai\nFilter\nNO. INVOICE\tPELANGGAN\tKOLEKSI\tTANGGAL SEWA\tSTATUS\tTOTAL BAYAR\tAKSI\n\nINV20260925010002\n\t\nlucius\n6283866684730\n\t\n1 Item\n\t\n25 Sep 2026\nTempo: 26 Sep 2026\n\t\nSelesai\n\t\nRp35.000\n\t\n\n\nINV20260925010001\n\t\nbernard\n628907654321\n\t\n1 Item\n\t\n25 Sep 2026\nTempo: 26 Sep 2026\n\t\nSelesai\n\t\nRp25.000\n\t\n\n\nINV20260924010001\n\t\nbmbng\n628907654346\n\t\n1 Item\n\t\n24 Sep 2026\nTempo: 25 Sep 2026\n\t\nSelesai\n\t\nRp80.000\n\t"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/rentals/create",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/create",
+    "title": "Buat Penyewaan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBuat Penyewaan\n1\nAD\nKembali ke Penyewaan\n Informasi Pelanggan & Penyewaan\nPelanggan *\nTanggal Sewa *\nDurasi (Hari) *\n Produk\nPilih Produk\nJas Formal Hitam Classic (Stok: 24) - Rp 100.000/hari\nPilih Ukuran\nTambah Produk\n Diskon & Catatan\nDiskon (Rp)\nCatatan\n Jaminan & Pembayaran\nMetode Pembayaran *\nPilih Metode\nCash\nQRIS\nTransfer\nJenis Jaminan *\nPilih Jenis Jaminan\nKTP\nSIM\nDeposit Uang\nJaminan Custom\nBatal\nSimpan Penyewaan"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/rentals/scan",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/scan",
+    "title": "Scan QR Code",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/scan",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nScan QR Code\n1\nAD\nDashboard\n/\nPenyewaan\n/\nScan QR Code\nScan QR Code\n\nArahkan kamera ke QR Code pada Invoice, Receipt, atau Rental untuk melihat detail. QR Code dapat diperoleh dari dokumen atau aplikasi SewaJas.\n\nPilih Kamera:\nKamera 1\nKamera Tidak Aktif\n⚠ Dev Mode\nMulai Kamera\nHentikan\nTukar Kamera\nMulai kamera otomatis saat halaman dibuka\nHasil Scan Terakhir\n\nBelum ada QR yang dipindai\n\nRiwayat Scan\n\nTidak ada riwayat\n\nTips Scanning\n✓\nPastikan pencahayaan cukup\n✓\nArahkan QR Code ke tengah layar\n✓\nJangan menggerakkan terlalu cepat\n✓\nBrowser perlu akses ke kamera"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/rentals/activity-log",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/activity-log",
+    "title": "Log Aktivitas Penyewaan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/activity-log",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/scan",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLog Aktivitas Penyewaan\n1\nAD\nDari Tanggal\nSampai Tanggal\nCari\nTampilkan\nReset\nExport Excel\nExport PDF\nWAKTU\tCABANG\tUSER\tAKSI\tDESKRIPSI\tINVOICE\tIP\n2026-09-25 16:46:03\tToko Pusat - Yogyakarta\tSuper Administrator\treturn_rental\tPenyewaan #INV20260925010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Denda dibayar dari '0' menjadi 'Rp 115.000', Total denda dari '0' menjadi 'Rp 115.000'\tINV20260925010002\t127.0.0.1\n2026-09-25 16:45:41\tToko Pusat - Yogyakarta\tSuper Administrator\thandover_rental\tRental #16 diubah: Status penyewaan dari 'waiting' menjadi 'active'\tINV20260925010002\t127.0.0.1\n2026-09-25 16:45:23\tToko Pusat - Yogyakarta\tSuper Administrator\tprocess_payment\tPenyewaan #INV20260925010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 35.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 115.000'\tINV20260925010002\t127.0.0.1\n2026-09-25 16:44:50\tToko Pusat - Yogyakarta\tSuper Administrator\tcreate_rental\tPenyewaan Rental #16 berhasil dibuat\tINV20260925010002\t127.0.0.1\n2026-09-25 14:27:00\tToko Pusat - Yogyakarta\tSuper Administrator\treturn_rental\tPenyewaan #INV20260925010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'unpaid', Total denda dari '0' menjadi 'Rp 125.000', Kembalian dari 'Rp 125.000' menjadi '0'\tINV20260925010001\t127.0.0.1\n2026-09-25 14:26:40\tToko Pusat - Yogyakarta\tSuper Administrator\thandover_rental\tRental #15 diubah: Status penyewaan dari 'waiting' menjadi 'active'\tINV20260925010001\t127.0.0.1\n2026-09-25 14:26:30\tToko Pusat - Yogyakarta\tSuper Administrator\tprocess_payment\tPenyewaan #INV20260925010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 25.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 125.000'\tINV20260925010001\t127.0.0.1\n2026-09-25 14:26:18\tToko Pusat - Yogyakarta\tSuper Administrator\tcreate_rental\tPenyewaan Rental #15 berhasil dibuat\tINV20260925010001\t127.0.0.1\n2026-09-24 16:20:26\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Status denda dari 'unpaid' menjadi 'paid'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:26\tToko Pusat - Yogyakarta\tAyyiipsss\treturn_rental\tPenyewaan #INV20260924010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Total denda dari '0' menjadi 'Rp 50.000', Dikembalikan oleh dari '-' menjadi '4'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:11\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:11\tToko Pusat - Yogyakarta\tAyyiipsss\trecord_refund\tPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Kembalian dari '0' menjadi 'Rp 70.000'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\tprocess_payment\tPenyewaan #INV20260924010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 80.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 70.000'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tRental #14 dihitung ulang\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:46\tToko Pusat - Yogyakarta\tAyyiipsss\thandover_rental\tPenyewaan #INV20260924010001 diubah: Id dari '14' menjadi '-', Nomor invoice dari 'INV20260924010001' menjadi '-', Cabang dari '1' menjadi '-', Pelanggan dari '15' menjadi '-'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:39\tToko Pusat - Yogyakarta\tAyyiipsss\tcreate_rental\tPenyewaan Rental #14 berhasil dibuat\tINV20260924010001\t127.0.0.1"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/notifications",
+    "status": 200,
+    "url": "http://localhost:8000/notifications",
+    "title": "Notifikasi",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/notifications",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/activity-log",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n1\nAD\nNotifikasi\n\nDaftar notifikasi untuk akun Anda\n\nTandai semua dibaca\nTipe\nSemua\nPenyewaan Baru\nPengembalian\nKeterlambatan\nPembayaran\nReminder\nSistem\nTerapkan\nReset\nNOTIFIKASI\tWAKTU\tSTATUS\tAKSI\n\n⚙️\n\nBroadcast: Test Final In-App Valid\n\nTest\n\n\t\n\n1 month ago\n\n\tBelum dibaca\t-"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/points",
+    "status": 200,
+    "url": "http://localhost:8000/points",
+    "title": "Poin Saya",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/points",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/notifications",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n1\nAD\nLaporan Poin\n\nMenampilkan data semua cabang\n\nCABANG\n— Semua Cabang —\nCabang Solo\nToko Pusat - Yogyakarta\n—\nTampilkan\n\nTOTAL POIN\n\n38\n\nJUMLAH SALES\n\n3\n\nSALES\tCABANG\tTOTAL POIN\nAyyiipsss\tToko Pusat - Yogyakarta\t19\nLucius\tCabang Solo\t16\nAndi Pratama\tCabang Solo\t3"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/search?q=QA_NOT_FOUND_20261001",
+    "status": 200,
+    "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+    "title": "Pencarian - SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/points",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nPencarian\n1\nAD\nCari\nPelanggan\n0\n\nTidak ada pelanggan yang cocok.\n\nInvoice\n0\n\nTidak ada invoice yang cocok.\n\nProduk\n0\n\nTidak ada produk yang cocok."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/categories",
+    "status": 403,
+    "url": "http://localhost:8000/categories",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/categories",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/categories"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/categories/create",
+    "status": 403,
+    "url": "http://localhost:8000/categories/create",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/categories/create"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/branches",
+    "status": 403,
+    "url": "http://localhost:8000/branches",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/branches"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/branches/create",
+    "status": 403,
+    "url": "http://localhost:8000/branches/create",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/branches/create"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/users",
+    "status": 403,
+    "url": "http://localhost:8000/users",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/users"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/users/create",
+    "status": 403,
+    "url": "http://localhost:8000/users/create",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/users/create"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/products/create",
+    "status": 200,
+    "url": "http://localhost:8000/products/create",
+    "title": "Tambah Produk Jas",
+    "events": [],
+    "text": "Sewajas\nSewajas\nAD\nAdmin Cabang Solo\nAdmin Toko\nUtama\nDashboard\nOperasional\nPenyewaan Scan QR Broadcast\nMaster Data\nPelanggan Produk\nAkun\nProfil\nKeluar\nLog\nLog Keseluruhan\nDashboard\n 1\nAD\nTambah Produk Baru\n\nIsi detail produk jas untuk rental\n\nInformasi Dasar\nNama Produk * \nKode Produk \n\nKode dibuat otomatis saat produk disimpan.\n\nKategori * \nPilih Kategori\nJas Formal\nTuxedo\nJas Wisuda\nKebaya\nRompi\nSepatu\nAksesoris\nDeskripsi \nDetail Fisik\nWarna \nKondisi \nPilih Kondisi\nExcellent\nGood\nFair\nPoor\nUkuran & Stok\nStok & Harga\nHarga Sewa/Hari *\nRp \nFoto Produk\n\nKlik atau seret foto ke sini\n\nPNG, JPG, WEBP — Maks. 2MB\n\nStatus Produk\nStatus \nTersedia\nMaintenance\nCatatan Internal\nSimpan Produk Batal\nDashboard Scan QR Pelanggan Notifs 1"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/broadcasts",
+    "status": 200,
+    "url": "http://localhost:8000/broadcasts",
+    "title": "Broadcast - SewaJas",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBroadcast\n1\nAD\nBuat Broadcast\n\nPesan akan masuk ke notifikasi penerima sesuai target yang dipilih.\n\nJudul\nPesan\nSemua\n\nSemua user aktif dalam scope akses.\n\nRole\n\nKirim hanya ke role tertentu.\n\nCabang\n\nKirim ke semua user di cabang.\n\nLink Aksi Opsional\nKirim Broadcast\nRiwayat Terakhir\n\nNotifikasi broadcast yang baru dikirim.\n\n10\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:32\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:32\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:31\n· 2 penerima\nTest Locked In-App User\n\nTest in-app user message\n\n26 Aug 2026 15:31\n· 2 penerima\nTest Radio In-App Only\n\nTest in-app message\n\n26 Aug 2026 15:11\n· 2 penerima\nTest Radio In-App Only\n\nTest in-app message\n\n26 Aug 2026 15:11\n· 2 penerima\nTest Both Channels to Customer\n\n26 Aug 2026 10:21\n· 1 penerima\nTest In-App to Customer\n\n26 Aug 2026 10:21\n· 1 penerima\nTest Both Channels to Customer\n\n26 Aug 2026 10:20\n· 1 penerima\nTest In-App to Customer\n\n26 Aug 2026 10:20\n· 1 penerima"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/broadcast-campaigns",
+    "status": 200,
+    "url": "http://localhost:8000/broadcast-campaigns",
+    "title": "Broadcast Campaign - SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcast-campaigns",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcasts",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBroadcast Campaign\n1\nAD\nDaftar Campaign\n\nKelola dan pantau semua campaign broadcast WhatsApp.\n\nBuat Campaign\nCHANNEL\tNAMA CAMPAIGN\tTIPE PENERIMA\tTARGET\tSTATUS\tPROGRESS\tTANGGAL\tAKSI\nBelum ada campaign broadcast. Buat campaign baru untuk mulai."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/broadcast-campaigns/create",
+    "status": 200,
+    "url": "http://localhost:8000/broadcast-campaigns/create",
+    "title": "Buat Broadcast Campaign - SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcast-campaigns/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcast-campaigns",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBuat Broadcast Campaign\n1\nAD\nNama Campaign\nChannel\nNotifikasi In-App\nWhatsApp\nTipe Penerima\nPilih channel terlebih dahulu\nUser / Sales\nCustomer\nTarget\nPilih target\nSemua\nPer Cabang\nSales\nStatus Rental\nProduk\nKategori\nPilih Customer\nPesan\nJadwalkan Pengiriman (Opsional)\nBatal\nBuat Campaign\nPanduan\nPilih tipe penerima dahulu, lalu pilih target yang sesuai.\nKombinasi customer dengan target sales tidak valid.\nJika memilih template, pesan custom tidak perlu diisi.\nBiarkan kosong untuk mengirim segera, atau isi jadwal untuk pengiriman tertunda."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/reports/revenue",
+    "status": 200,
+    "url": "http://localhost:8000/reports/revenue",
+    "title": "Laporan Pendapatan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/revenue",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/broadcast-campaigns/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n1\nAD\nLaporan Pendapatan\n\nCabang: Cabang Solo\n\nCABANG\nCabang Solo\nToko Pusat - Yogyakarta\nPERIODE\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDARI\nSAMPAI\n—\nTampilkan\nEkspor untuk cabang\nCabang Solo\nExcel\nPDF\n\nTOTAL PENDAPATAN\n\nRp 0\n\nTOTAL DENDA KETERLAMBATAN\n\nRp 0\n\nTOTAL HARI TRANSAKSI\n\n0 hari\n\nRincian Pendapatan per Hari\n0 entri\nTANGGAL\tTOTAL RENTAL\tDENDA\tPENDAPATAN\n\n\nTidak ada data untuk periode ini"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/reports/transactions",
+    "status": 200,
+    "url": "http://localhost:8000/reports/transactions",
+    "title": "Laporan Transaksi",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/transactions",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/revenue",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Transaksi\n1\nAD\nPeriode\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDari Tanggal\nSampai Tanggal\nStatus\nSemua Status\nSelesai\nCari\nTampilkan\nReset\nExport Excel\nExport PDF\n\n0\n\nTotal\n\n0\n\nPending\n\n0\n\nAktif\n\n0\n\nSelesai\n\n0\n\nDibatalkan\n\nTotal nilai transaksi selesai periode ini: Rp 0\n\nDaftar Transaksi\n0 transaksi\nINVOICE\tPELANGGAN\tTGL TRANSAKSI\tTGL KEMBALI\tTOTAL\tSTATUS\tAKSI\n\n\nTidak ada transaksi ditemukan"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/reports/returns",
+    "status": 200,
+    "url": "http://localhost:8000/reports/returns",
+    "title": "Laporan Pengembalian",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/returns",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/transactions",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Pengembalian\n1\nAD\n\nSudah Dikembalikan\n\n0\n\nPeriode ini\n\nJatuh Tempo Hari Ini\n\n0\n\nHarus segera dikembalikan\n\nTerlambat Dikembalikan\n\n0\n\nMelewati batas waktu\n\nPeriode\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDari Tanggal\nSampai Tanggal\nTampilkan\nReset\nExport Excel\nExport PDF\nRiwayat Pengembalian\nINVOICE\tPELANGGAN\tTGL SEWA\tTGL DIKEMBALIKAN\tTOTAL\tSTATUS\tAKSI\n\n\nBelum ada data pengembalian"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/reports/stock",
+    "status": 200,
+    "url": "http://localhost:8000/reports/stock",
+    "title": "Laporan Stok Jas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/stock",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/returns",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Stok Jas\n1\nAD\n\nTotal Produk\n\n0\n\nTotal Stok\n\n0\n\nStok Tersedia\n\n0\n\nSedang Disewa\n\n0\n\nStok Habis\n\n0\n\nCari Produk\nKategori\nSemua Kategori\nAksesoris\nJas Formal\nJas Wisuda\nKebaya\nRompi\nSepatu\nTuxedo\nFilter\nReset\nExport Excel\nExport PDF\nDaftar Stok Produk\n#\tNAMA PRODUK\tKODE\tKATEGORI\tSTOK TOTAL\tTERSEDIA\tKONDISI\tAKSI\n\n\nTidak ada data produk"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/reports/customers",
+    "status": 200,
+    "url": "http://localhost:8000/reports/customers",
+    "title": "Laporan Customer",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/customers",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/stock",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Customer\n1\nAD\n\n0\n\nTotal Customer\n\n0\n\nDengan Transaksi\n\n0\n\nBlm Pernah Transaksi\n\nCari Customer\nTampilkan\nReset\nExport Excel\nExport PDF\nDaftar Customer\n0 customer\nNAMA\tNO. HP\tEMAIL\tTOTAL TRANSAKSI\tTOTAL NILAI\tTRANSAKSI TERAKHIR\tSTATUS\n\n\nTidak ada customer ditemukan"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/reports/payments",
+    "status": 200,
+    "url": "http://localhost:8000/reports/payments",
+    "title": "Laporan Pembayaran",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/payments",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/customers",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLaporan Pembayaran\n1\nAD\n\n0\n\nTotal Pembayaran\n\nRp 0\n\nTotal Nominal\n\n0\n\nTunai\n\n0\n\nTransfer\n\n0\n\nQRIS\n\nPeriode\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDari Tanggal\nSampai Tanggal\nCari\nTampilkan\nReset\nExport Excel\nExport PDF\nDaftar Pembayaran\n0 pembayaran\nTANGGAL\tINVOICE\tPELANGGAN\tJUMLAH\tMETODE\tTIPE\tCATATAN\tDITERIMA OLEH\n\n\nTidak ada pembayaran ditemukan"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/reports/activity-log",
+    "status": 200,
+    "url": "http://localhost:8000/reports/activity-log",
+    "title": "Log Activity",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/activity-log",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/payments",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAD\nAdmin Cabang Solo\nAdmin Toko\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nLog Activity\n1\nAD\n\nTOTAL AKTIVITAS\n\n27\n\nAKTIVITAS HARI INI\n\n0\n\nPENGGUNA AKTIF\n\n4\n\nSemua Aktivitas\nPenyewaan\nPembayaran\nPelanggan\nProduk\nPengguna\nPERIODE\nPilih Tanggal\nHari Ini\nMinggu Ini\nBulan Ini\nDARI TANGGAL\nSAMPAI TANGGAL\nAKSI\nSemua Aksi\nBuat Sewa\nHapus Pelanggan\nHapus Produk\nSelesaikan Sewa\nTerima Pembayaran\nUbah Sewa\nBatalkan Pembayaran\nUbah Stok\nCARI\nTampilkan\nReset\nExport CSV\nExport PDF\n Riwayat Aktivitas\n27 entri\nWAKTU\tUSER\tCABANG\tAKSI\tDESKRIPSI\tDETAIL PERUBAHAN\tMODEL\tID\nPRODUK\n28 Sep 2026 09:12\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Stok\t\n\nUkuran M: Product #13 diperbarui: Stok tersedia dari '5' menjadi '4', Catatan stok dari '-' menjadi 'yang 1 nya hilang'\n\n\t\n5 → 4\n- → yang 1 nya hilang\n\tProduct\t13\nPENGEMBALIAN\n25 Sep 2026 16:46\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260925010002 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Denda dibayar dari '0' menjadi 'Rp 115.000', Total denda dari '0' menjadi 'Rp 115.000'\n\n\t\nactive → returned\nnone → paid\nRp 115.000 → 0\n0 → Rp 115.000\n\tRental\t16\nPENYEWAAN\n25 Sep 2026 16:45\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nRental #16 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n\t\nwaiting → active\n\tRental\t16\nPEMBAYARAN\n25 Sep 2026 16:45\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tTerima Pembayaran\t\n\nPenyewaan #INV20260925010002 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 35.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 115.000'\n\n\t\nunpaid → paid\n0 → Rp 150.000\nRp 35.000 → 0\n0 → Rp 115.000\n\tRental\t16\nPENYEWAAN\n25 Sep 2026 16:44\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tBuat Sewa\t\n\nPenyewaan Rental #16 berhasil dibuat\n\n\t\n- → waiting\n- → unpaid\n- → 0\n- → Rp 35.000\n\tRental\t16\nPENGEMBALIAN\n25 Sep 2026 14:27\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260925010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'unpaid', Total denda dari '0' menjadi 'Rp 125.000', Kembalian dari 'Rp 125.000' menjadi '0'\n\n\t\nactive → returned\nnone → unpaid\nRp 125.000 → 0\n0 → Rp 125.000\n\tRental\t15\nPENYEWAAN\n25 Sep 2026 14:26\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nRental #15 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n\t\nwaiting → active\n\tRental\t15\nPEMBAYARAN\n25 Sep 2026 14:26\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tTerima Pembayaran\t\n\nPenyewaan #INV20260925010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 25.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 125.000'\n\n\t\nunpaid → paid\n0 → Rp 150.000\nRp 25.000 → 0\n0 → Rp 125.000\n\tRental\t15\nPENYEWAAN\n25 Sep 2026 14:26\t\n\nSuper Administrator\n\n\tToko Pusat - Yogyakarta\tBuat Sewa\t\n\nPenyewaan Rental #15 berhasil dibuat\n\n\t\n- → waiting\n- → unpaid\n- → 0\n- → Rp 25.000\n\tRental\t15\n24 Sep 2026 16:20\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Status denda dari 'unpaid' menjadi 'paid'\n\n\t\nunpaid → paid\n\tRental\t14\nPENGEMBALIAN\n24 Sep 2026 16:20\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Total denda dari '0' menjadi 'Rp 50.000', Dikembalikan oleh dari '-' menjadi '4'\n\n\t\nactive → returned\nnone → paid\n0 → Rp 50.000\n\tRental\t14\nPENYEWAAN\n24 Sep 2026 16:20\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\n\n\t\nRp 70.000 → 0\n\tRental\t14\nPEMBAYARAN\n24 Sep 2026 16:20\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tBatalkan Pembayaran\t\n\nPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\n\n\t\nRp 70.000 → 0\n\tRental\t14\nPENYEWAAN\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nRental #14 dihitung ulang\n\n\t-\tRental\t14\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tUbah Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Kembalian dari '0' menjadi 'Rp 70.000'\n\n\t\n0 → Rp 70.000\n\tRental\t14\nPEMBAYARAN\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tTerima Pembayaran\t\n\nPenyewaan #INV20260924010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 80.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 70.000'\n\n\t\nunpaid → paid\n0 → Rp 150.000\nRp 80.000 → 0\n0 → Rp 70.000\n\tRental\t14\nPENYEWAAN\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tSelesaikan Sewa\t\n\nPenyewaan #INV20260924010001 diubah: Id dari '14' menjadi '-', Nomor invoice dari 'INV20260924010001' menjadi '-', Cabang dari '1' menjadi '-', Pelanggan dari '15' menjadi '-'\n\n\t\nwaiting → active\nunpaid → -\nnone → -\n0.00 → -\n\tRental\t14\n24 Sep 2026 16:19\t\n\nAyyiipsss\n\n\tToko Pusat - Yogyakarta\tBuat Sewa\t\n\nPenyewaan Rental #14 berhasil dibuat\n\n\t\n- → waiting\n- → unpaid\n- → 0\n- → Rp 80.000\n\tRental\t14\nPELANGGAN\n24 Sep 2026 14:11\t\n\nAdmin Cabang Solo\n\n\tCabang Solo\tHapus Pelanggan\t\n\nPelanggan 'bdndfcxm g' dihapus\n\n\t\nbdndfcxm g → -\nRp 62.865.434.576.543 → -\n\tCustomer\t7\n24 Sep 2026 11:21\t\n\nAdmin Cabang Solo\n\n\tCabang Solo\tHapus Pelanggan\t\n\nPelanggan 'nhgcyfvu' dihapus\n\n\t\nnhgcyfvu → -\nRp 62.890.987.654 → -\n\tCustomer\t13\nLAINNYA\n23 Sep 2026 16:13\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tHapus Produk\t\n\nProduk 'Jas Formal Hitam Classic' dihapus\n\n\t\nJas Formal Hitam Classic → -\n7 → -\n15 → -\navailable → -\n\tProduct\t7\n23 Sep 2026 10:46\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tHapus Produk\t\n\nProduk 'Jas Formal Hitam Classic' dihapus\n\n\t\nJas Formal Hitam Classic → -\n13 → -\n10 → -\navailable → -\n\tProduct\t1\n23 Sep 2026 10:46\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tHapus Produk\t\n\nProduk 'Tuxedo Putih Elegant' dihapus\n\n\t\nTuxedo Putih Elegant → -\n5 → -\n5 → -\navailable → -\n\tProduct\t3\n23 Sep 2026 10:46\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tHapus Produk\t\n\nProduk 'Jas Wisuda Hitam Modern' dihapus\n\n\t\nJas Wisuda Hitam Modern → -\n5 → -\n3 → -\navailable → -\n\tProduct\t4\n23 Sep 2026 10:46\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tHapus Produk\t\n\nProduk 'Kebaya Biru Muda' dihapus\n\n\t\nKebaya Biru Muda → -\n3 → -\n2 → -\navailable → -\n\tProduct\t5\n23 Sep 2026 10:46\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tHapus Produk\t\n\nProduk 'Rompi Kulit Coklat' dihapus\n\n\t\nRompi Kulit Coklat → -\n4 → -\n4 → -\navailable → -\n\tProduct\t6\n23 Sep 2026 10:46\t\n\nAdmin Pusat Yogya\n\n\tToko Pusat - Yogyakarta\tHapus Produk\t\n\nProduk 'Jas Formal Navy Premium' dihapus\n\n\t\nJas Formal Navy Premium → -\n11 → -\n10 → -\navailable → -\n\tProduct\t2"
+  },
+  {
+    "role": "admin_toko",
+    "path": "/transactions",
+    "status": 403,
+    "url": "http://localhost:8000/transactions",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/transactions",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/reports/activity-log",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/transactions"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "admin_toko",
+    "path": "/settings",
+    "status": 403,
+    "url": "http://localhost:8000/settings",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/settings"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "sales",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDashboard\n3\nAY\nUTAMA\nDASHBOARD\nSelamat Sore, Ayyiipsss\n\nThursday, 01 Oct 2026 • 16:38 WIB\n\nCabang: Toko Pusat - Yogyakarta\nDari Tanggal\nSampai Tanggal\nAktif\nBuat Sewa\nPelanggan Saya\nScan QR\nPengembalian\nTransaksi Saya\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "sales",
+    "path": "/dashboard",
+    "status": 200,
+    "url": "http://localhost:8000/dashboard",
+    "title": "Dashboard Sales",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/dashboard",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/dashboard",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDashboard\n3\nAY\nUTAMA\nDASHBOARD\nSelamat Sore, Ayyiipsss\n\nThursday, 01 Oct 2026 • 16:38 WIB\n\nCabang: Toko Pusat - Yogyakarta\nDari Tanggal\nSampai Tanggal\nAktif\nBuat Sewa\nPelanggan Saya\nScan QR\nPengembalian\nTransaksi Saya\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "sales",
+    "path": "/profile",
+    "status": 200,
+    "url": "http://localhost:8000/profile",
+    "title": "Edit Profil — Pengaturan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/profile",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/dashboard",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDashboard\n3\nAY\nDashboard\nProfil\nPengaturan Profil\n\nKelola informasi akun, keamanan, dan preferensi Anda.\n\nAY\nAyyiipsss\n\nbudi.santoso@jasrental.id\n\nToko Pusat - Yogyakarta\nBERGABUNG SEJAK\n08 Jul 2026\nTOTAL POIN\n19\nSTATUS AKUN\n● Aktif\nInformasi Akun\nNama & alamat email\nUbah Password\nKeamanan akun Anda\nZona Berbahaya\nHapus akun permanen\nEdit Informasi Akun\n\nPerbarui nama lengkap dan alamat email Anda\n\nNama Lengkap *\nAlamat Email *\n\nPerubahan pada alamat email akan memerlukan verifikasi ulang. Pastikan email yang Anda masukkan aktif dan dapat diakses.\n\nReset\nSimpan Perubahan"
+  },
+  {
+    "role": "sales",
+    "path": "/customers",
+    "status": 200,
+    "url": "http://localhost:8000/customers",
+    "title": "Pelanggan — RentalJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/profile",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nPelanggan\n3\nAY\nTambah Pelanggan\nDaftar Blokir: Semua\nNormal\nDaftar Blokir\nNAMA\tNOMOR HANDPHONE\tSTATUS\tJUMLAH TRANSAKSI\tTANGGAL BERGABUNG\tAKSI\n\nBM\nbmbng\n\t\n628907654346\n\t\nAktif\n\t\n1\n\t\n24 Sep 2026\n\t\n\n\nBE\nbernard\n\t\n628907654321\n\t\nAktif\n\t\n1\n\t\n24 Sep 2026\n\t"
+  },
+  {
+    "role": "sales",
+    "path": "/customers/create",
+    "status": 200,
+    "url": "http://localhost:8000/customers/create",
+    "title": "Tambah Pelanggan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nTambah Pelanggan Baru\n3\nAY\nKembali ke Pelanggan\n Informasi Dasar\nNama Lengkap *\nNomor Handphone *\n+62\n\nFormat: angka saja. Prefix +62 akan disimpan otomatis.\n\nIdentitas utama\n\nHanya Nama dan Nomor Handphone yang ditampilkan di form ini.\n\nBatal\nTambah Pelanggan"
+  },
+  {
+    "role": "sales",
+    "path": "/products",
+    "status": 200,
+    "url": "http://localhost:8000/products",
+    "title": "Produk Jas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/products",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/customers/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "http",
+        "status": 404,
+        "url": "http://localhost:8000/storage/products/H6DA2rsixSXA5RmS7bHCJgPfhCm11phivAcqAc3q.jpg"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDashboard\n3\nAY\nProduk Jas\n\nKelola stok dan produk rental\n\nTOTAL PRODUK\n\n1\n\nTERSEDIA\n\n1\n\nSEDANG DISEWA\n\n0\n\nMAINTENANCE\n\n0\n\nSemua Kategori\nJas Formal\nTuxedo\nJas Wisuda\nKebaya\nRompi\nSepatu\nAksesoris\nSemua Status\nTersedia\nDisewa\nMaintenance\nSemua Ukuran\nXS\nS\nM\nL\nXL\nXXL\n3XL\nFilter\n\n1 produk ditemukan\n\nKartu\nTabel\nTersedia\n\nJas Formal Hitam Classic\n\nPRD-004\n\nL\nM\nS\nXL\nXS\nHitam\nJas Formal\n\nRp 100.000\n\n/hari\n\n24/30\n\nstok"
+  },
+  {
+    "role": "sales",
+    "path": "/rentals",
+    "status": 200,
+    "url": "http://localhost:8000/rentals",
+    "title": "Penyewaan — SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/products",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nPenyewaan\n3\nAY\nTambah Penyewaan\nSemua Status\nMenunggu\nDiproses\nAktif\nTerlambat\nSelesai\nFilter\nNO. INVOICE\tPELANGGAN\tKOLEKSI\tTANGGAL SEWA\tSTATUS\tTOTAL BAYAR\tAKSI\n\nINV20260924010001\n\t\nbmbng\n628907654346\n\t\n1 Item\n\t\n24 Sep 2026\nTempo: 25 Sep 2026\n\t\nSelesai\n\t\nRp80.000\n\t"
+  },
+  {
+    "role": "sales",
+    "path": "/rentals/create",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/create",
+    "title": "Buat Penyewaan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/create",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nBuat Penyewaan\n3\nAY\nKembali ke Penyewaan\n Informasi Pelanggan & Penyewaan\nPelanggan *\nTanggal Sewa *\nDurasi (Hari) *\n Produk\nPilih Produk\nJas Formal Hitam Classic (Stok: 24) - Rp 100.000/hari\nPilih Ukuran\nTambah Produk\n Diskon & Catatan\nDiskon (Rp)\nCatatan\n Jaminan & Pembayaran\nMetode Pembayaran *\nPilih Metode\nCash\nQRIS\nTransfer\nJenis Jaminan *\nPilih Jenis Jaminan\nKTP\nSIM\nDeposit Uang\nJaminan Custom\nBatal\nSimpan Penyewaan"
+  },
+  {
+    "role": "sales",
+    "path": "/rentals/scan",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/scan",
+    "title": "Scan QR Code",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/scan",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/create",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nScan QR Code\n3\nAY\nDashboard\n/\nPenyewaan\n/\nScan QR Code\nScan QR Code\n\nArahkan kamera ke QR Code pada Invoice, Receipt, atau Rental untuk melihat detail. QR Code dapat diperoleh dari dokumen atau aplikasi SewaJas.\n\nPilih Kamera:\nKamera 1\nKamera Tidak Aktif\n⚠ Dev Mode\nMulai Kamera\nHentikan\nTukar Kamera\nMulai kamera otomatis saat halaman dibuka\nHasil Scan Terakhir\n\nBelum ada QR yang dipindai\n\nRiwayat Scan\n\nTidak ada riwayat\n\nTips Scanning\n✓\nPastikan pencahayaan cukup\n✓\nArahkan QR Code ke tengah layar\n✓\nJangan menggerakkan terlalu cepat\n✓\nBrowser perlu akses ke kamera"
+  },
+  {
+    "role": "sales",
+    "path": "/rentals/activity-log",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/activity-log",
+    "title": "Log Aktivitas Penyewaan",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/activity-log",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/scan",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nLog Aktivitas Penyewaan\n3\nAY\nDari Tanggal\nSampai Tanggal\nCari\nTampilkan\nReset\nExport Excel\nExport PDF\nWAKTU\tCABANG\tUSER\tAKSI\tDESKRIPSI\tINVOICE\tIP\n2026-09-24 16:20:26\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Status denda dari 'unpaid' menjadi 'paid'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:26\tToko Pusat - Yogyakarta\tAyyiipsss\treturn_rental\tPenyewaan #INV20260924010001 diubah: Status penyewaan dari 'active' menjadi 'returned', Status denda dari 'none' menjadi 'paid', Total denda dari '0' menjadi 'Rp 50.000', Dikembalikan oleh dari '-' menjadi '4'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:11\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:20:11\tToko Pusat - Yogyakarta\tAyyiipsss\trecord_refund\tPenyewaan #INV20260924010001 diubah: Kembalian dari 'Rp 70.000' menjadi '0'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tPenyewaan #INV20260924010001 diubah: Kembalian dari '0' menjadi 'Rp 70.000'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\tprocess_payment\tPenyewaan #INV20260924010001 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 150.000', Sisa tagihan dari 'Rp 80.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 70.000'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:59\tToko Pusat - Yogyakarta\tAyyiipsss\trecalculate_payment_status\tRental #14 dihitung ulang\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:46\tToko Pusat - Yogyakarta\tAyyiipsss\thandover_rental\tPenyewaan #INV20260924010001 diubah: Id dari '14' menjadi '-', Nomor invoice dari 'INV20260924010001' menjadi '-', Cabang dari '1' menjadi '-', Pelanggan dari '15' menjadi '-'\tINV20260924010001\t127.0.0.1\n2026-09-24 16:19:39\tToko Pusat - Yogyakarta\tAyyiipsss\tcreate_rental\tPenyewaan Rental #14 berhasil dibuat\tINV20260924010001\t127.0.0.1"
+  },
+  {
+    "role": "sales",
+    "path": "/notifications",
+    "status": 200,
+    "url": "http://localhost:8000/notifications",
+    "title": "Notifikasi",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/notifications",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/rentals/activity-log",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDashboard\n3\nAY\nNotifikasi\n\nDaftar notifikasi untuk akun Anda\n\nTandai semua dibaca\nTipe\nSemua\nPenyewaan Baru\nPengembalian\nKeterlambatan\nPembayaran\nReminder\nSistem\nTerapkan\nReset\nNOTIFIKASI\tWAKTU\tSTATUS\tAKSI\n\n⚙️\n\nBroadcast: Test Final In-App Valid\n\nTest\n\n\t\n\n1 month ago\n\n\tBelum dibaca\t-\n\n\n⚙️\n\nBroadcast: Test Locked In-App User\n\nTest in-app user message\n\n\t\n\n1 month ago\n\nCabang #1\n\n\tBelum dibaca\t-\n\n\n⚙️\n\nBroadcast: Test Locked In-App User\n\nTest in-app user message\n\n\t\n\n1 month ago\n\nCabang #1\n\n\tBelum dibaca\t-"
+  },
+  {
+    "role": "sales",
+    "path": "/points",
+    "status": 200,
+    "url": "http://localhost:8000/points",
+    "title": "Poin Saya",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/points",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/notifications",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDashboard\n3\nAY\nPoin Saya\n\nCabang: Toko Pusat - Yogyakarta\n\nTOTAL POIN\n\n19\n\nJUMLAH SALES\n\n1\n\nSALES\tCABANG\tTOTAL POIN\nAyyiipsss\tToko Pusat - Yogyakarta\t19"
+  },
+  {
+    "role": "sales",
+    "path": "/search?q=QA_NOT_FOUND_20261001",
+    "status": 200,
+    "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+    "title": "Pencarian - SewaJas",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/points",
+        "error": "net::ERR_ABORTED"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nPencarian\n3\nAY\nCari\nPelanggan\n0\n\nTidak ada pelanggan yang cocok.\n\nInvoice\n0\n\nTidak ada invoice yang cocok.\n\nProduk\n0\n\nTidak ada produk yang cocok."
+  },
+  {
+    "role": "sales",
+    "path": "/categories",
+    "status": 403,
+    "url": "http://localhost:8000/categories",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/categories",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "network",
+        "url": "http://localhost:8000/search?q=QA_NOT_FOUND_20261001",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/categories"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/categories/create",
+    "status": 403,
+    "url": "http://localhost:8000/categories/create",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/categories/create"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/branches",
+    "status": 403,
+    "url": "http://localhost:8000/branches",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/branches"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/branches/create",
+    "status": 403,
+    "url": "http://localhost:8000/branches/create",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/branches/create"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/users",
+    "status": 403,
+    "url": "http://localhost:8000/users",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/users"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/users/create",
+    "status": 403,
+    "url": "http://localhost:8000/users/create",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/users/create"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/products/create",
+    "status": 403,
+    "url": "http://localhost:8000/products/create",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/products/create"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/broadcasts",
+    "status": 403,
+    "url": "http://localhost:8000/broadcasts",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/broadcasts"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/broadcast-campaigns",
+    "status": 403,
+    "url": "http://localhost:8000/broadcast-campaigns",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/broadcast-campaigns"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/broadcast-campaigns/create",
+    "status": 403,
+    "url": "http://localhost:8000/broadcast-campaigns/create",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/broadcast-campaigns/create"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/reports/revenue",
+    "status": 403,
+    "url": "http://localhost:8000/reports/revenue",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/reports/revenue"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/reports/transactions",
+    "status": 403,
+    "url": "http://localhost:8000/reports/transactions",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/reports/transactions"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/reports/returns",
+    "status": 403,
+    "url": "http://localhost:8000/reports/returns",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/reports/returns"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/reports/stock",
+    "status": 403,
+    "url": "http://localhost:8000/reports/stock",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/reports/stock"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/reports/customers",
+    "status": 403,
+    "url": "http://localhost:8000/reports/customers",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/reports/customers"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/reports/payments",
+    "status": 403,
+    "url": "http://localhost:8000/reports/payments",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/reports/payments"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/reports/activity-log",
+    "status": 403,
+    "url": "http://localhost:8000/reports/activity-log",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/reports/activity-log"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/transactions",
+    "status": 403,
+    "url": "http://localhost:8000/transactions",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/transactions"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  },
+  {
+    "role": "sales",
+    "path": "/settings",
+    "status": 403,
+    "url": "http://localhost:8000/settings",
+    "title": "Forbidden",
+    "events": [
+      {
+        "kind": "http",
+        "status": 403,
+        "url": "http://localhost:8000/settings"
+      },
+      {
+        "kind": "error",
+        "message": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+      }
+    ],
+    "text": "403\nAKSES DITOLAK."
+  }
+]

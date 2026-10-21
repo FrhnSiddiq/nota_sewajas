@@ -12,6 +12,8 @@ protected $policies = [
         \App\Models\Customer::class => \App\Policies\CustomerPolicy::class,
         \App\Models\Category::class => \App\Policies\CategoryPolicy::class,
         \App\Models\Branch::class => \App\Policies\BranchPolicy::class,
+        \App\Models\Rental::class => \App\Policies\RentalPolicy::class,
+        \App\Models\RentalHistory::class => \App\Policies\RentalHistoryPolicy::class,
     ];
 
     public function boot(): void

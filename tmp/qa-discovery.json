@@ -1,0 +1,383 @@
+{
+    "base_path": "C:\\xampp82\\htdocs\\sewajas",
+    "php": "8.2.12",
+    "database": "rental_jas",
+    "version": "10.4.32-MariaDB",
+    "test_database_exists": [
+        {
+            "SCHEMA_NAME": "rental_test"
+        }
+    ],
+    "counts": {
+        "users": 6,
+        "branches": 4,
+        "customers": 12,
+        "products": 6,
+        "product_sizes": 19,
+        "rentals": 5,
+        "payments": 6,
+        "notifications": 17,
+        "activity_logs": 277,
+        "broadcast_campaigns": 1
+    },
+    "users": [
+        {
+            "id": 1,
+            "email": "superadmin@jasrental.id",
+            "role": "super_admin",
+            "branch_id": null,
+            "is_active": true,
+            "accessible_branch_ids": [
+                1,
+                2,
+                5
+            ]
+        },
+        {
+            "id": 2,
+            "email": "admin.pusat@jasrental.id",
+            "role": "admin_toko",
+            "branch_id": 1,
+            "is_active": true,
+            "accessible_branch_ids": [
+                1,
+                2,
+                5
+            ]
+        },
+        {
+            "id": 3,
+            "email": "admin.solo@jasrental.id",
+            "role": "admin_toko",
+            "branch_id": 2,
+            "is_active": true,
+            "accessible_branch_ids": [
+                1,
+                2,
+                5
+            ]
+        },
+        {
+            "id": 4,
+            "email": "budi.santoso@jasrental.id",
+            "role": "sales",
+            "branch_id": 1,
+            "is_active": true,
+            "accessible_branch_ids": [
+                1
+            ]
+        },
+        {
+            "id": 5,
+            "email": "andi.pratama@jasrental.id",
+            "role": "sales",
+            "branch_id": 2,
+            "is_active": true,
+            "accessible_branch_ids": [
+                2
+            ]
+        },
+        {
+            "id": 6,
+            "email": "Luciusgg365@gmail.com",
+            "role": "sales",
+            "branch_id": 2,
+            "is_active": true,
+            "accessible_branch_ids": [
+                2
+            ]
+        }
+    ],
+    "branches": [
+        {
+            "id": 1,
+            "name": "Toko Pusat - Yogyakarta",
+            "is_active": 1
+        },
+        {
+            "id": 2,
+            "name": "Cabang Solo",
+            "is_active": 1
+        },
+        {
+            "id": 3,
+            "name": "Cabang Malang",
+            "is_active": 1
+        },
+        {
+            "id": 5,
+            "name": "QA_E2E_20261001 Branch",
+            "is_active": 1
+        }
+    ],
+    "rentals": [
+        {
+            "id": 14,
+            "branch_id": 1,
+            "created_by": 4,
+            "customer_id": 15,
+            "invoice_number": "INV20260924010001",
+            "rental_status": "returned",
+            "payment_status": "paid"
+        },
+        {
+            "id": 15,
+            "branch_id": 1,
+            "created_by": 1,
+            "customer_id": 14,
+            "invoice_number": "INV20260925010001",
+            "rental_status": "returned",
+            "payment_status": "paid"
+        },
+        {
+            "id": 16,
+            "branch_id": 1,
+            "created_by": 1,
+            "customer_id": 1,
+            "invoice_number": "INV20260925010002",
+            "rental_status": "returned",
+            "payment_status": "paid"
+        },
+        {
+            "id": 17,
+            "branch_id": 1,
+            "created_by": 1,
+            "customer_id": 16,
+            "invoice_number": "INV20261001010001",
+            "rental_status": "active",
+            "payment_status": "paid"
+        },
+        {
+            "id": 18,
+            "branch_id": 1,
+            "created_by": 1,
+            "customer_id": 16,
+            "invoice_number": "INV20261001010002",
+            "rental_status": "waiting",
+            "payment_status": "unpaid"
+        }
+    ],
+    "products": [
+        {
+            "id": 11,
+            "branch_id": 1,
+            "category_id": 1,
+            "name": "Jas Sabuk Biru Modern",
+            "stock_total": 14,
+            "stock_available": 10,
+            "status": "available",
+            "sizes": [
+                {
+                    "id": 34,
+                    "product_id": 11,
+                    "size": "S",
+                    "stock_total": 3,
+                    "stock_available": 2,
+                    "created_at": "2026-09-24T05:03:13.000000Z",
+                    "updated_at": "2026-09-25T07:27:00.000000Z"
+                },
+                {
+                    "id": 35,
+                    "product_id": 11,
+                    "size": "M",
+                    "stock_total": 5,
+                    "stock_available": 5,
+                    "created_at": "2026-09-24T05:03:14.000000Z",
+                    "updated_at": "2026-09-24T05:03:14.000000Z"
+                },
+                {
+                    "id": 36,
+                    "product_id": 11,
+                    "size": "L",
+                    "stock_total": 2,
+                    "stock_available": 0,
+                    "created_at": "2026-09-24T05:03:14.000000Z",
+                    "updated_at": "2026-09-24T05:03:14.000000Z"
+                },
+                {
+                    "id": 37,
+                    "product_id": 11,
+                    "size": "XL",
+                    "stock_total": 4,
+                    "stock_available": 3,
+                    "created_at": "2026-09-24T05:03:14.000000Z",
+                    "updated_at": "2026-09-24T05:03:14.000000Z"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "branch_id": 1,
+            "category_id": 1,
+            "name": "Jas Polos Putih Premium",
+            "stock_total": 9,
+            "stock_available": 8,
+            "status": "available",
+            "sizes": [
+                {
+                    "id": 21,
+                    "product_id": 12,
+                    "size": "M",
+                    "stock_total": 2,
+                    "stock_available": 2,
+                    "created_at": "2026-09-23T06:39:12.000000Z",
+                    "updated_at": "2026-09-25T09:46:03.000000Z"
+                },
+                {
+                    "id": 22,
+                    "product_id": 12,
+                    "size": "L",
+                    "stock_total": 3,
+                    "stock_available": 3,
+                    "created_at": "2026-09-23T06:39:12.000000Z",
+                    "updated_at": "2026-09-23T06:39:12.000000Z"
+                },
+                {
+                    "id": 23,
+                    "product_id": 12,
+                    "size": "XL",
+                    "stock_total": 2,
+                    "stock_available": 2,
+                    "created_at": "2026-09-23T06:39:12.000000Z",
+                    "updated_at": "2026-09-23T06:39:12.000000Z"
+                },
+                {
+                    "id": 24,
+                    "product_id": 12,
+                    "size": "XXL",
+                    "stock_total": 1,
+                    "stock_available": 0,
+                    "created_at": "2026-09-23T06:39:12.000000Z",
+                    "updated_at": "2026-09-23T06:39:12.000000Z"
+                },
+                {
+                    "id": 25,
+                    "product_id": 12,
+                    "size": "3XL",
+                    "stock_total": 1,
+                    "stock_available": 1,
+                    "created_at": "2026-09-23T06:39:12.000000Z",
+                    "updated_at": "2026-09-23T06:39:12.000000Z"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "branch_id": 1,
+            "category_id": 1,
+            "name": "Jas Formal Hitam Classic",
+            "stock_total": 30,
+            "stock_available": 24,
+            "status": "available",
+            "sizes": [
+                {
+                    "id": 38,
+                    "product_id": 13,
+                    "size": "XS",
+                    "stock_total": 10,
+                    "stock_available": 9,
+                    "created_at": "2026-09-24T09:17:18.000000Z",
+                    "updated_at": "2026-09-24T09:20:26.000000Z"
+                },
+                {
+                    "id": 39,
+                    "product_id": 13,
+                    "size": "S",
+                    "stock_total": 8,
+                    "stock_available": 7,
+                    "created_at": "2026-09-24T09:17:18.000000Z",
+                    "updated_at": "2026-09-24T09:17:18.000000Z"
+                },
+                {
+                    "id": 40,
+                    "product_id": 13,
+                    "size": "M",
+                    "stock_total": 6,
+                    "stock_available": 4,
+                    "created_at": "2026-09-24T09:17:18.000000Z",
+                    "updated_at": "2026-09-28T02:12:19.000000Z"
+                },
+                {
+                    "id": 41,
+                    "product_id": 13,
+                    "size": "L",
+                    "stock_total": 4,
+                    "stock_available": 3,
+                    "created_at": "2026-09-24T09:17:18.000000Z",
+                    "updated_at": "2026-09-24T09:17:18.000000Z"
+                },
+                {
+                    "id": 42,
+                    "product_id": 13,
+                    "size": "XL",
+                    "stock_total": 2,
+                    "stock_available": 1,
+                    "created_at": "2026-09-24T09:17:18.000000Z",
+                    "updated_at": "2026-09-24T09:17:18.000000Z"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "branch_id": 1,
+            "category_id": 9,
+            "name": "QA_E2E_20261001 Product",
+            "stock_total": 5,
+            "stock_available": 3,
+            "status": "available",
+            "sizes": [
+                {
+                    "id": 43,
+                    "product_id": 14,
+                    "size": "M",
+                    "stock_total": 5,
+                    "stock_available": 3,
+                    "created_at": "2026-10-01T13:38:13.000000Z",
+                    "updated_at": "2026-10-01T13:46:25.000000Z"
+                }
+            ]
+        }
+    ],
+    "categories": [
+        {
+            "id": 1,
+            "name": "Jas Formal",
+            "sort_order": 1
+        },
+        {
+            "id": 2,
+            "name": "Tuxedo",
+            "sort_order": 2
+        },
+        {
+            "id": 3,
+            "name": "Jas Wisuda",
+            "sort_order": 3
+        },
+        {
+            "id": 4,
+            "name": "Kebaya",
+            "sort_order": 4
+        },
+        {
+            "id": 5,
+            "name": "Rompi",
+            "sort_order": 5
+        },
+        {
+            "id": 6,
+            "name": "Sepatu",
+            "sort_order": 6
+        },
+        {
+            "id": 7,
+            "name": "Aksesoris",
+            "sort_order": 7
+        },
+        {
+            "id": 9,
+            "name": "Jas QA_E2E_20261001",
+            "sort_order": 90101
+        }
+    ]
+}

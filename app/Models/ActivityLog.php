@@ -19,6 +19,17 @@ class ActivityLog extends Model
         'created_at' => 'datetime',
     ];
 
+    protected static function booted(): void
+    {
+        static::created(function (self $log) {
+            try {
+                app(\App\Services\ActivityLogFileService::class)->write($log);
+            } catch (\Throwable $e) {
+                report($e);
+            }
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -27,5 +38,10 @@ class ActivityLog extends Model
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function rental(): BelongsTo
+    {
+        return $this->belongsTo(Rental::class, 'model_id');
     }
 }

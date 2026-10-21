@@ -1,0 +1,70 @@
+[
+  {
+    "role": "super_admin",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "super_admin",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nDashboard\n2\nSU\nUTAMA\nDASHBOARD\nSelamat Pagi, Super Administrator\n\nFriday, 02 Oct 2026 • 09:28 WIB\n\nCabang\nSemua Cabang\nToko Pusat - Yogyakarta\nCabang Solo\nQA_E2E_20261001 Branch\nSales\nSemua Sales\nAyyiipsss\nAndi Pratama\nLucius\nQA_E2E_20261001 User\nQA_E2E_20261001 Excluded\nDari Tanggal\nSampai Tanggal\nAktif\nKelola Cabang\nKelola Admin\nBroadcast\nLaporan\nScan QR\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "super_admin",
+    "path": "/broadcast-campaigns/create",
+    "status": 200,
+    "url": "http://localhost:8000/broadcast-campaigns/create",
+    "title": "Buat Broadcast Campaign - SewaJas",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBuat Broadcast Campaign\n2\nSU\nNama Campaign\nChannel\nNotifikasi In-App\nWhatsApp\nTipe Penerima\nPilih channel terlebih dahulu\nUser / Sales\nCustomer\nTarget\nPilih target\nSemua\nPer Cabang\nSales\nStatus Rental\nProduk\nKategori\nPilih Customer\nPesan\nJadwalkan Pengiriman (Opsional)\nBatal\nBuat Campaign\nPanduan\nPilih tipe penerima dahulu, lalu pilih target yang sesuai.\nKombinasi customer dengan target sales tidak valid.\nJika memilih template, pesan custom tidak perlu diisi.\nBiarkan kosong untuk mengirim segera, atau isi jadwal untuk pengiriman tertunda."
+  },
+  {
+    "role": "super_admin",
+    "path": "Campaign submit",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nQA_E2E_20261001 Selected Retest\n2\nSU\nCampaign broadcast berhasil dibuat.\nDetail Campaign\n\nDibuat 02 Oct 2026 09:28 oleh Super Administrator\n\nKembali\nInformasi Campaign\n\nNama\n\nQA_E2E_20261001 Selected Retest\n\nTipe Penerima\n\nUser\n\nTarget Type\n\nBranch\n\nStatus\n\nCompleted\n\nPesan\nEdit Pesan\n\nQA_E2E test message for temporary QA accounts only\n\nDaftar Penerima\n1 penerima\nNAMA\tPHONE\tSTATUS\tAKSI\n\nQA_E2E_20261001 User\n\t\tSudah Terkirim\tTerkirim 02 Oct 2026 09:28\nProgress\nTotal Target\n1\nSudah Terkirim\n1\nBelum Dikirim\n0\n\n100%",
+    "events": []
+  },
+  {
+    "role": "super_admin",
+    "path": "Campaign 69",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nQA_E2E_20261001 Selected Retest\n2\nSU\nCampaign broadcast berhasil dibuat.\nDetail Campaign\n\nDibuat 02 Oct 2026 09:28 oleh Super Administrator\n\nKembali\nInformasi Campaign\n\nNama\n\nQA_E2E_20261001 Selected Retest\n\nTipe Penerima\n\nUser\n\nTarget Type\n\nBranch\n\nStatus\n\nCompleted\n\nPesan\nEdit Pesan\n\nQA_E2E test message for temporary QA accounts only\n\nDaftar Penerima\n1 penerima\nNAMA\tPHONE\tSTATUS\tAKSI\n\nQA_E2E_20261001 User\n\t\tSudah Terkirim\tTerkirim 02 Oct 2026 09:28\nProgress\nTotal Target\n1\nSudah Terkirim\n1\nBelum Dikirim\n0\n\n100%",
+    "events": []
+  },
+  {
+    "role": "super_admin",
+    "path": "/broadcast-campaigns/create",
+    "status": 200,
+    "url": "http://localhost:8000/broadcast-campaigns/create",
+    "title": "Buat Broadcast Campaign - SewaJas",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nBuat Broadcast Campaign\n2\nSU\nNama Campaign\nChannel\nNotifikasi In-App\nWhatsApp\nTipe Penerima\nPilih channel terlebih dahulu\nUser / Sales\nCustomer\nTarget\nPilih target\nSemua\nPer Cabang\nSales\nStatus Rental\nProduk\nKategori\nPilih Customer\nPesan\nJadwalkan Pengiriman (Opsional)\nBatal\nBuat Campaign\nPanduan\nPilih tipe penerima dahulu, lalu pilih target yang sesuai.\nKombinasi customer dengan target sales tidak valid.\nJika memilih template, pesan custom tidak perlu diisi.\nBiarkan kosong untuk mengirim segera, atau isi jadwal untuk pengiriman tertunda."
+  },
+  {
+    "role": "super_admin",
+    "path": "Campaign submit",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nQA_E2E_20261001 Scheduled Retest\n2\nSU\nCampaign broadcast berhasil dibuat.\nDetail Campaign\n\nDibuat 02 Oct 2026 09:28 oleh Super Administrator\n\nKembali\nInformasi Campaign\n\nNama\n\nQA_E2E_20261001 Scheduled Retest\n\nTipe Penerima\n\nUser\n\nTarget Type\n\nBranch\n\nStatus\n\nScheduled\n\nPesan\nEdit Pesan\n\nQA_E2E test message for temporary QA accounts only\n\nDaftar Penerima\n0 penerima\nNAMA\tPHONE\tSTATUS\tAKSI\nBelum ada penerima.\nProgress\nTotal Target\n0\nSudah Terkirim\n0\nBelum Dikirim\n0\n\n0%",
+    "events": []
+  },
+  {
+    "role": "super_admin",
+    "path": "Campaign 70",
+    "text": "Sewajas\nSEWAJAS\nSU\nSuper Administrator\nSuper Admin\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nBroadcast\nMASTER DATA\nPelanggan\nProduk\nKategori\nADMIN\nCabang\nPengguna\nPengaturan\nAKUN\nProfil\nKeluar\nLOG\nLog Keseluruhan\nQA_E2E_20261001 Scheduled Retest\n2\nSU\nCampaign broadcast berhasil dibuat.\nDetail Campaign\n\nDibuat 02 Oct 2026 09:28 oleh Super Administrator\n\nKembali\nInformasi Campaign\n\nNama\n\nQA_E2E_20261001 Scheduled Retest\n\nTipe Penerima\n\nUser\n\nTarget Type\n\nBranch\n\nStatus\n\nScheduled\n\nPesan\nEdit Pesan\n\nQA_E2E test message for temporary QA accounts only\n\nDaftar Penerima\n0 penerima\nNAMA\tPHONE\tSTATUS\tAKSI\nBelum ada penerima.\nProgress\nTotal Target\n0\nSudah Terkirim\n0\nBelum Dikirim\n0\n\n0%",
+    "events": []
+  }
+]

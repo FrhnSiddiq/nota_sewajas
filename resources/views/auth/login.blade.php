@@ -8,6 +8,9 @@
         $appTagline = \App\Services\SettingsService::get('app_tagline', 'RENTAL JAS');
         $appLogo = \App\Services\SettingsService::get('app_logo');
         $appLogoUrl = '';
+        $faviconUrl = $appLogo && \Illuminate\Support\Facades\Storage::disk('public')->exists($appLogo)
+            ? \Illuminate\Support\Facades\Storage::disk('public')->url($appLogo)
+            : asset('favicon.ico');
         if ($appLogo && \Illuminate\Support\Facades\Storage::disk('public')->exists($appLogo)) {
             $fullPath = storage_path('app/public/' . $appLogo);
             $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
@@ -19,6 +22,7 @@
     <meta name="description" content="Login {{ $appName }} - {{ $appTagline }}" />
     <meta property="og:title" content="{{ $appName }}" />
     <meta property="og:description" content="{{ $appTagline }}" />
+    <link rel="icon" href="{{ $faviconUrl }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -51,7 +55,7 @@
     <style>
         .login-page body {
             min-height: 100vh;
-            background: #f8fafc;
+            background: #f4f8ff;
             color: #0f172a;
             font-family: "DM Sans", system-ui, sans-serif;
             margin: 0;
@@ -63,41 +67,43 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 1.5rem 0;
+            min-height: 100svh;
+            padding: 0;
         }
         .login-page .login-panel {
             display: flex;
             align-items: stretch;
             width: 100%;
-            background: linear-gradient(to bottom, #2563eb, #1d4ed8);
+            min-height: 100svh;
+            background: #ffffff;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(15, 23, 42, .15);
+            box-shadow: 0 18px 60px rgba(37, 99, 235, .08);
         }
         .login-page .login-card {
             width: 100%;
-            max-width: 28rem;
+            max-width: 29rem;
             background: #ffffff;
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 30px rgba(15, 23, 42, .08);
-            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            box-shadow: 0 14px 40px rgba(15, 23, 42, .08);
+            border: 1px solid #edf2f8;
             overflow: hidden;
         }
         .login-page .login-card-header {
-            padding: 1.75rem 1.75rem 1.5rem;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 2.25rem 2.5rem 1rem;
+            border-bottom: 0;
         }
         .login-page .login-card-body {
-            padding: 1.75rem;
+            padding: 1rem 2.5rem 1.25rem;
         }
         .login-page .login-card-footer {
-            padding: 1.25rem 1.75rem 1.75rem;
+            padding: 1.25rem 2.5rem 2.25rem;
         }
         .login-page .login-input {
             width: 100%;
-            border-radius: 1rem;
-            border: 1px solid #e2e8f0;
-            background: #f8fafc;
+            box-sizing: border-box;
+            border-radius: 0.7rem;
+            border: 1px solid #d8e1ef;
+            background: #fbfdff;
             padding: 0.75rem 1rem;
             font-size: 0.875rem;
             outline: none;
@@ -108,8 +114,8 @@
         }
         .login-page .login-btn {
             width: 100%;
-            border-radius: 1rem;
-            background: #2563eb;
+            border-radius: 0.7rem;
+            background: linear-gradient(135deg, #2f7cf6, #2168ee);
             color: #ffffff;
             font-weight: 700;
             padding: 0.875rem 1rem;
@@ -125,22 +131,75 @@
             display: block;
             font-size: 0.75rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #475569;
+            color: #172b57;
             margin-bottom: 0.5rem;
+        }
+        .login-page .login-eyebrow {
+            color: #2874ed;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        .login-page .login-heading {
+            color: #102557;
+            font-size: clamp(1.65rem, 2.2vw, 2rem);
+            line-height: 1.15;
         }
         @media (min-width: 1024px) {
             .login-page .login-hero {
                 display: flex;
-                width: 40%;
+                width: 50%;
+                min-height: 100svh;
                 position: relative;
                 overflow: hidden;
-                background: transparent;
+                background: linear-gradient(145deg, #255fd5 0%, #1749b9 62%, #10399d 100%);
                 color: #ffffff;
             }
             .login-page .login-main {
                 padding: 0;
+            }
+            .login-page .login-hero::before,
+            .login-page .login-hero::after {
+                content: "";
+                position: absolute;
+                border: 1px solid rgba(255, 255, 255, .09);
+                pointer-events: none;
+            }
+            .login-page .login-hero::before {
+                width: 23rem;
+                height: 23rem;
+                left: -9rem;
+                top: -10rem;
+                border-width: 0 1px 1px 0;
+                border-radius: 50%;
+                box-shadow: 0 0 0 3.5rem rgba(255, 255, 255, .035), 0 0 0 7rem rgba(255, 255, 255, .025);
+            }
+            .login-page .login-hero::after {
+                width: 14rem;
+                height: 14rem;
+                right: -5rem;
+                bottom: -5rem;
+                border-radius: 2rem;
+                transform: rotate(12deg);
+                box-shadow: -5rem -2rem 0 -1px rgba(255, 255, 255, .05), -10rem -4rem 0 -1px rgba(255, 255, 255, .04);
+            }
+            .login-page .login-form-column {
+                width: 50%;
+                background: #f7faff;
+            }
+        }
+        @media (max-width: 639px) {
+            .login-page .login-card {
+                border: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .login-page .login-card-header,
+            .login-page .login-card-body,
+            .login-page .login-card-footer {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
             }
         }
     </style>
@@ -262,35 +321,14 @@
         </div>
 
         {{-- Main form column --}}
-        <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-10 py-16 lg:py-10">
+        <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-10 py-16 lg:py-10 login-form-column">
             <div class="w-full max-w-md">
                 {{-- Login card --}}
                 <div class="bg-white rounded-3xl shadow-card border border-slate-200 overflow-hidden login-card">
-                    <div class="px-6 sm:px-7 pt-7 pb-6 border-b border-slate-100">
-                        <div class="flex items-center gap-3">
-                            @if($appLogo && \Illuminate\Support\Facades\Storage::disk('public')->exists($appLogo))
-                                @php
-                                    $fullPath = storage_path('app/public/' . $appLogo);
-                                    $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
-                                    $appLogoUrl = 'data:image/' . $extension . ';base64,' . base64_encode(file_get_contents($fullPath));
-                                @endphp
-                                <img src="{{ $appLogoUrl }}" alt="{{ $appName }} Logo" class="h-11 w-11 rounded-2xl object-contain">
-                            @else
-                                <div class="h-11 w-11 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-sm">
-                                    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M3 7h18l-1 14H4L3 7z"/>
-                                        <path d="M7 7l1-4h8l1 4"/>
-                                        <path d="M12 11v10"/>
-                                        <path d="M8 21h8"/>
-                                    </svg>
-                                </div>
-                            @endif
-                            <div>
-                                <div class="text-xs font-bold uppercase tracking-widest text-blue-700">{{ $appName }} Login</div>
-                                <h1 class="text-2xl sm:text-2xl font-extrabold tracking-tight">Selamat Datang</h1>
-                                <p class="text-sm text-slate-500 mt-1">Masuk untuk mengelola rental jas Anda</p>
-                            </div>
-                        </div>
+                    <div class="login-card-header">
+                        <div class="login-eyebrow">{{ $appName }} Login</div>
+                        <h1 class="login-heading mt-4 font-extrabold tracking-tight">Selamat Datang Kembali</h1>
+                        <p class="text-sm text-slate-500 mt-2">Masuk untuk mengelola rental Anda</p>
                     </div>
 
                     <div class="px-6 sm:px-7 py-6">
@@ -445,4 +483,3 @@
     </script>
 </body>
 </html>
-

@@ -13,7 +13,7 @@
 
     $rentalStatus = $rental->rental_status ?? 'waiting';
     $statusBadge = match($rentalStatus) {
-        'returned' => 'SELESAI',
+        'returned' => strtoupper($rental->status_label),
         'active' => 'SEDANG DISEWA',
         'overdue' => 'TERLAMBAT',
         'cancelled' => 'DIBATALKAN',
@@ -21,7 +21,7 @@
         default => strtoupper($rentalStatus),
     };
     $statusBadgeClass = match($rentalStatus) {
-        'returned' => 'status-paid',
+        'returned' => $rental->isCompleted() ? 'status-paid' : 'status-unpaid',
         'active' => 'status-paid',
         'overdue' => 'status-overdue',
         'cancelled' => 'status-unpaid',
@@ -48,7 +48,9 @@
 
     $qrBase64 = null;
     try {
-        $qrRoute = route('rentals.show', $rental);
+        // Arahkan ke halaman scan (dikunci nomor invoice, tidak pernah dipakai ulang)
+        // agar konsisten dengan QR pada invoice A4 dan tahan terhadap reuse ID numerik.
+        $qrRoute = route('rentals.scan.show', ['invoice' => $rental->invoice_number]);
         $qrSvg = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')->size(160)->generate($qrRoute);
         $qrBase64 = 'data:image/svg+xml;base64,' . base64_encode((string) $qrSvg);
     } catch (\Throwable $e) {
@@ -124,7 +126,7 @@
             <div class="receipt-items">
                 @foreach($rental->items as $item)
                     <div class="receipt-item">
-                        <span class="receipt-item-name">{{ optional($item->product)->name ?? 'Produk #' . $item->product_id }}</span>
+                        <span class="receipt-item-name">{{ $item->product_name ?? optional($item->product)->name ?? 'Produk #' . $item->product_id }}</span>
                         <span class="receipt-item-qty">x{{ $item->quantity }}</span>
                     </div>
                 @endforeach

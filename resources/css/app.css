@@ -6,6 +6,21 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+[x-cloak] {
+    display: none !important;
+}
+
+/* Keep the desktop sidebar visible while Alpine initializes; cloak it on mobile. */
+.sidebar-drawer[x-cloak] {
+    display: block !important;
+}
+
+@media (max-width: 1023px) {
+    .sidebar-drawer[x-cloak] {
+        display: none !important;
+    }
+}
+
 /* =====================================================================
    SewaJas Design System (Modern Blue Theme)
    - Blue + White + Slate Palette
@@ -1026,8 +1041,21 @@ textarea.form-input { min-height: 96px !important; resize: vertical; }
     outline: 4px solid #ffffff;
 }
 
-.ds-input-icon { padding-left: 44px !important; }
-.ds-input-icon-sm { padding-left: 40px !important; }
+input.form-input.ds-input-icon { padding-left: 44px !important; }
+input.form-input.ds-input-icon-sm { padding-left: 40px !important; }
+
+.rental-detail-actions .btn-secondary {
+    min-height: 44px;
+    padding: 10px 16px !important;
+}
+
+.rental-detail-actions .rental-action-btn {
+    min-height: 44px;
+    padding: 10px 16px;
+    gap: 0.5rem;
+    line-height: 1.25rem;
+    white-space: nowrap;
+}
 
 /* =====================================================================
     Chart styling

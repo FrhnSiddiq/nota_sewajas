@@ -50,12 +50,12 @@ class BranchController extends Controller
         Branch::create([
             'name'      => $request->name,
             'code'      => strtoupper($request->code),
-            'address'   => $request->address,
+            'address'   => $request->address ?? '',
             'phone'     => $request->phone,
             'email'     => $request->email,
             'city'      => $request->city,
             'province'  => $request->province,
-            'is_active' => $request->boolean('is_active', true),
+            'is_active' => $request->boolean('is_active'),
         ]);
 
         return redirect()->route('branches.index')
@@ -98,16 +98,17 @@ class BranchController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        $branch->update([
-            'name'      => $request->name,
-            'code'      => strtoupper($request->code),
-            'address'   => $request->address,
-            'phone'     => $request->phone,
-            'email'     => $request->email,
-            'city'      => $request->city,
-            'province'  => $request->province,
-            'is_active' => $request->boolean('is_active', true),
-        ]);
+        $data = $request->only(['name', 'code', 'address', 'phone', 'email', 'city', 'province', 'is_active']);
+        $data['code'] = strtoupper($data['code']);
+        $data['is_active'] = $request->boolean('is_active');
+
+        foreach (['address', 'phone', 'email', 'city', 'province'] as $field) {
+            if (array_key_exists($field, $data) && $data[$field] === null) {
+                $data[$field] = $branch->$field;
+            }
+        }
+
+        $branch->update($data);
 
         return redirect()->route('branches.index')
             ->with('success', 'Cabang berhasil diperbarui.');
@@ -120,16 +121,16 @@ class BranchController extends Controller
             abort(403, 'Unauthorized action.');
         }
         if ($branch->users()->count() > 0) {
-            return back()->with('error', 'Cabang tidak bisa dihapus karena masih memiliki pengguna.');
+            return back()->with('error', 'Cabang tidak dapat dihapus permanen karena masih memiliki pengguna.');
         }
 
         if ($branch->rentals()->count() > 0) {
-            return back()->with('error', 'Cabang tidak bisa dihapus karena masih memiliki data rental.');
+            return back()->with('error', 'Cabang tidak dapat dihapus permanen karena masih memiliki data rental.');
         }
 
-        $branch->delete();
+        $branch->forceDelete();
 
         return redirect()->route('branches.index')
-            ->with('success', 'Cabang berhasil dihapus.');
+            ->with('success', 'Cabang berhasil dihapus permanen.');
     }
 }

@@ -1,0 +1,211 @@
+[
+  {
+    "role": "sales",
+    "path": "/login",
+    "status": 200,
+    "url": "http://localhost:8000/login",
+    "title": "Login — Sewajas",
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSewajas\nKelola penyewaan dengan cepat & rapi.\n\nLogin untuk mengakses dashboard: customer, rental, invoice, receipt, broadcast, dan report.\n\nCepat\nProses rental, payment, return\nAman\nScope cabang & role-based access\nModern\nInvoice, receipt & dashboard insight\nTampilan dirancang responsif untuk desktop & mobile.\nSEWAJAS LOGIN\nSelamat Datang Kembali\n\nMasuk untuk mengelola rental Anda\n\nEMAIL\nPASSWORD\nIngat saya\nMasuk\n© 2026 Sewajas\nSewajas"
+  },
+  {
+    "role": "sales",
+    "path": "LOGIN",
+    "status": 200,
+    "events": [
+      {
+        "kind": "warning",
+        "message": "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation"
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDashboard\n3\nAY\nUTAMA\nDASHBOARD\nSelamat Pagi, Ayyiipsss\n\nFriday, 02 Oct 2026 • 09:23 WIB\n\nCabang: Toko Pusat - Yogyakarta\nDari Tanggal\nSampai Tanggal\nAktif\nBuat Sewa\nPelanggan Saya\nScan QR\nPengembalian\nTransaksi Saya\nPELANGGAN\n—\n— Aktif terdaftar\nKOLEKSI PRODUK\n—\n— Tersedia disewa\nSEDANG DISEWA\n—\nJas sedang luar toko\nSEWA MINGGU INI\n—\nTransaksi baru minggu ini\nPEMASUKAN HARI INI\n—\nPemasukan kas hari ini\nGrafik Rental (30 Hari)\n\nTren aktivitas penyewaan\n\nLive\nPemasukan (30 Hari)\n\nOmzet & performa\n\nStatus Penyewaan\n\nMenunggu, berjalan, terlambat\n\nModel Terlaris\n\nTop produk\n\nTransaksi Terbaru\nJadwal Kembali\nStok Menipis"
+  },
+  {
+    "role": "sales",
+    "path": "/customers/create",
+    "status": 200,
+    "url": "http://localhost:8000/customers/create",
+    "title": "Tambah Pelanggan",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nTambah Pelanggan Baru\n3\nAY\nKembali ke Pelanggan\n Informasi Dasar\nNama Lengkap *\nNomor Handphone *\n+62\n\nFormat: angka saja. Prefix +62 akan disimpan otomatis.\n\nIdentitas utama\n\nHanya Nama dan Nomor Handphone yang ditampilkan di form ini.\n\nBatal\nTambah Pelanggan"
+  },
+  {
+    "role": "sales",
+    "path": "/customers?search=QA_E2E",
+    "status": 200,
+    "url": "http://localhost:8000/customers?search=QA_E2E",
+    "title": "Pelanggan — RentalJas",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nPelanggan\n3\nAY\nTambah Pelanggan\nDaftar Blokir: Semua\nNormal\nDaftar Blokir\nNAMA\tNOMOR HANDPHONE\tSTATUS\tJUMLAH TRANSAKSI\tTANGGAL BERGABUNG\tAKSI\n\nQA\nQA_E2E_20261001 Sales Customer\n\t\n6289900261002\n\t\nAktif\n\t\n0\n\t\n02 Oct 2026\n\t"
+  },
+  {
+    "role": "sales",
+    "path": "/rentals/create",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/create",
+    "title": "Buat Penyewaan",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nBuat Penyewaan\n3\nAY\nKembali ke Penyewaan\n Informasi Pelanggan & Penyewaan\nPelanggan *\nTanggal Sewa *\nDurasi (Hari) *\n Produk\nPilih Produk\nJas Formal Hitam Classic (Stok: 24) - Rp 100.000/hari\nQA_E2E_20261001 Product (Stok: 6) - Rp 10.000/hari\nPilih Ukuran\nTambah Produk\n Diskon & Catatan\nDiskon (Rp)\nCatatan\n Jaminan & Pembayaran\nMetode Pembayaran *\nPilih Metode\nCash\nQRIS\nTransfer\nJenis Jaminan *\nPilih Jenis Jaminan\nKTP\nSIM\nDeposit Uang\nJaminan Custom\nBatal\nSimpan Penyewaan"
+  },
+  {
+    "role": "sales",
+    "path": "/rentals/23",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/23",
+    "title": "Detail Penyewaan - INV20261002010005",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDetail Penyewaan\n3\nAY\n\nDetail Penyewaan\n\nInvoice INV20261002010005\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nBooking\nBelum Bayar\nKembali ke Penyewaan\nMulai Sewa / Serah Terima\nReceipt\nReceipt PDF\nWA Receipt\nReminder\n1\nBooking\n2\nDisewa\n3\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Sales Customer\n\n6289900261002\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nAyyiipsss\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n02/10/2026\n\nDEADLINE\n\n03/10/2026\n\nINVOICE\n\nINV20261002010005\n\nCatatan\n\nQA_E2E role sales\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBelum Dicek\nRiwayat Pembayaran\nBelum ada pembayaran.\nAktivitas\nDownload Log\n\nPenyewaan Rental #23 berhasil dibuat\n\n02/10/2026 09:23 • Ayyiipsss\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nBELUM BAYAR\nTOTAL TAGIHAN\nRp 10.000\nInput Pembayaran\nTIPE PEMBAYARAN\nSewa\nDenda Telat\nDenda Kerusakan\nDeposit\nJUMLAH\nMETODE\nTunai\nTransfer\nQRIS\nProses Pembayaran"
+  },
+  {
+    "role": "sales",
+    "path": "Payment via form",
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDetail Penyewaan\n3\nAY\nPembayaran berhasil diproses!\n\nDetail Penyewaan\n\nInvoice INV20261002010005\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nBooking\nLunas\nKembali ke Penyewaan\nMulai Sewa / Serah Terima\nReceipt\nReceipt PDF\nWA Receipt\nReminder\n1\nBooking\n2\nDisewa\n3\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Sales Customer\n\n6289900261002\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nAyyiipsss\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n02/10/2026\n\nDEADLINE\n\n03/10/2026\n\nINVOICE\n\nINV20261002010005\n\nCatatan\n\nQA_E2E role sales\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBelum Dicek\nRiwayat Pembayaran\n\nPAY202610020005\n\n02/10/2026 09:23\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #23 berhasil dibuat\n\n02/10/2026 09:23 • Ayyiipsss\n\nPenyewaan #INV20261002010005 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02/10/2026 09:23 • Ayyiipsss\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nLUNAS\nKembalian\nKembalian harus diberikan: Rp 1.000\nTOTAL TAGIHAN\nRp 10.000\nKembalian Pelanggan\n\nAda kelebihan pembayaran sebesar Rp 1.000. Jangan lupa memberikan kembalian kepada pelanggan.\n\nTandai Kembalian Sudah Diberikan",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ]
+  },
+  {
+    "role": "sales",
+    "path": "Handover modal and submit",
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDetail Penyewaan\n3\nAY\nPembayaran berhasil diproses!\n\nDetail Penyewaan\n\nInvoice INV20261002010005\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nSedang Disewa\nLunas\nKembali ke Penyewaan\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nBooking\n2\nDisewa\n3\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Sales Customer\n\n6289900261002\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nAyyiipsss\n\nDIPROSES PENGEMBALIAN OLEH\n\nAyyiipsss\n\nTANGGAL SEWA\n\n02/10/2026\n\nDEADLINE\n\n03/10/2026\n\nINVOICE\n\nINV20261002010005\n\nCatatan\n\nQA_E2E role sales\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBelum Dicek\nPanel Operasional Pengembalian\nAktif\n✓\nTandai Semua Baik\n↺\nReset\nQA_E2E_20261001 Product\n\nUkuran M\n\nBelum Dicek\nBaik\nRusak\nHilang\nKonfirmasi Pengembalian\n\nSubmit dinonaktifkan jika ada item belum dipilih atau nominal denda wajib belum diisi.\n\nRiwayat Pembayaran\n\nPAY202610020005\n\n02/10/2026 09:23\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #23 berhasil dibuat\n\n02 Oct 2026 09:23 • Ayyiipsss\n\nPenyewaan #INV20261002010005 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02 Oct 2026 09:23 • Ayyiipsss\n\nRental #23 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n02 Oct 2026 09:23 • Ayyiipsss\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nLUNAS\nKembalian\nKembalian harus diberikan: Rp 1.000\nTOTAL TAGIHAN\nRp 10.000\nKembalian Pelanggan\n\nAda kelebihan pembayaran sebesar Rp 1.000. Jangan lupa memberikan kembalian kepada pelanggan.\n\nTandai Kembalian Sudah Diberikan\nBerhasil\nSerah terima berhasil! Rental sekarang aktif.\nOK",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ],
+    "data": {
+      "id": 23,
+      "invoice_number": "INV20261002010005",
+      "rental_status": "active",
+      "payment_status": "paid",
+      "rental_date": "02/10/2026",
+      "return_due_date": "03/10/2026",
+      "created_by": "Ayyiipsss",
+      "subtotal": 10000,
+      "discount": 0,
+      "deposit": 0,
+      "total_amount": 10000,
+      "paid_amount": 11000,
+      "remaining_amount": 0,
+      "late_fee": 0,
+      "fine_amount": 0,
+      "fine_paid_amount": 0,
+      "fine_status": "none",
+      "payment_method": "cash",
+      "notes": "QA_E2E role sales",
+      "change_amount": 1000,
+      "total_owed": 10000,
+      "overpayment": 1000,
+      "refund_given": 0,
+      "customer": {
+        "name": "QA_E2E_20261001 Sales Customer",
+        "phone": "6289900261002"
+      },
+      "branch": {
+        "name": "Toko Pusat - Yogyakarta"
+      },
+      "items": [
+        {
+          "id": 26,
+          "product_name": "QA_E2E_20261001 Product",
+          "size": "M",
+          "category_name": "Jas QA_E2E_20261001",
+          "quantity": 1,
+          "price": 10000,
+          "subtotal": 10000,
+          "photo": null,
+          "return_condition": null,
+          "damage_fee": 0,
+          "return_notes": null,
+          "is_returned": false
+        }
+      ],
+      "guarantees": [
+        {
+          "id": 23,
+          "type": "custom",
+          "type_label": "Jaminan Custom",
+          "id_number": null,
+          "deposit_amount": 0,
+          "status": "held",
+          "notes": "QA guarantee",
+          "id_photo_url": null
+        }
+      ],
+      "payments": [
+        {
+          "id": 37,
+          "payment_number": "PAY202610020005",
+          "amount": 11000,
+          "method": "cash",
+          "method_label": "Tunai",
+          "paid_at": "02/10/2026 09:23",
+          "notes": null
+        }
+      ],
+      "activity_logs": [
+        {
+          "id": 297,
+          "description": "Penyewaan Rental #23 berhasil dibuat",
+          "user": "Ayyiipsss",
+          "created_at": "02 Oct 2026 09:23"
+        },
+        {
+          "id": 298,
+          "description": "Penyewaan #INV20261002010005 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'",
+          "user": "Ayyiipsss",
+          "created_at": "02 Oct 2026 09:23"
+        },
+        {
+          "id": 299,
+          "description": "Rental #23 diubah: Status penyewaan dari 'waiting' menjadi 'active'",
+          "user": "Ayyiipsss",
+          "created_at": "02 Oct 2026 09:23"
+        }
+      ],
+      "returned_at": null,
+      "returned_by": "Ayyiipsss",
+      "overdue_days": 0
+    }
+  },
+  {
+    "role": "sales",
+    "path": "Return all items good",
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDetail Penyewaan\n3\nAY\nPembayaran berhasil diproses!\n\nDetail Penyewaan\n\nInvoice INV20261002010005\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nSelesai\nLunas\nKembali ke Penyewaan\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nBooking\nDisewa\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Sales Customer\n\n6289900261002\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nAyyiipsss\n\nDIPROSES PENGEMBALIAN OLEH\n\nAyyiipsss\n\nTANGGAL SEWA\n\n02/10/2026\n\nDEADLINE\n\n03/10/2026\n\nINVOICE\n\nINV20261002010005\n\nCatatan\n\nQA_E2E role sales\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBaik\nPanel Operasional Pengembalian\nRead Only\n✓\nTandai Semua Baik\n↺\nReset\nQA_E2E_20261001 Product\n\nUkuran M\n\nBaik\nBaik\nRusak\nHilang\nPengembalian Sudah Diproses\n\nSubmit dinonaktifkan jika ada item belum dipilih atau nominal denda wajib belum diisi.\n\nRiwayat Pembayaran\n\nPAY202610020005\n\n02/10/2026 09:23\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #23 berhasil dibuat\n\n02 Oct 2026 09:23 • Ayyiipsss\n\nPenyewaan #INV20261002010005 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02 Oct 2026 09:23 • Ayyiipsss\n\nRental #23 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n02 Oct 2026 09:23 • Ayyiipsss\n\nPenyewaan #INV20261002010005 diubah: Status penyewaan dari 'active' menjadi 'returned', Dikembalikan oleh dari '-' menjadi '4', Tanggal kembali dari '-' menjadi '2026-10-02'\n\n02 Oct 2026 09:23 • Ayyiipsss\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDitahan\nDeposit\nRp 0\nCatatan\nQA guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nLUNAS\nKembalian\nKembalian harus diberikan: Rp 1.000\nTOTAL TAGIHAN\nRp 10.000\nKembalian Pelanggan\n\nAda kelebihan pembayaran sebesar Rp 1.000. Jangan lupa memberikan kembalian kepada pelanggan.\n\nTandai Kembalian Sudah Diberikan\nBerhasil\nPengembalian berhasil diproses.\nOK",
+    "events": [
+      {
+        "kind": "error",
+        "message": "Error: <path> attribute d: Expected number, \"…2 0 00-2-2H5a2 2v6a2 2 0 002 2h2…\"."
+      }
+    ]
+  },
+  {
+    "role": "sales",
+    "path": "/rentals/23",
+    "status": 200,
+    "url": "http://localhost:8000/rentals/23",
+    "title": "Detail Penyewaan - INV20261002010005",
+    "events": [],
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDetail Penyewaan\n3\nAY\n\nDetail Penyewaan\n\nInvoice INV20261002010005\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nSelesai\nLunas\nKembali ke Penyewaan\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nBooking\nDisewa\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Sales Customer\n\n6289900261002\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nAyyiipsss\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n02/10/2026\n\nDEADLINE\n\n03/10/2026\n\nINVOICE\n\nINV20261002010005\n\nCatatan\n\nQA_E2E role sales\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBaik\nPanel Operasional Pengembalian\nRead Only\n✓\nTandai Semua Baik\n↺\nReset\nQA_E2E_20261001 Product\n\nUkuran M\n\nBaik\nBaik\nRusak\nHilang\nPengembalian Sudah Diproses\n\nSubmit dinonaktifkan jika ada item belum dipilih atau nominal denda wajib belum diisi.\n\nRiwayat Pembayaran\n\nPAY202610020005\n\n02/10/2026 09:23\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #23 berhasil dibuat\n\n02/10/2026 09:23 • Ayyiipsss\n\nPenyewaan #INV20261002010005 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02/10/2026 09:23 • Ayyiipsss\n\nRental #23 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n02/10/2026 09:23 • Ayyiipsss\n\nPenyewaan #INV20261002010005 diubah: Status penyewaan dari 'active' menjadi 'returned', Dikembalikan oleh dari '-' menjadi '4', Tanggal kembali dari '-' menjadi '2026-10-02'\n\n02/10/2026 09:23 • Ayyiipsss\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDikembalikan\nDeposit\nRp 0\nCatatan\nQA guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nLUNAS\nKembalian\nKembalian harus diberikan: Rp 1.000\nTOTAL TAGIHAN\nRp 10.000\nKembalian Pelanggan\n\nAda kelebihan pembayaran sebesar Rp 1.000. Jangan lupa memberikan kembalian kepada pelanggan.\n\nTandai Kembalian Sudah Diberikan"
+  },
+  {
+    "role": "sales",
+    "path": "Return persisted after reload",
+    "text": "Sewajas\nSEWAJAS\nAY\nAyyiipsss\nSales\nUTAMA\nDashboard\nOPERASIONAL\nPenyewaan\nScan QR\nMASTER DATA\nPelanggan\nProduk\nAKUN\nProfil\nKeluar\nDetail Penyewaan\n3\nAY\n\nDetail Penyewaan\n\nInvoice INV20261002010005\n\nPanel operasional pengembalian dengan tampilan modern SewaJas.\n\nSelesai\nLunas\nKembali ke Penyewaan\nReceipt\nReceipt PDF\nWA Receipt\nReminder\nBooking\nDisewa\nDikembalikan\n4\nSelesai\nInformasi Rental\n\nPELANGGAN\n\nQA_E2E_20261001 Sales Customer\n\n6289900261002\n\nCABANG\n\nToko Pusat - Yogyakarta\n\nDISERAHKAN OLEH\n\nAyyiipsss\n\nDIPROSES PENGEMBALIAN OLEH\n\n-\n\nTANGGAL SEWA\n\n02/10/2026\n\nDEADLINE\n\n03/10/2026\n\nINVOICE\n\nINV20261002010005\n\nCatatan\n\nQA_E2E role sales\n\nDaftar Barang\nQA_E2E_20261001 Product\n\nKATEGORI\n\nJas QA_E2E_20261001\n\nSIZE\n\nM\n\nHARGA\n\nRp 10.000\n\nSTATUS ITEM\n\nBaik\nPanel Operasional Pengembalian\nRead Only\n✓\nTandai Semua Baik\n↺\nReset\nQA_E2E_20261001 Product\n\nUkuran M\n\nBaik\nBaik\nRusak\nHilang\nPengembalian Sudah Diproses\n\nSubmit dinonaktifkan jika ada item belum dipilih atau nominal denda wajib belum diisi.\n\nRiwayat Pembayaran\n\nPAY202610020005\n\n02/10/2026 09:23\n\nRp 11.000\n\nTunai\n\nAktivitas\nDownload Log\n\nPenyewaan Rental #23 berhasil dibuat\n\n02/10/2026 09:23 • Ayyiipsss\n\nPenyewaan #INV20261002010005 diubah: Status pembayaran dari 'unpaid' menjadi 'paid', Total dibayar dari '0' menjadi 'Rp 11.000', Sisa tagihan dari 'Rp 10.000' menjadi '0', Kembalian dari '0' menjadi 'Rp 1.000'\n\n02/10/2026 09:23 • Ayyiipsss\n\nRental #23 diubah: Status penyewaan dari 'waiting' menjadi 'active'\n\n02/10/2026 09:23 • Ayyiipsss\n\nPenyewaan #INV20261002010005 diubah: Status penyewaan dari 'active' menjadi 'returned', Dikembalikan oleh dari '-' menjadi '4', Tanggal kembali dari '-' menjadi '2026-10-02'\n\n02/10/2026 09:23 • Ayyiipsss\n\nInformasi Jaminan\n\nJENIS JAMINAN\n\nJaminan Custom\n\nDikembalikan\nDeposit\nRp 0\nCatatan\nQA guarantee\nRingkasan Pembayaran\nSubtotal\nRp 10.000\nDeposit\nRp 0\nDiskon\nRp 0\nSewa (tagihan)\nRp 10.000\nStatus Sewa\nLUNAS\nKembalian\nKembalian harus diberikan: Rp 1.000\nTOTAL TAGIHAN\nRp 10.000\nKembalian Pelanggan\n\nAda kelebihan pembayaran sebesar Rp 1.000. Jangan lupa memberikan kembalian kepada pelanggan.\n\nTandai Kembalian Sudah Diberikan",
+    "events": []
+  }
+]

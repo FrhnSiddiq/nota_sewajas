@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'SewaJas - Rental Jas Management')</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    @php
+        $faviconPath = \App\Services\SettingsService::get('app_logo');
+        $faviconUrl = $faviconPath && \Illuminate\Support\Facades\Storage::disk('public')->exists($faviconPath)
+            ? \Illuminate\Support\Facades\Storage::disk('public')->url($faviconPath)
+            : asset('favicon.ico');
+    @endphp
+    <link rel="icon" href="{{ $faviconUrl }}">
 
     <!-- SewaJas Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -33,14 +37,17 @@
             ['label' => 'Scan QR', 'route' => 'rentals.scan', 'icon' => 'scan-line', 'active' => ['rentals.scan', 'rentals.scan.show'], 'roles' => ['super_admin','admin_toko','sales']],
             ['label' => 'Broadcast', 'route' => 'broadcast-campaigns.index', 'icon' => 'send', 'active' => 'broadcast-campaigns.*', 'roles' => ['super_admin','admin_toko']],
         ],
+        'Analisis' => [
+            ['label' => 'Laporan Keuangan', 'route' => 'reports.index', 'icon' => 'chart-no-axes-combined', 'active' => ['reports.index', 'reports.revenue', 'reports.transactions', 'reports.returns', 'reports.stock', 'reports.customers', 'reports.payments', 'reports.export.*'], 'roles' => ['super_admin','admin_toko']],
+        ],
         'Master Data' => [
             ['label' => 'Pelanggan', 'route' => 'customers.index', 'icon' => 'phone', 'active' => 'customers.*', 'roles' => ['super_admin','admin_toko','sales']],
             ['label' => 'Produk', 'route' => 'products.index', 'icon' => 'package', 'active' => 'products.*', 'roles' => ['super_admin','admin_toko','sales']],
             ['label' => 'Kategori', 'route' => 'categories.index', 'icon' => 'tags', 'active' => 'categories.*', 'roles' => ['super_admin']],
         ],
-        'Laporan' => [
-            ['label' => 'Pendapatan', 'route' => 'reports.revenue', 'icon' => 'trending-up', 'active' => 'reports.revenue', 'roles' => ['super_admin','admin_toko','sales']],
-            ['label' => 'Pengembalian', 'route' => 'reports.returns', 'icon' => 'package-check', 'active' => 'reports.returns', 'roles' => ['super_admin','admin_toko']],
+        'Log' => [
+            ['label' => 'Log Keseluruhan', 'route' => 'reports.activity-log', 'icon' => 'scroll-text', 'active' => ['reports.activity-log', 'reports.activity-log.*'], 'roles' => ['super_admin']],
+            ['label' => 'Riwayat Penyewaan', 'route' => 'rental-histories.index', 'icon' => 'archive', 'active' => 'rental-histories.*', 'roles' => ['super_admin','admin_toko','sales']],
         ],
         'Admin' => [
             ['label' => 'Cabang', 'route' => 'branches.index', 'icon' => 'building-2', 'active' => 'branches.*', 'roles' => ['super_admin']],
@@ -49,7 +56,6 @@
         ],
         'Akun' => [
             ['label' => 'Profil', 'route' => 'profile.edit', 'icon' => 'user-cog', 'active' => 'profile.*', 'roles' => ['super_admin','admin_toko','sales']],
-            ['label' => 'Keluar', 'route' => 'logout', 'icon' => 'log-out', 'active' => '', 'roles' => ['super_admin','admin_toko','sales']],
         ],
     ];
 
@@ -59,7 +65,9 @@
 <div x-data="{ sidebarMobileOpen: false, userMenuOpen: false }" class="min-h-screen">
     <!-- Sidebar (SewaJas Blue Theme) -->
     <aside
-        class="fixed inset-y-0 left-0 z-50 w-[260px] border-r border-slate-200 bg-slate-900 backdrop-blur-xl shadow-[0_10px_35px_rgba(15,23,42,0.40)] lg:z-40"
+        id="sidebar-drawer"
+        x-cloak
+        class="sidebar-drawer fixed inset-y-0 left-0 z-50 w-[260px] border-r border-slate-200 bg-slate-900 backdrop-blur-xl shadow-[0_10px_35px_rgba(15,23,42,0.40)] lg:z-40"
         :class="sidebarMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 -translate-x-2"
@@ -121,7 +129,7 @@
             @endauth
 
             <!-- Nav -->
-            <nav class="flex-1 overflow-y-auto px-4 py-5">
+            <nav id="sidebar-navigation" class="min-h-0 flex-1 overflow-y-auto px-4 py-5">
                 @foreach($navGroups as $group => $items)
                     @php($visibleItems = collect($items)->filter(fn($item) => $canSee($item['roles'])))
                     @if($visibleItems->isNotEmpty())
@@ -129,30 +137,33 @@
                             <div class="mb-3 px-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">{{ $group }}</div>
                             <div class="space-y-1">
                                 @foreach($visibleItems as $item)
-                                    @if($item['route'] === 'logout')
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button type="submit" @click="sidebarMobileOpen = false"
-                                                class="w-full flex items-center gap-3 rounded-[16px] px-3 py-2.5 text-sm font-semibold ds-transition text-rose-400 hover:bg-rose-500/10">
-                                                <i data-lucide="{{ $item['icon'] }}" class="h-4 w-4"></i>
-                                                <span class="truncate">{{ $item['label'] }}</span>
-                                            </button>
-                                        </form>
-                                    @else
-                                        <a
-                                            href="{{ route($item['route']) }}"
-                                            @click="sidebarMobileOpen = false"
-                                            class="sidebar-item flex items-center gap-3 rounded-[16px] px-3 py-2.5 text-sm font-semibold ds-transition {{ request()->routeIs($item['active']) ? 'active' : 'text-slate-300' }}"
-                                        >
-                                            <i data-lucide="{{ $item['icon'] }}" class="h-4 w-4"></i>
-                                            <span class="truncate">{{ $item['label'] }}</span>
-                                        </a>
-                                    @endif
+                                    <a
+                                        href="{{ route($item['route']) }}"
+                                        @click="sessionStorage.setItem('sidebar-nav-scroll-top', document.getElementById('sidebar-navigation').scrollTop); sidebarMobileOpen = false"
+                                        class="sidebar-item flex items-center gap-3 rounded-[16px] px-3 py-2.5 text-sm font-semibold ds-transition {{ request()->routeIs($item['active']) ? 'active' : 'text-slate-300' }}"
+                                    >
+                                        <i data-lucide="{{ $item['icon'] }}" class="h-4 w-4"></i>
+                                        <span class="truncate">{{ $item['label'] }}</span>
+                                    </a>
                                 @endforeach
                             </div>
+                        </div>
                     @endif
                 @endforeach
-</nav>
+            </nav>
+
+            @if($canSee(['super_admin', 'admin_toko', 'sales']))
+                <div class="shrink-0 border-t border-slate-700 p-4" style="padding-bottom: max(1rem, env(safe-area-inset-bottom));">
+                    <form id="logoutSidebarForm" method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="button" onclick="confirmAction('logoutSidebarForm', 'Keluar dari Sistem', 'Apakah Anda yakin ingin keluar dari web ini?', 'Ya, Keluar', '#dc2626')"
+                            class="w-full flex items-center gap-3 rounded-[16px] px-3 py-3 text-sm font-semibold ds-transition text-rose-400 hover:bg-rose-500/10">
+                            <i data-lucide="log-out" class="h-4 w-4"></i>
+                            <span>Keluar</span>
+                        </button>
+                    </form>
+                </div>
+            @endif
         </div>
     </aside>
 
@@ -167,21 +178,11 @@
 
                 <!-- Breadcrumb + Greeting -->
                 <div class="min-w-0 flex-1 flex items-center gap-3">
-                    <button type="button" @click="sidebarMobileOpen = true" class="lg:hidden rounded-[16px] border border-slate-200 bg-white p-2 ds-transition">
+                    <button type="button" @click="sidebarMobileOpen = !sidebarMobileOpen" :aria-expanded="sidebarMobileOpen.toString()" aria-controls="sidebar-drawer" aria-label="Buka atau tutup menu navigasi" class="lg:hidden rounded-[16px] border border-slate-200 bg-white p-2 ds-transition">
                         <i data-lucide="menu" class="h-5 w-5 text-slate-700"></i>
                     </button>
                     <div class="min-w-0">
-                        <div class="hidden sm:flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">
-                            <span class="text-slate-600">Home</span>
-                            <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
-                            <span class="truncate">@yield('page-title', 'Dashboard')</span>
-                        </div>
-                        <div class="flex items-baseline gap-3">
-                            <h1 class="truncate text-xl font-bold tracking-tight text-slate-800 font-sans">@yield('page-title', 'Dashboard')</h1>
-                            <p class="hidden md:block text-sm font-semibold text-slate-500">
-                                Selamat Datang, <span class="text-slate-700">{{ auth()->user()?->name }}</span>
-                            </p>
-                        </div>
+                        <h1 class="truncate text-xl font-bold tracking-tight text-slate-800 font-sans">@yield('page-title', 'Dashboard')</h1>
                     </div>
                 </div>
 
@@ -251,9 +252,9 @@
                                 </a>
                             @endif
                             @endauth
-                            <form method="POST" action="{{ route('logout') }}" class="mt-1">
+                            <form id="logoutDropdownForm" method="POST" action="{{ route('logout') }}" class="mt-1">
                                 @csrf
-                                <button type="submit" class="w-full flex items-center gap-2 rounded-[14px] px-2 py-2 text-sm font-semibold text-rose-600 hover:bg-rose-50 ds-transition">
+                                <button type="button" onclick="confirmAction('logoutDropdownForm', 'Keluar dari Sistem', 'Apakah Anda yakin ingin keluar dari web ini?', 'Ya, Keluar', '#dc2626')" class="w-full flex items-center gap-2 rounded-[14px] px-2 py-2 text-sm font-semibold text-rose-600 hover:bg-rose-50 ds-transition">
                                     <i data-lucide="log-out" class="h-4 w-4"></i>
                                     Keluar
                                 </button>
@@ -305,6 +306,13 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+        const sidebarNavigation = document.getElementById('sidebar-navigation');
+        const savedSidebarScrollTop = sessionStorage.getItem('sidebar-nav-scroll-top');
+        if (sidebarNavigation && savedSidebarScrollTop !== null) {
+            sidebarNavigation.scrollTop = Number(savedSidebarScrollTop);
+            sessionStorage.removeItem('sidebar-nav-scroll-top');
+        }
+
         if (window.lucide && typeof window.lucide.createIcons === 'function') {
             window.lucide.createIcons();
         }

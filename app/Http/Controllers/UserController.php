@@ -20,8 +20,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::with('branch')
-            ->when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%")
-                ->orWhere('email', 'like', "%{$request->search}%"))
+            ->when($request->search, fn($q) => $q->where(fn($search) => $search
+                ->where('name', 'like', "%{$request->search}%")
+                ->orWhere('email', 'like', "%{$request->search}%")))
             ->when($request->role,   fn($q) => $q->where('role', $request->role))
             ->when($request->branch, fn($q) => $q->where('branch_id', $request->branch))
             ->latest()
@@ -46,14 +47,41 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'      => 'required|string|max:150',
-            'email'     => 'required|email|unique:users,email',
-            'password'  => 'required|string|min:8|confirmed',
-            'phone'     => 'nullable|regex:/^[0-9]+$/|max:20',
-            'branch_id' => 'nullable|exists:branches,id',
-            'role'      => 'required|in:super_admin,admin_toko,sales',
-            'avatar'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'name'               => 'required|string|max:150',
+            'email'              => 'required|email|unique:users,email',
+            'password'           => 'required|string|min:8|confirmed',
+            'phone'              => 'nullable|regex:/^[0-9]+$/|max:20',
+            'branch_id'          => 'nullable|exists:branches,id',
+            'role'               => 'required|in:super_admin,admin_toko,sales',
+            'avatar'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'branch_access_type' => 'nullable|in:all,specific',
+            'branch_ids'         => 'nullable|array',
+            'branch_ids.*'       => 'exists:branches,id',
         ]);
+
+        if (in_array($data['role'], ['super_admin', 'admin_toko'], true)) {
+            $data['branch_access_type'] = 'all';
+            if ($data['role'] === 'admin_toko' && empty($data['branch_id'])) {
+                return back()->withInput()->withErrors([
+                    'branch_id' => 'Pilih cabang utama untuk admin toko.',
+                ]);
+            }
+            unset($data['branch_ids']);
+        } elseif ($data['role'] === 'sales') {
+            $data['branch_access_type'] = 'specific';
+            if (empty($data['branch_id'])) {
+                return back()->withInput()->withErrors([
+                    'branch_id' => 'Pilih satu cabang untuk user sales.',
+                ]);
+            }
+            $data['branch_ids'] = [$data['branch_id']];
+        }
+
+        if (($data['branch_access_type'] ?? null) === 'specific' && empty($data['branch_ids'])) {
+            return back()->withInput()->withErrors([
+                'branch_ids' => 'Pilih minimal 1 cabang untuk tipe akses cabang tertentu.',
+            ]);
+        }
 
         $avatarPath = null;
         if ($request->hasFile('avatar')) {
@@ -61,15 +89,20 @@ class UserController extends Controller
         }
 
         $user = User::create([
-            'name'      => $data['name'],
-            'email'     => $data['email'],
-            'password'  => Hash::make($data['password']),
-            'phone'     => $data['phone'] ?? null,
-            'branch_id' => $data['role'] === 'super_admin' ? null : $data['branch_id'],
-            'role'      => $data['role'],
-            'avatar'    => $avatarPath,
-            'is_active' => true,
+            'name'               => $data['name'],
+            'email'              => $data['email'],
+            'password'           => Hash::make($data['password']),
+            'phone'              => $data['phone'] ?? null,
+            'branch_id'          => $data['role'] === 'super_admin' ? null : ($data['branch_id'] ?? ($data['branch_ids'][0] ?? null)),
+            'role'               => $data['role'],
+            'avatar'             => $avatarPath,
+            'is_active'          => true,
+            'branch_access_type' => $data['branch_access_type'],
         ]);
+
+        if ($data['role'] === 'sales' && !empty($data['branch_ids'])) {
+            $user->accessibleBranches()->sync($data['branch_ids']);
+        }
 
         return redirect()->route('users.index')
             ->with('success', "User {$user->name} berhasil ditambahkan!");
@@ -85,14 +118,41 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $data = $request->validate([
-            'name'      => 'required|string|max:150',
-            'email'     => "required|email|unique:users,email,{$user->id}",
-            'password'  => 'nullable|string|min:8|confirmed',
-            'phone'     => 'nullable|regex:/^[0-9]+$/|max:20',
-            'branch_id' => 'nullable|exists:branches,id',
-            'role'      => 'required|in:super_admin,admin_toko,sales',
-            'avatar'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'name'               => 'required|string|max:150',
+            'email'              => "required|email|unique:users,email,{$user->id}",
+            'password'           => 'nullable|string|min:8|confirmed',
+            'phone'              => 'nullable|regex:/^[0-9]+$/|max:20',
+            'branch_id'          => 'nullable|exists:branches,id',
+            'role'               => 'required|in:super_admin,admin_toko,sales',
+            'avatar'             => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'branch_access_type' => 'nullable|in:all,specific',
+            'branch_ids'         => 'nullable|array',
+            'branch_ids.*'       => 'exists:branches,id',
         ]);
+
+        if (in_array($data['role'], ['super_admin', 'admin_toko'], true)) {
+            $data['branch_access_type'] = 'all';
+            if ($data['role'] === 'admin_toko' && empty($data['branch_id'])) {
+                return back()->withInput()->withErrors([
+                    'branch_id' => 'Pilih cabang utama untuk admin toko.',
+                ]);
+            }
+            unset($data['branch_ids']);
+        } elseif ($data['role'] === 'sales') {
+            $data['branch_access_type'] = 'specific';
+            if (empty($data['branch_id'])) {
+                return back()->withInput()->withErrors([
+                    'branch_id' => 'Pilih satu cabang untuk user sales.',
+                ]);
+            }
+            $data['branch_ids'] = [$data['branch_id']];
+        }
+
+        if (($data['branch_access_type'] ?? null) === 'specific' && empty($data['branch_ids'])) {
+            return back()->withInput()->withErrors([
+                'branch_ids' => 'Pilih minimal 1 cabang untuk tipe akses cabang tertentu.',
+            ]);
+        }
 
         $avatarPath = $user->avatar;
         if ($request->hasFile('avatar')) {
@@ -103,16 +163,23 @@ class UserController extends Controller
         }
 
         $updateData = [
-            'name'      => $data['name'],
-            'email'     => $data['email'],
-            'phone'     => $data['phone'] ?? null,
-            'branch_id' => $data['role'] === 'super_admin' ? null : $data['branch_id'],
-            'role'      => $data['role'],
-            'avatar'    => $avatarPath,
-            'password'  => !empty($data['password']) ? Hash::make($data['password']) : $user->password,
+            'name'               => $data['name'],
+            'email'              => $data['email'],
+            'phone'              => $data['phone'] ?? null,
+            'branch_id'          => $data['role'] === 'super_admin' ? null : ($data['branch_id'] ?? ($data['branch_ids'][0] ?? null)),
+            'role'               => $data['role'],
+            'avatar'             => $avatarPath,
+            'password'           => !empty($data['password']) ? Hash::make($data['password']) : $user->password,
+            'branch_access_type' => $data['branch_access_type'],
         ];
 
         $user->update($updateData);
+
+        if ($data['role'] === 'sales' && !empty($data['branch_ids'])) {
+            $user->accessibleBranches()->sync($data['branch_ids']);
+        } elseif ($data['role'] === 'super_admin') {
+            $user->accessibleBranches()->detach();
+        }
 
         return redirect()->route('users.index')
             ->with('success', "User {$user->name} berhasil diperbarui!");
@@ -134,33 +201,39 @@ class UserController extends Controller
 
         $oldActive = $user->is_active;
         $user->update(['is_active' => !$oldActive]);
-        $status = $user->is_active ? 'diaktifkan' : 'dinonaktifkan';
 
-        // Audit log
+        $action = $user->is_active ? 'activate_user' : 'deactivate_user';
+        $description = \App\Services\ActivityLogFormatter::format(
+            ['is_active' => $oldActive],
+            ['is_active' => $user->is_active],
+            User::class,
+            $user->id,
+            $action
+        );
+
         ActivityLog::create([
             'user_id' => auth()->id(),
             'branch_id' => auth()->user()->branch_id,
-            'action' => $user->is_active ? 'activate_user' : 'deactivate_user',
+            'action' => $action,
             'model_type' => User::class,
             'model_id' => $user->id,
-            'description' => auth()->user()->name . ' ' . $status . ' user ' . $user->name,
+            'description' => $description,
             'old_values' => ['is_active' => $oldActive],
             'new_values' => ['is_active' => $user->is_active],
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
 
+        $status = $user->is_active ? 'diaktifkan' : 'dinonaktifkan';
         return back()->with('success', "User {$user->name} berhasil {$status}.");
     }
 
     public function destroy(User $user)
     {
-        // 1. Prevent self-deletion
         if ($user->id === auth()->id()) {
             return back()->with('error', 'Tidak bisa menghapus akun sendiri.');
         }
 
-        // 2. Prevent deleting last Super Admin
         if ($user->isSuperAdmin()) {
             $superAdminCount = User::where('role', 'super_admin')->count();
             if ($superAdminCount <= 1) {
@@ -168,49 +241,41 @@ class UserController extends Controller
             }
         }
 
-        // 3. Check for related records → deactivate instead
-        $hasRentalsCreated  = Rental::where('created_by', $user->id)->withTrashed()->exists();
-        $hasRentalsReturned = Rental::where('returned_by', $user->id)->withTrashed()->exists();
+        $hasRentalsCreated  = Rental::where('created_by', $user->id)->exists();
+        $hasRentalsReturned = Rental::where('returned_by', $user->id)->exists();
         $hasPayments        = Payment::where('received_by', $user->id)->exists();
-        $hasLogs            = ActivityLog::where('user_id', $user->id)->exists();
         $hasRentals         = $hasRentalsCreated || $hasRentalsReturned;
 
-        if ($hasRentals || $hasPayments || $hasLogs) {
-            $user->update(['is_active' => false]);
-            try {
-                $user->delete(); // soft delete
-            } catch (QueryException $e) {
-                if ($e->getCode() === '23000') {
-                    return back()->with('error', 'User tidak dapat dihapus karena masih terhubung dengan data transaksi lain di database.');
-                }
-                throw $e;
-            }
-
-            ActivityLog::create([
-                'user_id' => auth()->id(),
-                'branch_id' => auth()->user()->branch_id,
-                'action' => 'deactivate_user',
-                'model_type' => User::class,
-                'model_id' => $user->id,
-                'description' => auth()->user()->name . ' menonaktifkan user ' . $user->name . ' (memiliki riwayat transaksi)',
-                'old_values' => ['is_active' => true],
-                'new_values' => ['is_active' => false],
-                'ip_address' => request()->ip(),
-                'user_agent' => request()->userAgent(),
-            ]);
-
-            return back()->with('success', "User {$user->name} telah dinonaktifkan karena memiliki riwayat transaksi.");
+        if ($hasRentals || $hasPayments) {
+            $parts = [];
+            if ($hasRentalsCreated)  $parts[] = 'penyewaan dibuat';
+            if ($hasRentalsReturned) $parts[] = 'penyewaan dikembalikan';
+            if ($hasPayments)        $parts[] = 'pembayaran';
+            return back()->with('error', 'User tidak dapat dihapus permanen karena masih memiliki riwayat ' . implode(', ', $parts) . '.');
         }
 
-        // 4. No related records → safe to soft delete
+        $userName = $user->name;
+
+        ActivityLog::where('user_id', $user->id)->update(['user_id' => null]);
+
+        $oldValues = $user->getAttributes();
+
         try {
-            $user->delete();
+            $user->forceDelete();
         } catch (QueryException $e) {
             if ($e->getCode() === '23000') {
-                return back()->with('error', 'User tidak dapat dihapus karena masih terhubung dengan data transaksi lain di database.');
+                return back()->with('error', 'User tidak dapat dihapus permanen karena masih terhubung dengan data transaksi lain di database.');
             }
             throw $e;
         }
+
+        $description = \App\Services\ActivityLogFormatter::format(
+            $oldValues,
+            null,
+            User::class,
+            $user->id,
+            'delete_user'
+        );
 
         ActivityLog::create([
             'user_id' => auth()->id(),
@@ -218,13 +283,13 @@ class UserController extends Controller
             'action' => 'delete_user',
             'model_type' => User::class,
             'model_id' => $user->id,
-            'description' => auth()->user()->name . ' menghapus user ' . $user->name,
-            'old_values' => $user->getAttributes(),
-            'new_values' => [],
+            'description' => $description,
+            'old_values' => $oldValues,
+            'new_values' => null,
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
 
-        return back()->with('success', "User {$user->name} berhasil dihapus.");
+        return back()->with('success', "User {$userName} berhasil dihapus permanen.");
     }
 }

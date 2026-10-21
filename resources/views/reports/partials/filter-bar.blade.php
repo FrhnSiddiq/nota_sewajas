@@ -5,6 +5,10 @@
       $isSuperAdmin     : bool
       $branches         : Collection<Branch>  (kosong jika bukan super_admin)
       $selectedBranchId : int|null
+
+    Opsional:
+      $excelRoute  : nama route untuk export excel (default: reports.export.excel)
+      $pdfRoute    : nama route untuk export pdf   (default: reports.export.pdf)
 --}}
 
 <div class="card mb-6 overflow-hidden">
@@ -13,8 +17,8 @@
         {{-- ── BODY FILTER ── --}}
         <div class="flex flex-wrap items-end gap-4 p-5">
 
-            {{-- DROPDOWN BRANCH: hanya super_admin --}}
-            @if ($isSuperAdmin)
+            {{-- DROPDOWN BRANCH: super_admin & admin_toko --}}
+            @if ($isSuperAdmin || auth()->user()->isAdminToko())
                 <div class="flex flex-col gap-1.5 min-w-[200px]">
                     <label class="text-xs font-semibold uppercase tracking-wider"
                            style="color: var(--text-soft)">
@@ -22,7 +26,9 @@
                     </label>
                     <div class="relative">
                         <select name="branch_id" class="form-input pr-8 appearance-none cursor-pointer">
-                            <option value="">— Semua Cabang —</option>
+                            @if ($isSuperAdmin)
+                                <option value="">— Semua Cabang —</option>
+                            @endif
                             @foreach ($branches as $branch)
                                 <option
                                     value="{{ $branch->id }}"
@@ -38,7 +44,7 @@
                     </div>
                 </div>
             @else
-                {{-- admin_toko/sales: tampilkan cabang sendiri, read-only --}}
+                {{-- sales: tampilkan cabang sendiri, read-only --}}
                 <div class="flex flex-col gap-1.5 min-w-[200px]">
                     <label class="text-xs font-semibold uppercase tracking-wider"
                            style="color: var(--text-soft)">
@@ -54,6 +60,21 @@
                     </div>
                 </div>
             @endif
+
+            {{-- PERIODE CEPAT --}}
+            <div class="flex flex-col gap-1.5">
+                <label for="period"
+                       class="text-xs font-semibold uppercase tracking-wider"
+                       style="color: var(--text-soft)">
+                    Periode
+                </label>
+                <select name="period" id="period" class="form-input" onchange="toggleReportPeriod(this)">
+                    <option value="">Pilih Tanggal</option>
+                    <option value="today" {{ request('period') === 'today' ? 'selected' : '' }}>Hari Ini</option>
+                    <option value="week" {{ request('period') === 'week' ? 'selected' : '' }}>Minggu Ini</option>
+                    <option value="month" {{ request('period') === 'month' ? 'selected' : '' }}>Bulan Ini</option>
+                </select>
+            </div>
 
             {{-- DARI TANGGAL --}}
             <div class="flex flex-col gap-1.5">
@@ -97,7 +118,7 @@
             </div>
 
             {{-- RESET --}}
-            @if (request()->hasAny(['start_date', 'end_date', 'branch_id']))
+            @if (request()->hasAny(['start_date', 'end_date', 'branch_id', 'period']))
                 <div class="flex flex-col gap-1.5">
                     <label class="text-xs font-semibold uppercase tracking-wider opacity-0">—</label>
                     <a href="{{ url()->current() }}" class="btn-secondary">
@@ -115,7 +136,7 @@
 
             {{-- Keterangan scope --}}
             <div class="flex items-center gap-2 text-xs" style="color: var(--text-soft)">
-                @if ($isSuperAdmin)
+                @if ($isSuperAdmin || auth()->user()->isAdminToko())
                     @if ($selectedBranchId)
                         <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
                         Ekspor untuk cabang
@@ -136,34 +157,59 @@
             {{-- Tombol export --}}
             <div class="flex items-center gap-2">
                 {{-- Excel --}}
-                <a href="{{ route('reports.export.excel', request()->query()) }}"
+                <a href="{{ route($excelRoute ?? 'reports.export.excel', request()->query()) }}"
                    class="btn-secondary text-sm py-1.5 px-3"
                    style="color: #15803D; border-color: #BBF7D0; background: #F0FDF4">
-                    <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
-                    Excel
-                    @if ($isSuperAdmin && ! $selectedBranchId)
-                        <span class="text-xs px-1.5 py-0.5 rounded-full font-semibold"
-                              style="background: var(--gold-light); color: #92681A">
-                            Semua
-                        </span>
-                    @endif
-                </a>
+                     <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                     Excel
+                      @if (($isSuperAdmin || auth()->user()->isAdminToko()) && ! $selectedBranchId)
+                          <span class="text-xs px-1.5 py-0.5 rounded-full font-semibold"
+                                style="background: var(--gold-light); color: #92681A">
+                              Semua
+                          </span>
+                      @endif
+                 </a>
 
-                {{-- PDF --}}
-                <a href="{{ route('reports.export.pdf', request()->query()) }}"
-                   class="btn-secondary text-sm py-1.5 px-3"
-                   style="color: #C0392B; border-color: #FECACA; background: #FFF1F0">
-                    <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                    PDF
-                    @if ($isSuperAdmin && ! $selectedBranchId)
-                        <span class="text-xs px-1.5 py-0.5 rounded-full font-semibold"
-                              style="background: var(--gold-light); color: #92681A">
-                            Semua
-                        </span>
-                    @endif
-                </a>
+                 {{-- PDF --}}
+                 <a href="{{ route($pdfRoute ?? 'reports.export.pdf', request()->query()) }}"
+                    class="btn-secondary text-sm py-1.5 px-3"
+                    style="color: #C0392B; border-color: #FECACA; background: #FFF1F0">
+                     <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                     PDF
+                      @if (($isSuperAdmin || auth()->user()->isAdminToko()) && ! $selectedBranchId)
+                          <span class="text-xs px-1.5 py-0.5 rounded-full font-semibold"
+                                style="background: var(--gold-light); color: #92681A">
+                              Semua
+                          </span>
+                      @endif
+                 </a>
             </div>
         </div>
 
     </form>
 </div>
+
+@push('scripts')
+<script>
+function toggleReportPeriod(select) {
+    const startDate = document.getElementById('start_date');
+    const endDate = document.getElementById('end_date');
+    if (!startDate || !endDate) return;
+
+    if (select.value === 'today' || select.value === 'week' || select.value === 'month') {
+        startDate.disabled = true;
+        endDate.disabled = true;
+    } else {
+        startDate.disabled = false;
+        endDate.disabled = false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const periodSelect = document.getElementById('period');
+    if (periodSelect) {
+        toggleReportPeriod(periodSelect);
+    }
+});
+</script>
+@endpush

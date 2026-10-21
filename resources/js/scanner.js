@@ -1,16 +1,17 @@
 // ════════════════════════════════════════════════════════════════
-// QR SCANNER - CORRECT IMPLEMENTATION
-// Using Html5Qrcode (NOT Html5QrcodeScanner)
+// QR SCANNER - CLEAN VERSION
+// Using Html5Qrcode + navigator.mediaDevices.enumerateDevices()
 // ════════════════════════════════════════════════════════════════
 
 console.log('[QR Scanner] Module loading...');
 
 // Global state
-let scanner = null; // Html5Qrcode instance
+let scanner = null;
 let isScanning = false;
 let selectedCameraId = null;
 let availableCameras = [];
 let scanHistory = [];
+const LS_DEVICE_KEY = 'qr_scanner_selected_device_id';
 
 // ════════════════════════════════════════════════════════════════
 // LOGGING
@@ -49,37 +50,140 @@ function checkBrowserSupport() {
 }
 
 // ════════════════════════════════════════════════════════════════
+// DEVICE ENUMERATION
+// ════════════════════════════════════════════════════════════════
+
+async function enumerateVideoDevices() {
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    log(`Found ${videoDevices.length} video input device(s)`, videoDevices);
+    return videoDevices;
+  } catch (err) {
+    logError('Error enumerating devices:', err);
+    return [];
+  }
+}
+
+const VIRTUAL_KEYWORDS = ['virtual', 'obs', 'snap camera', 'manycam', 'xsplit', 'camo', 'epoccam'];
+
+function isLikelyVirtualCamera(label) {
+  if (!label) return false;
+  const lower = label.toLowerCase();
+  return VIRTUAL_KEYWORDS.some(keyword => lower.includes(keyword));
+}
+
+function detectMobile() {
+  return /Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && window.innerWidth < 768);
+}
+
+async function populateCameraSelector(videoDevices) {
+  const selectorWrapper = document.getElementById('camera-selector-wrapper');
+  const selector = document.getElementById('camera-select');
+  if (!selectorWrapper || !selector) return;
+
+  availableCameras = videoDevices;
+
+  if (videoDevices.length === 0) {
+    selectorWrapper.style.display = 'none';
+    return;
+  }
+
+  selectorWrapper.style.display = 'block';
+  selector.innerHTML = '';
+
+  const savedId = localStorage.getItem(LS_DEVICE_KEY);
+  let defaultDeviceId = savedId && videoDevices.some(d => d.deviceId === savedId) ? savedId : null;
+
+  if (!defaultDeviceId) {
+    if (detectMobile()) {
+      const backCamera = videoDevices.find(d => {
+        const label = (d.label || '').toLowerCase();
+        return label.includes('back') || label.includes('rear') || label.includes('environment');
+      });
+      defaultDeviceId = backCamera ? backCamera.deviceId : null;
+    }
+
+    if (!defaultDeviceId) {
+      const physicalCamera = videoDevices.find(d => !isLikelyVirtualCamera(d.label));
+      defaultDeviceId = physicalCamera ? physicalCamera.deviceId : videoDevices[0].deviceId;
+    }
+  }
+
+  selectedCameraId = defaultDeviceId;
+
+  videoDevices.forEach((device, index) => {
+    const option = document.createElement('option');
+    option.value = device.deviceId;
+    option.textContent = device.label || `Kamera ${index + 1}`;
+    if (device.deviceId === selectedCameraId) {
+      option.selected = true;
+    }
+    selector.appendChild(option);
+  });
+
+  if (!savedId && defaultDeviceId) {
+    localStorage.setItem(LS_DEVICE_KEY, defaultDeviceId);
+  }
+
+  saveCachedCameras(videoDevices);
+
+  // Notify Alpine.js that camera list has been updated
+  window.dispatchEvent(new CustomEvent('cameras-updated', { detail: { cameras: videoDevices } }));
+}
+
+// ════════════════════════════════════════════════════════════════
 // GET CAMERAS
 // ════════════════════════════════════════════════════════════════
 
+function loadCachedCameras() {
+  try {
+    const data = localStorage.getItem('cached_cameras');
+    if (data) return JSON.parse(data);
+  } catch (e) {
+    logWarn('Failed to load cached cameras:', e);
+  }
+  return [];
+}
+
+function saveCachedCameras(devices) {
+  try {
+    localStorage.setItem('cached_cameras', JSON.stringify(devices));
+  } catch (e) {
+    logWarn('Failed to cache cameras:', e);
+  }
+}
+
+async function refreshCameraList() {
+  let videoDevices = await enumerateVideoDevices();
+
+  if (videoDevices.length === 0) {
+    handleError('NO_CAMERA', 'Tidak ada kamera yang terdeteksi. Pastikan kamera terhubung dan izin diberikan di browser.');
+    return;
+  }
+
+  await populateCameraSelector(videoDevices);
+}
+
 async function getAvailableCameras() {
   try {
-    // CDN library provides Html5Qrcode.getCameras()
     if (!window.Html5Qrcode) {
       logError('Html5Qrcode not loaded');
       return [];
     }
 
-    availableCameras = await window.Html5Qrcode.getCameras();
-    log(`Found ${availableCameras.length} camera(s)`, availableCameras);
-
-    if (availableCameras.length === 0) {
-      handleError('NO_CAMERA', 'No cameras found');
-      return [];
+    const cached = loadCachedCameras();
+    if (cached.length > 0) {
+      availableCameras = cached;
+      await populateCameraSelector(cached);
+      return availableCameras;
     }
 
-    // Auto-select back camera
-    const backCamera = availableCameras.find(cam => {
-      const label = cam.label.toLowerCase();
-      return label.includes('back') || label.includes('rear');
-    });
+    await refreshCameraList();
 
-    if (backCamera) {
-      selectedCameraId = backCamera.id;
-      log(`Selected back camera: ${backCamera.label}`);
-    } else {
-      selectedCameraId = availableCameras[0].id;
-      log(`Selected first camera: ${availableCameras[0].label}`);
+    if (availableCameras.length === 0) {
+      handleError('NO_CAMERA', 'Tidak ada kamera yang terdeteksi. Pastikan kamera terhubung dan izin diberikan di browser.');
+      return [];
     }
 
     return availableCameras;
@@ -90,17 +194,36 @@ async function getAvailableCameras() {
 }
 
 // ════════════════════════════════════════════════════════════════
+// LOCAL STORAGE HELPERS
+// ════════════════════════════════════════════════════════════════
+
+function saveSelectedCamera(deviceId) {
+  try {
+    localStorage.setItem(LS_DEVICE_KEY, deviceId);
+  } catch (err) {
+    logWarn('Could not save camera selection:', err);
+  }
+}
+
+function loadSavedCamera() {
+  try {
+    return localStorage.getItem(LS_DEVICE_KEY);
+  } catch (err) {
+    logWarn('Could not load saved camera:', err);
+    return null;
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
 // INITIALIZE SCANNER
 // ════════════════════════════════════════════════════════════════
 
 async function initializeScanner() {
   try {
     log('Creating Html5Qrcode instance...');
-    
-    // IMPORTANT: Use Html5Qrcode (NOT Html5QrcodeScanner)
-    // Html5Qrcode has: .start(), .stop(), .clear()
+
     scanner = new window.Html5Qrcode('qr-reader');
-    
+
     log('✓ Scanner instance created');
     log('Scanner type:', typeof scanner);
     log('Scanner.start:', typeof scanner.start);
@@ -115,7 +238,7 @@ async function initializeScanner() {
 
     setupEventListeners();
     log('✓ Event listeners registered');
-    
+
     return true;
 
   } catch (err) {
@@ -129,30 +252,27 @@ async function initializeScanner() {
 // ════════════════════════════════════════════════════════════════
 
 function setupEventListeners() {
-  const startBtn = document.getElementById('start-camera-btn');
-  const stopBtn = document.getElementById('stop-camera-btn');
-  const switchBtn = document.getElementById('switch-camera-btn');
+  const cameraSelect = document.getElementById('camera-select');
 
-  if (!startBtn) {
-    logWarn('start-camera-btn not found');
-  } else {
-    startBtn.addEventListener('click', startCamera);
-    log('✓ start-camera-btn listener added');
+  // Camera selector change - still handled by scanner.js
+  if (cameraSelect) {
+    cameraSelect.addEventListener('change', async (e) => {
+      const newDeviceId = e.target.value;
+      if (!newDeviceId || newDeviceId === selectedCameraId) return;
+
+      selectedCameraId = newDeviceId;
+      saveSelectedCamera(newDeviceId);
+      log('Camera selector changed to:', newDeviceId);
+
+      if (isScanning) {
+        await restartCameraWithDevice(newDeviceId);
+      }
+    });
+    log('✓ camera-select listener added');
   }
 
-  if (!stopBtn) {
-    logWarn('stop-camera-btn not found');
-  } else {
-    stopBtn.addEventListener('click', stopCamera);
-    log('✓ stop-camera-btn listener added');
-  }
-
-  if (!switchBtn) {
-    logWarn('switch-camera-btn not found');
-  } else {
-    switchBtn.addEventListener('click', switchCamera);
-    log('✓ switch-camera-btn listener added');
-  }
+  // Button clicks are now handled by Alpine.js @click handlers
+  log('✓ Button click handlers delegated to Alpine.js');
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -178,27 +298,42 @@ async function startCamera() {
   try {
     showLoading();
 
-    // Get cameras
     const cameras = await getAvailableCameras();
     if (cameras.length === 0) {
       hideLoading();
       return;
     }
 
+    if (!selectedCameraId && availableCameras.length > 0) {
+      selectedCameraId = availableCameras[0].deviceId;
+    }
+
+    if (!selectedCameraId) {
+      hideLoading();
+      handleError('NO_CAMERA', 'Pilih kamera terlebih dahulu.');
+      return;
+    }
+
     log('Starting camera...');
     log('Using camera ID:', selectedCameraId);
 
-    // IMPORTANT: Call .start() with proper parameters
-    // .start(cameraIdOrConfig, config, onSuccess, onFailure)
+    // Wait for container to have dimensions, then calculate proportional qrbox (70% of shorter side)
+    const qrbox = await calculateProportionalQrbox();
+    log('DEBUG: qrbox config:', qrbox);
+
     await scanner.start(
       selectedCameraId,
-      {
-        fps: 10,
-        qrbox: { width: 280, height: 280 }
-      },
+      { fps: 10, qrbox: qrbox },
       onScanSuccess,
       onScanFailure
     );
+
+    log('DEBUG: scanner.start() selesai, memanggil waitForVideoPlaying...');
+
+    // Wait for video element to actually start playing (fixes race condition)
+    await waitForVideoPlaying();
+
+    log('DEBUG: waitForVideoPlaying() selesai, isScanning=' + isScanning);
 
     isScanning = true;
     log('✓✓✓ Camera started ✓✓✓');
@@ -206,11 +341,79 @@ async function startCamera() {
     hideLoading();
     showToast('Camera started', 'success');
 
+    // Notify Alpine.js of state change
+    log('DEBUG: dispatching scanner-state-changed, isScanning=' + isScanning);
+    window.dispatchEvent(new CustomEvent('scanner-state-changed', { detail: { isScanning: true } }));
+
   } catch (err) {
     logError('Error starting camera:', err);
     handleError('START_ERROR', `Camera error: ${err.message}`);
     hideLoading();
+    isScanning = false;
+    updateStatus('inactive');
+    log('DEBUG: dispatching scanner-state-changed (error), isScanning=' + isScanning);
+    window.dispatchEvent(new CustomEvent('scanner-state-changed', { detail: { isScanning: false } }));
   }
+}
+
+async function calculateProportionalQrbox() {
+  const container = document.getElementById('qr-reader');
+  if (!container) {
+    logWarn('Container #qr-reader not found, using fallback qrbox 250');
+    return { width: 250, height: 250 };
+  }
+
+  // Wait for container to have dimensions (max 500ms)
+  const startTime = Date.now();
+  while (container.offsetWidth === 0 || container.offsetHeight === 0) {
+    if (Date.now() - startTime > 500) {
+      logWarn('Container dimensions still 0 after 500ms, using fallback qrbox 250');
+      return { width: 250, height: 250 };
+    }
+    await new Promise(r => setTimeout(r, 50));
+  }
+
+  const size = Math.floor(Math.min(container.offsetWidth, container.offsetHeight) * 0.7);
+  const finalSize = Math.max(200, Math.min(size, 350)); // clamp 200-350
+  log('DEBUG: Container size:', container.offsetWidth, 'x', container.offsetHeight, '→ qrbox:', finalSize);
+  return { width: finalSize, height: finalSize };
+}
+
+async function waitForVideoPlaying() {
+  log('DEBUG: waitForVideoPlaying dipanggil');
+  return new Promise((resolve) => {
+    const checkVideo = () => {
+      const video = document.querySelector('#qr-reader video');
+      if (video) {
+        log('DEBUG: video element ditemukan, readyState=' + video.readyState + ', paused=' + video.paused + ', ended=' + video.ended);
+        if (video.readyState >= 2 && !video.paused && !video.ended) {
+          log('DEBUG: Video is playing (readyState >= 2)');
+          resolve();
+          return;
+        }
+        // Listen for playing event
+        video.addEventListener('playing', () => {
+          log('DEBUG: video playing event fired');
+          resolve();
+        }, { once: true });
+        // Also listen for loadedmetadata as fallback
+        video.addEventListener('loadedmetadata', () => {
+          log('DEBUG: video loadedmetadata event fired');
+        }, { once: true });
+      } else {
+        log('DEBUG: video element BELUM ditemukan, cek lagi 100ms');
+        // Video element not ready yet, check again
+        setTimeout(checkVideo, 100);
+      }
+    };
+    checkVideo();
+
+    // Timeout fallback
+    setTimeout(() => {
+      logWarn('DEBUG: fallback timeout hit (5 detik), resolving anyway');
+      resolve();
+    }, 5000);
+  });
 }
 
 // ════════════════════════════════════════════════════════════════
@@ -230,17 +433,86 @@ async function stopCamera() {
   try {
     log('Stopping scanner...');
     await scanner.stop();
-    
+
     log('Clearing scanner...');
     await scanner.clear();
+
+    // CRITICAL: Explicitly stop all MediaStream tracks (privacy fix)
+    await stopMediaStreamTracks();
 
     isScanning = false;
     log('✓ Scanner stopped');
     updateStatus('inactive');
     showToast('Camera stopped', 'info');
+    log('DEBUG: dispatching scanner-state-changed (stop), isScanning=' + isScanning);
+    window.dispatchEvent(new CustomEvent('scanner-state-changed', { detail: { isScanning: false } }));
 
   } catch (err) {
     logError('Error stopping camera:', err);
+    // Safety net: try to stop tracks even on error
+    await stopMediaStreamTracks();
+    isScanning = false;
+    updateStatus('inactive');
+  }
+}
+
+async function stopMediaStreamTracks() {
+  try {
+    const video = document.querySelector('#qr-reader video');
+    if (video && video.srcObject) {
+      const stream = video.srcObject;
+      if (stream instanceof MediaStream) {
+        log('DEBUG: Stopping MediaStream tracks...');
+        stream.getTracks().forEach(track => {
+          log('DEBUG: Stopping track:', track.kind, track.label);
+          track.stop();
+        });
+        video.srcObject = null;
+        log('✓ MediaStream tracks stopped');
+      }
+    } else {
+      logWarn('DEBUG: No video element or srcObject found to stop tracks');
+    }
+  } catch (err) {
+    logError('Error stopping MediaStream tracks:', err);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// RESTART CAMERA WITH NEW DEVICE
+// ════════════════════════════════════════════════════════════════
+
+async function restartCameraWithDevice(deviceId) {
+  try {
+    if (scanner && isScanning) {
+      await scanner.stop();
+      await scanner.clear();
+      // CRITICAL: Stop old MediaStream tracks before starting new device
+      await stopMediaStreamTracks();
+      isScanning = false;
+    }
+
+    const qrbox = await calculateProportionalQrbox();
+
+    await scanner.start(
+      deviceId,
+      { fps: 10, qrbox: qrbox },
+      onScanSuccess,
+      onScanFailure
+    );
+
+    isScanning = true;
+    selectedCameraId = deviceId;
+    log('✓ Camera restarted with device:', deviceId);
+    updateStatus('active');
+    showToast('Camera switched', 'success');
+  } catch (err) {
+    logError('Error restarting camera:', err);
+    // Safety net: try to stop tracks on error
+    await stopMediaStreamTracks();
+    isScanning = false;
+    updateStatus('inactive');
+    handleError('SWITCH_ERROR', `Switch failed: ${err.message}`);
   }
 }
 
@@ -258,30 +530,22 @@ async function switchCamera() {
     return;
   }
 
-  if (!isScanning) {
-    logWarn('Scanner not running');
-    return;
-  }
-
   try {
-    const currentIdx = availableCameras.findIndex(c => c.id === selectedCameraId);
+    const currentIdx = availableCameras.findIndex(c => c.deviceId === selectedCameraId);
     const nextIdx = (currentIdx + 1) % availableCameras.length;
     const nextCamera = availableCameras[nextIdx];
 
     log('Switching to camera:', nextCamera.label);
-    
-    // Stop current
-    await scanner.stop();
-    await scanner.clear();
 
-    // Start with new camera
-    selectedCameraId = nextCamera.id;
-    await scanner.start(
-      selectedCameraId,
-      { fps: 10, qrbox: { width: 280, height: 280 } },
-      onScanSuccess,
-      onScanFailure
-    );
+    selectedCameraId = nextCamera.deviceId;
+    saveSelectedCamera(nextCamera.deviceId);
+
+    const cameraSelect = document.getElementById('camera-select');
+    if (cameraSelect) {
+      cameraSelect.value = nextCamera.deviceId;
+    }
+
+    await restartCameraWithDevice(nextCamera.deviceId);
 
     log('✓ Camera switched to:', nextCamera.label);
     showToast(`Switched to ${nextCamera.label}`, 'success');
@@ -305,8 +569,6 @@ function onScanSuccess(decodedText, decodedResult) {
 }
 
 function onScanFailure(error) {
-  // Silently ignore - happens frequently during scanning
-  // Only log if it's not the expected "not found" error
   if (!error.includes('NotFound')) {
     logWarn('Scan error:', error);
   }
@@ -318,29 +580,20 @@ function onScanFailure(error) {
 
 async function handleQRCode(qrContent) {
   try {
-    // Stop scanning
     if (isScanning) {
       await stopCamera();
     }
 
-    // Play beep
     playBeep();
 
-    // Vibrate
     if (navigator.vibrate) {
       navigator.vibrate([100, 50, 100]);
     }
 
-    // Show success animation
     showSuccessAnimation();
-
-    // Add to history
     addToHistory(qrContent);
-
-    // Update result panel
     updateResultPanel(qrContent);
 
-    // Redirect after 1 second
     setTimeout(() => {
       redirectToQR(qrContent);
     }, 1000);
@@ -351,7 +604,6 @@ async function handleQRCode(qrContent) {
 }
 
 function redirectToQR(qrContent) {
-  // Format: INV/RCPT-INV followed by numbers
   const invoiceRegex = /^(INV|RCPT-INV)(\d{12})$/i;
   const match = qrContent.match(invoiceRegex);
 
@@ -360,9 +612,6 @@ function redirectToQR(qrContent) {
     log('Redirecting to:', url);
     window.location.href = url;
   } else if (/^\d+$/.test(qrContent)) {
-    // QR lama formatnya hanya ID rental numerik.
-    // Requirement: jangan pernah menuju rentals.show (detail penyewaan).
-    // Backend scanQr() akan mendukung format ini dan selalu mengembalikan scan-result.
     const url = `/rentals/scan/${qrContent}`;
     log('Redirecting to (scan id -> scan-result):', url);
     window.location.href = url;
@@ -443,7 +692,7 @@ function playBeep() {
 function showToast(msg, type = 'info') {
   const toast = document.createElement('div');
   toast.className = `fixed bottom-4 right-4 px-4 py-3 rounded text-white text-sm z-50`;
-  
+
   if (type === 'error') toast.classList.add('bg-red-500');
   else if (type === 'success') toast.classList.add('bg-green-500');
   else if (type === 'warning') toast.classList.add('bg-yellow-500');
@@ -502,7 +751,6 @@ async function initPage() {
   log('QR SCANNER READY');
   log('═══════════════════════════════════════════');
 
-  // Check if we're on the scan page
   const qrReader = document.getElementById('qr-reader');
   if (!qrReader) {
     log('SKIP: Not on scan page');
@@ -511,7 +759,6 @@ async function initPage() {
 
   log('✓ Scanner container found');
 
-  // Wait for library
   let waitCount = 0;
   while (!window.Html5Qrcode && waitCount < 150) {
     await new Promise(r => setTimeout(r, 100));
@@ -519,26 +766,27 @@ async function initPage() {
   }
 
   if (!window.Html5Qrcode) {
-    logError('CRITICAL: Html5Qrcode library not loaded after 15 seconds');
-    handleError('LIBRARY', 'QR library failed to load. Check CDN.');
+    logError('CRITICAL: Html5Qrcode library not loaded');
+    handleError('LIBRARY', 'QR library failed to load. Please refresh the page.');
     return;
   }
 
   log('✓ Html5Qrcode library detected');
   log('Library version:', window.Html5Qrcode.VERSION || 'unknown');
 
-  // Check browser
   if (!checkBrowserSupport()) {
     handleError('BROWSER', 'Browser does not support camera access');
     return;
   }
 
-  // Initialize scanner
   const initialized = await initializeScanner();
   if (!initialized) {
     handleError('INIT', 'Failed to initialize scanner');
     return;
   }
+
+  // Populate camera dropdown on page load
+  await getAvailableCameras();
 
   log('✓ Scanner initialized and ready');
   log('════════════════════════════════════════════');
@@ -557,6 +805,7 @@ window.addEventListener('beforeunload', async () => {
     try {
       await scanner.stop();
       await scanner.clear();
+      await stopMediaStreamTracks();
     } catch (err) {
       console.error('Error cleaning up scanner:', err);
     }
@@ -568,6 +817,7 @@ window.QRScanner = {
   start: startCamera,
   stop: stopCamera,
   switch: switchCamera,
+  getAvailableCameras: getAvailableCameras,
   getScanner: () => scanner,
   getStatus: () => ({
     isScanning,

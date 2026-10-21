@@ -21,20 +21,17 @@ class EnsureBranchScope
             return redirect()->route('login');
         }
 
-        // Super admin boleh akses semua cabang
-        if ($user->hasRole('super_admin')) {
-            return $next($request);
-        }
-
-        // Admin & Sales WAJIB punya branch_id
-        if (is_null($user->branch_id)) {
-            abort(403, 'Akun Anda belum dikaitkan dengan cabang manapun. Hubungi Super Admin.');
-        }
-
-        // User tidak aktif
         if (!$user->is_active) {
             auth()->logout();
             return redirect()->route('login')->with('error', 'Akun Anda telah dinonaktifkan.');
+        }
+
+        if ($user->isSuperAdmin() || $user->isAdminToko() || $user->branch_access_type === 'all') {
+            return $next($request);
+        }
+
+        if (is_null($user->branch_id) && !$user->accessibleBranches()->exists()) {
+            abort(403, 'Akun Anda belum dikaitkan dengan cabang manapun. Hubungi Super Admin.');
         }
 
         return $next($request);

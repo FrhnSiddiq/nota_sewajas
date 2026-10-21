@@ -29,38 +29,61 @@
                 <div class="flex flex-wrap gap-2">
                     <span class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold" :class="badgeClass(rental.rental_status, 'rental')" x-text="statusBadgeText(rental.rental_status, 'rental')"></span>
                     <span class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold" :class="badgeClass(rental.payment_status, 'payment')" x-text="statusBadgeText(rental.payment_status, 'payment')"></span>
-                    <template x-if="rental.fine_status === 'unpaid' || rental.fine_status === 'partial'">
+                    <template x-if="rental.rental_status !== 'returned' && (rental.fine_status === 'unpaid' || rental.fine_status === 'partial')">
                         <span class="inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold bg-amber-100 text-amber-700">Ada Denda Belum Dibayar</span>
                     </template>
                 </div>
             </div>
 
-            <div class="mt-5 flex flex-wrap items-center gap-2">
+            <div class="rental-detail-actions mt-5 flex flex-wrap items-center gap-2">
                 <a href="{{ route('rentals.index') }}" class="btn-secondary">
                     <i data-lucide="arrow-left" class="w-4 h-4"></i>
                     Kembali ke Penyewaan
                 </a>
                 @if(auth()->user()->isSuperAdmin() || auth()->user()->isAdminToko())
-                <a href="{{ route('rentals.edit', $rental) }}" class="btn-secondary">
+                @php
+                    $isRentalLocked = in_array($rental->rental_status, ['active', 'overdue']) || $rental->payment_status === 'paid';
+                @endphp
+                <a href="{{ $isRentalLocked ? '#' : route('rentals.edit', $rental) }}"
+                   class="btn-secondary {{ $isRentalLocked ? 'opacity-50 cursor-not-allowed' : '' }}"
+                   @if($isRentalLocked) onclick="event.preventDefault(); return false;" @endif>
                     <i data-lucide="edit-2" class="w-4 h-4"></i>
-                    Edit
+                    {{ $isRentalLocked ? 'Tidak Dapat Diedit' : 'Edit' }}
                 </a>
                 @endif
-                <template x-if="rental.rental_status === 'waiting'">
-                    <button type="button" @click="openHandoverModal()" class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-emerald-700">
+                    <template x-if="rental.rental_status === 'waiting'">
+                    <button type="button" @click="openHandoverModal()" class="rental-action-btn inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-emerald-700">
                         <i data-lucide="play" class="w-4 h-4"></i>
                         Mulai Sewa / Serah Terima
                     </button>
+                    
+                    <!-- Tombol Batalkan untuk status waiting -->
+                    @if(auth()->user()->isSuperAdmin() || auth()->user()->isAdminToko())
+                    <form method="POST" action="{{ route('rentals.cancel', $rental) }}" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan penyewaan ini? Status akan berubah menjadi \"Dibatalkan\" dan stok akan dikembalikan.');">
+                        @csrf
+                        <button type="submit" class="rental-action-btn inline-flex items-center gap-2 rounded-xl bg-rose-600 px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-rose-700">
+                            <i data-lucide="x-circle" class="w-4 h-4"></i>
+                            Batalkan
+                        </button>
+                    </form>
+                    @endif
                 </template>
-                <a href="{{ route('rentals.receipt.show', $rental) }}" class="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">Receipt</a>
-                <a href="{{ route('rentals.receipt.pdf', $rental) }}" class="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">Receipt PDF</a>
+                <a href="{{ route('rentals.receipt.show', $rental) }}" class="rental-action-btn inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">Receipt</a>
+                <a href="{{ route('rentals.receipt.pdf', $rental) }}" class="rental-action-btn inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">Receipt PDF</a>
+                <a href="{{ route('rentals.invoice', $rental) }}" title="Invoice A4 — format sama dengan Unduh Invoice di Riwayat Penyewaan" class="rental-action-btn inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">Invoice PDF</a>
                 <a href="javascript:void(0)" 
                    title="PDF akan otomatis terdownload — lampirkan manual di chat WhatsApp yang terbuka"
                    onclick="downloadPdfAndOpenWa('{{ route('rentals.receipt.pdf', $rental) }}', '{{ addslashes($rental->customer->name ?? 'Customer') }}', '{{ $rental->invoice_number }}', '{{ preg_replace('/[^0-9]/', '', str_starts_with($rental->customer->phone ?? '', '0') ? '62'.substr($rental->customer->phone, 1) : ($rental->customer->phone ?? '')) }}')"
-                   class="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">WA Receipt</a>
-                <a href="{{ route('rentals.reminder', $rental) }}" class="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">Reminder</a>
-                @if(auth()->user()->isSuperAdmin())
-                <button type="button" onclick="confirmDeleteRental('{{ $rental->invoice_number }}')" class="btn-secondary text-red-500 hover:bg-red-50">
+                   class="rental-action-btn inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">WA Receipt</a>
+                <a href="{{ route('rentals.reminder', $rental) }}" class="rental-action-btn inline-flex items-center justify-center rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">Reminder</a>
+                @php
+                    $canDelete = (
+                        ($rental->rental_status === 'waiting' && $rental->payment_status === 'unpaid')
+                        || in_array($rental->rental_status, ['cancelled', 'returned'])
+                    );
+                @endphp
+                @if((auth()->user()->isSuperAdmin() || auth()->user()->isAdminToko()) && $canDelete)
+                <button type="button" onclick="confirmDeleteRental('{{ $rental->invoice_number }}', '{{ $rental->rental_status }}')" class="btn-secondary text-red-500 hover:bg-red-50">
                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                     Hapus
                 </button>
@@ -75,10 +98,15 @@
 
             @push('scripts')
             <script>
-            function confirmDeleteRental(invoiceNumber) {
+            function confirmDeleteRental(invoiceNumber, rentalStatus) {
+                const isWaiting = rentalStatus === 'waiting';
+                const warningText = isWaiting
+                    ? 'Apakah Anda yakin ingin menghapus penyewaan <strong>' + invoiceNumber + '</strong>?<br>Penyewaan ini belum ada pembayaran dan stok produk akan dikembalikan.<br>Tindakan ini tidak dapat dibatalkan.'
+                    : 'Apakah Anda yakin ingin menghapus penyewaan <strong>' + invoiceNumber + '</strong>?<br>Semua data terkait akan ikut terhapus.<br>Tindakan ini tidak dapat dibatalkan.';
+
                 Swal.fire({
                     title: 'Hapus Penyewaan?',
-                    html: 'Apakah Anda yakin ingin menghapus penyewaan <strong>' + invoiceNumber + '</strong>?<br>Semua data terkait akan ikut terhapus.<br>Tindakan ini tidak dapat dibatalkan.',
+                    html: warningText,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#dc2626',
@@ -155,35 +183,31 @@
                         <h2 class="text-lg font-bold text-slate-900">Informasi Rental</h2>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div class="grid grid-cols-2 gap-3 lg:grid-cols-3">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Pelanggan</p>
-                            <p class="mt-2 text-sm font-semibold text-slate-900" x-text="rental.customer.name"></p>
-                            <p class="mt-1 text-sm text-slate-500" x-text="rental.customer.phone || '-'"></p>
+                            <p class="mt-2 break-words text-sm font-semibold text-slate-900" x-text="rental.customer.name"></p>
+                            <p class="mt-1 break-words text-sm text-slate-500" x-text="rental.customer.phone || '-'"></p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Cabang</p>
-                            <p class="mt-2 text-sm font-semibold text-slate-900" x-text="rental.branch.name || '-'"></p>
+                            <p class="mt-2 break-words text-sm font-semibold text-slate-900" x-text="rental.branch.name || '-'"></p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Diserahkan oleh</p>
-                            <p class="mt-2 text-sm font-semibold text-slate-900" x-text="rental.created_by || '-'"></p>
+                            <p class="mt-2 break-words text-sm font-semibold text-slate-900" x-text="rental.created_by || '-'"></p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Diproses Pengembalian oleh</p>
-                            <p class="mt-2 text-sm font-semibold text-slate-900" x-text="rental.returned_by || '-'"></p>
+                            <p class="mt-2 break-words text-sm font-semibold text-slate-900" x-text="rental.returned_by || '-'"></p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Tanggal Sewa</p>
-                            <p class="mt-2 text-sm font-semibold text-slate-900" x-text="rental.rental_date"></p>
+                            <p class="mt-2 break-words text-sm font-semibold text-slate-900" x-text="rental.rental_date"></p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Deadline</p>
-                            <p class="mt-2 text-sm font-semibold text-slate-900" x-text="rental.return_due_date"></p>
-                        </div>
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Invoice</p>
-                            <p class="mt-2 text-sm font-semibold text-slate-900 break-all" x-text="rental.invoice_number"></p>
+                            <p class="mt-2 break-words text-sm font-semibold text-slate-900" x-text="rental.return_due_date"></p>
                         </div>
                     </div>
                 </div>
@@ -235,6 +259,12 @@
                                                 <span class="mt-1 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold" :class="itemBadgeClass(getItemCondition(item.id))" x-text="itemConditionLabel(getItemCondition(item.id))"></span>
                                             </div>
                                         </div>
+                                        <div x-show="item.return_condition && item.return_condition !== 'baik' && item.return_condition !== 'good'" class="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3">
+                                            <p class="text-xs font-semibold uppercase tracking-wide text-amber-700">Rincian Denda Barang</p>
+                                            <p class="mt-1 text-sm font-medium text-amber-900" x-text="returnConditionDetailLabel(item.return_condition)"></p>
+                                            <p x-show="Number(item.damage_fee) > 0" class="mt-1 text-sm font-semibold text-amber-900" x-text="'Denda: ' + fmt(item.damage_fee)"></p>
+                                            <p x-show="item.return_notes" class="mt-1 text-xs text-amber-800" x-text="item.return_notes"></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -256,7 +286,7 @@
                             <span class="rounded-full px-3 py-1 text-xs font-semibold" :class="controlsDisabled ? 'bg-slate-100 text-slate-600' : 'bg-blue-100 text-blue-700'" x-text="controlsDisabled ? 'Read Only' : 'Aktif'"></span>
                         </div>
 
-                        <div class="mb-6 grid grid-cols-1 gap-3 md:grid-cols-3">
+                        <div class="mb-6 grid grid-cols-1 gap-3 md:grid-cols-2">
                             <button type="button" @click="markAllGood()" :disabled="controlsDisabled" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
                                 <span>✓</span>
                                 <span>Tandai Semua Baik</span>
@@ -264,10 +294,6 @@
                             <button type="button" @click="resetItems()" :disabled="controlsDisabled" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
                                 <span>↺</span>
                                 <span>Reset</span>
-                            </button>
-                            <button type="button" @click="calculateTotalDenda()" :disabled="controlsDisabled" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
-                                <span>💰</span>
-                                <span>Hitung Denda</span>
                             </button>
                         </div>
 
@@ -369,14 +395,25 @@
                     </div>
                 </div>
 
-                <div class="rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm">
-                    <div class="mb-4 flex items-center gap-2">
-                        <div class="rounded-xl bg-blue-50 p-2 text-blue-600">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
+                    @if(auth()->user()->isSuperAdmin())
+                    <div class="rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm">
+                        <div class="mb-4 flex items-center gap-2">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="rounded-xl bg-blue-50 p-2 text-blue-600">
+                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <h2 class="text-lg font-bold text-slate-900">Aktivitas</h2>
+                            </div>
+                            <a href="{{ route('rentals.activity-log.download', $rental) }}" class="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700">
+                                <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Download Log
+                            </a>
                         </div>
-                        <h2 class="text-lg font-bold text-slate-900">Aktivitas</h2>
                     </div>
 
                     <div class="space-y-3" x-show="rental.activity_logs.length > 0">
@@ -398,6 +435,7 @@
                         Belum ada aktivitas.
                     </div>
                 </div>
+                @endif
             </div>
 
             <div class="space-y-6">
@@ -460,52 +498,92 @@
                     </div>
 
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-slate-500">Subtotal</span>
-                            <span class="font-semibold text-slate-900" x-text="fmt(rental.subtotal)"></span>
+                        <div class="flex items-start justify-between gap-3 text-sm">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Subtotal</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold tabular-nums text-slate-900" x-text="fmt(rental.subtotal)"></span>
                         </div>
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-slate-500">Deposit</span>
-                            <span class="font-semibold text-slate-900" x-text="fmt(rental.deposit)"></span>
+                        <div class="flex items-start justify-between gap-3 text-sm">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Deposit</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold tabular-nums text-slate-900" x-text="fmt(rental.deposit)"></span>
                         </div>
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-slate-500">Diskon</span>
-                            <span class="font-semibold text-slate-900" x-text="fmt(rental.discount)"></span>
+                        <div class="flex items-start justify-between gap-3 text-sm">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Diskon</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold tabular-nums text-slate-900" x-text="fmt(rental.discount)"></span>
                         </div>
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-slate-500">Sewa (tagihan)</span>
-                            <span class="font-semibold text-slate-900" x-text="fmt(rental.total_amount)"></span>
+                        <div class="flex items-start justify-between gap-3 text-sm">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Sewa (tagihan)</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold tabular-nums text-slate-900" x-text="fmt(rental.total_amount)"></span>
                         </div>
-                        <div class="flex items-center justify-between text-sm" x-show="rental.fine_amount > 0">
-                            <span class="text-slate-500">Denda</span>
-                            <span class="font-semibold text-red-600" x-text="fmt(rental.fine_amount)"></span>
+                        <div class="flex items-start justify-between gap-3 text-sm" x-show="rental.fine_amount > 0">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Total Denda</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold tabular-nums text-red-600" x-text="fmt(rental.fine_amount)"></span>
                         </div>
-                        <div class="flex items-center justify-between text-sm" x-show="rental.total_amount > 0">
-                            <span class="text-slate-500">Status Sewa</span>
-                            <span class="font-semibold" :class="paymentStatusClass(rental.payment_status)" x-text="paymentStatusLabel(rental.payment_status)"></span>
+                        <div class="flex items-start justify-between gap-3 text-sm" x-show="Number(rental.late_fee) > 0">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Denda keterlambatan</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold tabular-nums text-red-600" x-text="fmt(rental.late_fee)"></span>
                         </div>
-                        <div class="flex items-center justify-between text-sm" x-show="rental.fine_amount > 0">
-                            <span class="text-slate-500">Status Denda</span>
-                            <span class="font-semibold" :class="fineStatusClass(rental.fine_status)" x-text="fineStatusLabel(rental.fine_status)"></span>
+                        <div class="flex items-start justify-between gap-3 text-sm" x-show="rental.items.some(item => Number(item.damage_fee) > 0)">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Denda kerusakan/kehilangan</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold tabular-nums text-red-600" x-text="fmt(rental.items.reduce((total, item) => total + Number(item.damage_fee || 0), 0))"></span>
+                        </div>
+                        <div class="flex items-start justify-between gap-3 text-sm" x-show="rental.total_amount > 0">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Status Sewa</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold" :class="paymentStatusClass(rental.payment_status)" x-text="paymentStatusLabel(rental.payment_status)"></span>
+                        </div>
+                        <div class="flex items-start justify-between gap-3 text-sm" x-show="rental.fine_amount > 0">
+                            <span class="min-w-0 flex-1 pr-2 text-slate-500">Status Denda</span>
+                            <span class="shrink-0 whitespace-nowrap text-right font-semibold" :class="fineStatusClass(rental.fine_status)" x-text="fineStatusLabel(rental.fine_status)"></span>
                         </div>
                         <template x-if="rental.change_amount > 0">
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-slate-500">Kembalian</span>
-                                <span class="font-semibold" :class="rental.refund_given > 0 ? 'text-green-600' : 'text-amber-600'" x-text="rental.refund_given > 0 ? 'Kembalian sudah diberikan: ' + fmt(rental.refund_given) : 'Kembalian harus diberikan: ' + fmt(rental.change_amount)"></span>
+                            <div class="flex items-start justify-between gap-3 text-sm">
+                                <span class="min-w-0 flex-1 shrink-0 pr-2 text-slate-500">Kembalian</span>
+                                <span class="min-w-0 flex-1 break-words text-right font-semibold" :class="rental.refund_given > 0 ? 'text-green-600' : 'text-amber-600'" x-text="rental.refund_given > 0 ? 'Sudah diberikan: ' + fmt(rental.refund_given) : 'Harus diberikan: ' + fmt(rental.change_amount)"></span>
                             </div>
                         </template>
                         <template x-if="rental.change_amount === 0 && (rental.fine_status === 'unpaid' || rental.fine_status === 'partial')">
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-slate-500">Sisa Denda Belum Tertutup</span>
-                                <span class="font-semibold text-red-600" x-text="fmt(Math.max(0, (Number(rental.fine_amount) || 0) - (Number(rental.fine_paid_amount) || 0)))"></span>
+                            <div class="flex items-start justify-between gap-3 text-sm">
+                                <span class="min-w-0 flex-1 pr-2 text-slate-500">Sisa Denda Belum Tertutup</span>
+                                <span class="shrink-0 whitespace-nowrap text-right font-semibold tabular-nums text-red-600" x-text="fmt(Math.max(0, (Number(rental.fine_amount) || 0) - (Number(rental.fine_paid_amount) || 0)))"></span>
                             </div>
                         </template>
                         <div class="border-t border-slate-200 pt-4">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-semibold uppercase tracking-wide text-slate-500">Total Tagihan</span>
-                                <span class="text-3xl font-extrabold text-blue-700" x-text="fmt(displayGrandTotal)"></span>
+                            <div class="flex flex-col gap-1.5">
+                                <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">Total Tagihan</span>
+                                <span class="break-all text-left text-[1.65rem] font-extrabold leading-none tracking-tight tabular-nums text-blue-700 sm:text-3xl" x-text="fmt(displayGrandTotal)"></span>
                             </div>
                         </div>
+                        
+                        <!-- Sisa yang harus dibayar -->
+                        <div class="mt-4 overflow-hidden rounded-2xl border border-blue-100 bg-blue-50 p-4" x-show="totalRemaining > 0">
+                            <div class="flex items-center gap-2">
+                                <div class="shrink-0 rounded-xl bg-blue-100 p-2 text-blue-600">
+                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <span class="min-w-0 flex-1 text-sm font-semibold leading-tight text-blue-800">Sisa yang harus dibayar</span>
+                            </div>
+
+                            <div class="mt-3">
+                                <span class="block break-all text-left text-[1.65rem] font-extrabold leading-none tracking-tight tabular-nums text-blue-700 sm:text-3xl" x-text="fmt(totalRemaining)"></span>
+                            </div>
+
+                            <p class="mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-left text-[11px] leading-relaxed text-blue-600 sm:text-xs">
+                                <span>Total tagihan: <span class="whitespace-nowrap font-semibold tabular-nums" x-text="fmt(Math.max(0, (Number(rental.total_amount) || 0) + (Number(rental.fine_amount) || 0)))"></span></span>
+                                <span class="text-blue-500">−</span>
+                                <span>Sudah dibayar: <span class="whitespace-nowrap font-semibold tabular-nums" x-text="fmt((Number(rental.paid_amount) || 0) + (Number(rental.fine_paid_amount) || 0))"></span></span>
+                            </p>
+                        </div>
+                        
+                        <template x-if="totalRemaining === 0 && (Number(rental.total_amount) || 0) + (Number(rental.fine_amount) || 0) > 0">
+                            <div class="mt-4 rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-center">
+                                <div class="flex flex-col items-center justify-center gap-2 text-emerald-700">
+                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                    <span class="text-sm font-semibold leading-none">Lunas</span>
+                                </div>
+                                <p class="mt-2 text-xs text-emerald-600">Semua tagihan telah lunas.</p>
+                            </div>
+                        </template>
                     </div>
                 </div>
 
@@ -529,32 +607,50 @@
                     </div>
                 </template>
 
-                @if ($rental->rental_status != 'cancelled' && ($rental->payment_status !== 'paid' || ($rental->fine_status !== 'paid' && $rental->fine_status !== 'none')))
+@if ($rental->rental_status != 'cancelled' && ($rental->payment_status !== 'paid' || ($rental->fine_status !== 'paid' && $rental->fine_status !== 'none')))
                     <div class="rounded-[20px] border border-slate-200 bg-white p-6 shadow-sm">
                         <div class="mb-4 flex items-center gap-2">
                             <div class="rounded-xl bg-blue-50 p-2 text-blue-600">
                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2v6a2 2v6h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2v6a2 2v6"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6a2 2 0 0 1 2 2h2m2-6h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2Z"></path>
                                 </svg>
                             </div>
                             <h2 class="text-lg font-bold text-slate-900">Input Pembayaran</h2>
                         </div>
 
-                        <form method="POST" action="{{ route('rentals.payment', $rental) }}" class="space-y-3" x-on:submit="preparePaymentSubmit($event)">
+                        <template x-if="paymentErrors.length > 0">
+                            <div class="mb-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-800" role="alert" aria-live="polite">
+                                <div class="flex items-start gap-2">
+                                    <svg class="mt-0.5 h-5 w-5 shrink-0 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3Z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold">Pembayaran belum dapat diproses</p>
+                                        <ul class="mt-1 space-y-1 text-sm">
+                                            <template x-for="(error, index) in paymentErrors" :key="index">
+                                                <li x-text="error"></li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <form method="POST" action="{{ route('rentals.payment', $rental) }}" class="space-y-3" novalidate x-on:submit="submitPayment($event)">
                             @csrf
                             <div>
                                 <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">Tipe Pembayaran</label>
-                                <select name="payment_type" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
-                                    <option value="rental">Sewa</option>
-                                    <option value="late_fee">Denda Telat</option>
-                                    <option value="damage_fee">Denda Kerusakan</option>
-                                    <option value="deposit">Deposit</option>
+                                <select name="payment_type" x-model="paymentType" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+                                    <option value="rental" :disabled="paymentBalance('rental') <= 0">Sewa</option>
+                                    <option value="late_fee" :disabled="paymentBalance('late_fee') <= 0">Denda Telat</option>
+                                    <option value="damage_fee" :disabled="paymentBalance('damage_fee') <= 0">Denda Kerusakan</option>
                                 </select>
+                                <p class="mt-1 text-xs text-slate-500" x-text="'Sisa kategori ini: ' + fmt(paymentBalance())"></p>
                             </div>
                             <div>
                                 <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-slate-500">Jumlah</label>
-                                <input type="text" name="amount" id="payment_amount" placeholder="Masukkan jumlah pembayaran" required 
-                                       class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                <input type="text" name="amount" id="payment_amount" value="{{ old('amount') }}" placeholder="Masukkan jumlah pembayaran" required
+                                       class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 {{ $errors->payment->has('amount') ? 'border-red-300 focus:border-red-500 focus:ring-red-100' : '' }}"
                                        x-on:input="formatPaymentAmount($event)">
                             </div>
                             <div>
@@ -575,8 +671,9 @@
                                     @endif
                                 </div>
                             </div>
-                            <button type="submit" class="inline-flex w-full items-center justify-center rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700">
-                                Proses Pembayaran
+                            <button type="submit" :disabled="paymentProcessing" class="inline-flex w-full items-center justify-center rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed">
+                                <span x-show="paymentProcessing">Memproses...</span>
+                                <span x-show="!paymentProcessing">Proses Pembayaran</span>
                             </button>
                         </form>
                     </div>
@@ -706,6 +803,8 @@
                 handoverLoading: false,
                 showRefundModal: false,
                 refundLoading: false,
+                paymentProcessing: false,
+                paymentErrors: @json($errors->payment->all()),
 
                 progressSteps: [
                     { id: 1, label: 'Booking' },
@@ -716,6 +815,7 @@
 
                 rental: @json($rentalData),
                 paymentDraft: null,
+                paymentType: 'rental',
                 paymentMethod: '{{ $rental->payment_method ?? '' }}',
                 itemCondition: {},
                 itemNotes: {},
@@ -724,6 +824,9 @@
 displayedPhotoModal: null,
 
                 init() {
+                    this.paymentType = ['rental', 'late_fee', 'damage_fee']
+                        .find((type) => this.paymentBalance(type) > 0) || 'rental';
+
                     (this.rental.items || []).forEach((item) => {
                         const condition = item.return_condition;
 
@@ -756,7 +859,13 @@ displayedPhotoModal: null,
                 },
 
                 get currentStep() {
-                    if (this.rental.rental_status === 'returned') return 4;
+                    if (this.rental.rental_status === 'returned') {
+                        return this.rental.payment_status === 'paid'
+                            && ['none', 'paid'].includes(this.rental.fine_status)
+                            && Number(this.rental.fine_paid_amount || 0) >= Number(this.rental.fine_amount || 0)
+                            ? 4
+                            : 3;
+                    }
                     if (this.rental.rental_status === 'active' || this.rental.rental_status === 'overdue') return 2;
                     return 1;
                 },
@@ -775,6 +884,20 @@ displayedPhotoModal: null,
 
                 get displayGrandTotal() {
                     return Number(this.rental.total_amount || 0) + Number(this.rental.fine_amount || 0);
+                },
+
+                get totalRemaining() {
+                    return Math.max(
+                        0,
+                        Number(this.rental.total_amount || 0)
+                            + Number(this.rental.fine_amount || 0)
+                            - Number(this.rental.paid_amount || 0)
+                            - Number(this.rental.fine_paid_amount || 0)
+                    );
+                },
+
+                paymentBalance(type = this.paymentType) {
+                    return Math.max(0, Number(this.rental.payment_balances?.[type] || 0));
                 },
 
                 progressStepClass(step) {
@@ -799,12 +922,61 @@ displayedPhotoModal: null,
                     input.value = value ? new Intl.NumberFormat('id-ID').format(Number(value)) : '';
                 },
 
-                preparePaymentSubmit(event) {
-                    // Get the payment amount input
-                    const input = document.getElementById('payment_amount');
-                    if (input) {
-                        // Replace the value with raw number (without separators)
-                        input.value = input.value.replace(/[^0-9]/g, '');
+                async submitPayment(event) {
+                    event.preventDefault();
+                    if (this.paymentProcessing) {
+                        return;
+                    }
+
+                    this.paymentProcessing = true;
+                    this.paymentErrors = [];
+
+                    const form = event.currentTarget;
+                    const formData = new FormData(form);
+                    const amount = formData.get('amount');
+                    const normalizedAmount = String(amount || '').replace(/[^0-9]/g, '');
+                    formData.set('amount', normalizedAmount);
+                    const paymentType = String(formData.get('payment_type') || 'rental');
+                    const paymentBalance = this.paymentBalance(paymentType);
+                    const numericAmount = Number(normalizedAmount || 0);
+
+                    if (paymentBalance <= 0) {
+                        this.paymentErrors = ['Tidak ada sisa tagihan untuk kategori pembayaran yang dipilih.'];
+                        this.paymentProcessing = false;
+                        return;
+                    }
+                    if (numericAmount > paymentBalance) {
+                        this.paymentErrors = ['Jumlah pembayaran melebihi sisa kategori ini. Maksimal yang dapat dibayar: ' + this.fmt(paymentBalance) + '.'];
+                        this.paymentProcessing = false;
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch(form.action, {
+                            method: 'POST',
+                            body: formData,
+                            credentials: 'same-origin',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                        });
+                        const payload = await response.json();
+
+                        if (response.status === 422) {
+                            this.paymentErrors = Object.values(payload.errors || {}).flat();
+                            return;
+                        }
+
+                        if (!response.ok) {
+                            throw new Error(payload.message || 'Pembayaran gagal diproses. Silakan coba lagi.');
+                        }
+
+                        window.location.reload();
+                    } catch (error) {
+                        this.paymentErrors = [error.message || 'Terjadi kesalahan saat memproses pembayaran.'];
+                    } finally {
+                        this.paymentProcessing = false;
                     }
                 },
 
@@ -815,7 +987,11 @@ displayedPhotoModal: null,
                         return 'bg-red-100 text-red-700';
                     }
 
-                    if (status === 'returned') return 'bg-green-100 text-green-700';
+                    if (status === 'returned') {
+                        if (this.rental.fine_status === 'unpaid' || this.rental.fine_status === 'partial' || Number(this.rental.fine_amount || 0) > Number(this.rental.fine_paid_amount || 0)) return 'bg-amber-100 text-amber-700';
+                        if (this.rental.payment_status !== 'paid' || !['none', 'paid'].includes(this.rental.fine_status)) return 'bg-amber-100 text-amber-700';
+                        return 'bg-green-100 text-green-700';
+                    }
                     if (status === 'overdue') return 'bg-red-100 text-red-700';
                     if (status === 'cancelled') return 'bg-slate-200 text-slate-700';
                     if (status === 'active') return 'bg-blue-100 text-blue-700';
@@ -832,7 +1008,11 @@ displayedPhotoModal: null,
                     if (status === 'waiting') return 'Booking';
                     if (status === 'active') return 'Sedang Disewa';
                     if (status === 'overdue') return 'Terlambat';
-                    if (status === 'returned') return 'Selesai';
+                    if (status === 'returned') {
+                        if (this.rental.fine_status === 'unpaid' || this.rental.fine_status === 'partial' || Number(this.rental.fine_amount || 0) > Number(this.rental.fine_paid_amount || 0)) return 'Denda belum lunas';
+                        if (this.rental.payment_status !== 'paid' || !['none', 'paid'].includes(this.rental.fine_status)) return 'Belum lunas';
+                        return 'Selesai';
+                    }
                     if (status === 'cancelled') return 'Dibatalkan';
                     return status;
                 },
@@ -883,6 +1063,15 @@ displayedPhotoModal: null,
                     if (condition === 'rusak_ringan' || condition === 'rusak_berat') return 'Rusak';
                     if (condition === 'lost') return 'Hilang';
                     return 'Belum Dicek';
+                },
+
+                returnConditionDetailLabel(condition) {
+                    return {
+                        rusak_ringan: 'Kerusakan ringan',
+                        rusak_berat: 'Kerusakan berat',
+                        hilang: 'Barang hilang',
+                        lost: 'Barang hilang',
+                    }[condition] || 'Kondisi barang memerlukan denda';
                 },
 
                 itemBadgeClass(condition) {
@@ -1108,6 +1297,7 @@ displayedPhotoModal: null,
                         };
 
                         this.showHandoverModal = false;
+                        this.controlsDisabled = false;
 
                         await Swal.fire({
                             icon: 'success',

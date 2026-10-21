@@ -3,7 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Session\TokenMismatchException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,9 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
          $middleware->trustProxies(at: '*');
          $middleware->alias([
              'role' => \App\Http\Middleware\CheckRole::class,
-             'branch.scope' => \App\Http\Middleware\EnsureBranchScope::class,  // 🆕 tambah ini
+             'branch.scope' => \App\Http\Middleware\EnsureBranchScope::class,
              'branch.access' => \App\Http\Middleware\EnsureBranchAccess::class,
-         
          ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
@@ -39,5 +40,11 @@ return Application::configure(basePath: dirname(__DIR__))
                 'previous_url'     => $request->headers->get('referer'),
                 'stack_trace'      => collect(explode("\n", $e->getTraceAsString()))->take(15)->toArray(),
             ]);
+        });
+
+        $exceptions->render(function (TokenMismatchException $e, Request $request) {
+            if ($request->routeIs('logout') || $request->is('logout')) {
+                return redirect()->route('login');
+            }
         });
     })->create();

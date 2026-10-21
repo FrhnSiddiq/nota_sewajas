@@ -2,19 +2,25 @@
 
 @section('title', 'Broadcast Campaign - SewaJas')
 @section('page-title', 'Broadcast Campaign')
-@section('subtitle', 'Kelola campaign broadcast WhatsApp')
+@section('subtitle', 'Kelola campaign broadcast')
 
 @section('content')
 <div class="space-y-6">
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h2 class="text-lg font-extrabold text-slate-950">Daftar Campaign</h2>
-            <p class="mt-1 text-sm text-slate-500">Kelola dan pantau semua campaign broadcast WhatsApp.</p>
+            <p class="mt-1 text-sm text-slate-500">Kelola campaign In-App dan broadcast WhatsApp manual.</p>
         </div>
-        <a href="{{ route('broadcast-campaigns.create') }}" class="btn-primary px-4 py-2">
-            <i data-lucide="plus" class="h-4 w-4"></i>
-            Buat Campaign
-        </a>
+        <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+            <a href="{{ route('broadcast-campaigns.templates.index') }}" class="btn-secondary w-full justify-center px-4 py-2 sm:w-auto">
+                <i data-lucide="files" class="h-4 w-4"></i>
+                Template Pesan
+            </a>
+            <a href="{{ route('broadcast-campaigns.create') }}" class="btn-primary w-full justify-center px-4 py-2 sm:w-auto">
+                <i data-lucide="plus" class="h-4 w-4"></i>
+                Buat Campaign
+            </a>
+        </div>
     </div>
 
     <div class="rounded-3xl border border-slate-200 bg-white shadow-card-sm overflow-hidden">
@@ -87,7 +93,7 @@
                                 <a href="{{ route('broadcast-campaigns.show', $campaign) }}" class="btn-ghost px-2 py-1 text-xs">
                                     Detail
                                 </a>
-                                @if(auth()->user()->isSuperAdmin())
+                                @if(auth()->user()->isSuperAdmin() || auth()->user()->isAdminToko())
                                     <button type="button" onclick="openDeleteModal('{{ $campaign->id }}', '{{ $campaign->name }}')" class="btn-ghost px-2 py-1 text-xs text-red-600 hover:text-red-700 ml-1">
                                         <i data-lucide="trash-2" class="h-3.5 w-3.5 inline-block align-text-bottom"></i>
                                     </button>

@@ -57,7 +57,7 @@ class DeleteRentalCommand extends Command
                 ['total_amount', (string) $rental->total_amount],
                 ['rental_items_count', (string) $itemsCount],
                 ['payments_count', (string) $paymentsCount],
-                ['deleted?(trashed)', $rental->trashed() ? 'yes' : 'no'],
+                ['deleted?(trashed)', 'no'],
             ]
         );
 
@@ -79,7 +79,7 @@ class DeleteRentalCommand extends Command
         DB::transaction(function () use ($rentalId, $invoice) {
 
             // Reload inside transaction (avoid stale model instances)
-            $r = Rental::withTrashed()->with(['items'])
+            $r = Rental::query()->with(['items'])
                 ->where('id', $rentalId)
                 ->first();
 
@@ -103,17 +103,19 @@ class DeleteRentalCommand extends Command
             // Delete items first
             $deletedItems = $r->items()->delete();
 
-            // Delete rental (prefer force delete to guarantee it disappears from normal queries)
-            // If your rentals table uses soft deletes, forceDelete will remove row.
-            // This command is intended for production cleanup.
-            $r->forceDelete();
+            // Delete rental-related polymorphic records explicitly
+            \App\Models\StatusHistory::where('model_type', \App\Models\Rental::class)->where('model_id', $r->id)->delete();
+            \App\Models\ActivityLog::where('model_type', \App\Models\Rental::class)->where('model_id', $r->id)->delete();
+            \App\Models\Laundry::where('transaksi_id', $r->id)->delete();
+
+            $r->delete();
 
             $this->line('--- Delete summary (inside transaction) ---');
             $this->line('items deleted: ' . (string) $deletedItems);
         });
 
         // Verify rental is actually gone
-        $stillExists = Rental::query()->withTrashed()->where('invoice_number', $invoice)->count();
+        $stillExists = Rental::query()->where('invoice_number', $invoice)->count();
 
         $backupFile = end($matches);
         $this->newLine();

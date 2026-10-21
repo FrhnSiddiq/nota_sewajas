@@ -3,6 +3,11 @@
     $now = \Carbon\Carbon::now('Asia/Jakarta');
 @endphp
 
+@php
+    /** @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\Branch> $branches */
+    /** @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $sales */
+@endphp
+
 <div id="dashboard-root" data-role="{{ $role ?? '' }}" class="space-y-6">
 
     <!-- HERO: Greeting + Today summary -->
@@ -38,46 +43,45 @@
                 @if($role === 'admin_toko' || $role === 'sales')
                     <div class="mt-3 text-sm text-slate-600">
                         <span class="font-bold text-slate-900">Cabang:</span>
-                        <span class="font-semibold">{{ $branches[0]->name ?? ($data['branch_name'] ?? '-') }}</span>
+                        <span id="dashboard-branch-label" class="font-semibold">{{ $branches->firstWhere('id', $selectedBranchId ?? null)?->name ?? ($branches[0]->name ?? ($data['branch_name'] ?? '-')) }}</span>
                     </div>
                 @endif
             </div>
 
-            <div class="flex flex-wrap items-center gap-3">
-                @if($role === 'super_admin')
-                    <div class="flex items-center gap-2">
+            <div class="grid grid-cols-2 items-end gap-3 sm:flex sm:flex-wrap sm:items-end">
+                @if($role === 'super_admin' || $role === 'admin_toko')
+                    <div class="flex min-w-0 flex-col gap-1.5 sm:w-56">
                         <label for="filter-branch" class="text-xs font-semibold text-slate-600">Cabang</label>
-                        <select id="filter-branch" class="px-3.5 py-2 rounded-2xl border border-slate-200 text-sm bg-white ds-transition">
-                            <option value="">Semua Cabang</option>
+                        <div class="relative min-w-0">
+                        <select id="filter-branch" class="h-11 w-full min-w-0 appearance-none rounded-xl border border-slate-200 bg-white py-2 pl-3 pr-10 text-sm ds-transition">
+                            @if($role === 'super_admin')
+                                <option value="">Semua Cabang</option>
+                            @endif
                             @foreach($branches ?? [] as $branch)
-                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                <option value="{{ $branch->id }}" {{ (string) ($selectedBranchId ?? '') === (string) $branch->id ? 'selected' : '' }}>{{ $branch->name }}</option>
                             @endforeach
                         </select>
+                        <i data-lucide="chevron-down" aria-hidden="true" class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+                        </div>
                     </div>
                 @endif
 
                 @if($role !== 'sales')
-                    <div class="flex items-center gap-2">
+                    <div class="flex min-w-0 flex-col gap-1.5 sm:w-56">
                         <label for="filter-sales" class="text-xs font-semibold text-slate-600">Sales</label>
-                        <select id="filter-sales" class="px-3.5 py-2 rounded-2xl border border-slate-200 text-sm bg-white ds-transition">
+                        <div class="relative min-w-0">
+                        <select id="filter-sales" class="h-11 w-full min-w-0 appearance-none rounded-xl border border-slate-200 bg-white py-2 pl-3 pr-10 text-sm ds-transition">
                             <option value="">Semua Sales</option>
                             @foreach($sales ?? [] as $salesUser)
                                 <option value="{{ $salesUser->id }}">{{ $salesUser->name }}</option>
                             @endforeach
                         </select>
+                        <i data-lucide="chevron-down" aria-hidden="true" class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+                        </div>
                     </div>
                 @endif
 
-                <div class="flex items-center gap-2">
-                    <label for="filter-date-from" class="text-xs font-semibold text-slate-600">Dari Tanggal</label>
-                    <input type="date" id="filter-date-from" class="px-3.5 py-2 rounded-2xl border border-slate-200 text-sm bg-white ds-transition">
-                </div>
-                <div class="flex items-center gap-2">
-                    <label for="filter-date-to" class="text-xs font-semibold text-slate-600">Sampai Tanggal</label>
-                    <input type="date" id="filter-date-to" class="px-3.5 py-2 rounded-2xl border border-slate-200 text-sm bg-white ds-transition">
-                </div>
-
-                <span class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-extrabold tracking-wide bg-blue-50 border border-blue-100 text-blue-700">
+                <span class="col-span-2 inline-flex w-fit items-center justify-self-start gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-extrabold tracking-wide text-blue-700 sm:col-span-1">
                     <span class="h-2 w-2 rounded-full bg-blue-500"></span>
                     Aktif
                 </span>
@@ -87,85 +91,108 @@
         <div class="mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <div class="hidden" id="dashboard-subtitle">Memperbarui data secara real-time…</div>
 
-            <div class="flex flex-wrap items-center gap-2">
+            <div class="grid w-full grid-cols-2 items-stretch gap-2 sm:grid-cols-3 xl:grid-cols-5">
                 @if($role === 'super_admin')
-                    <a href="{{ route('branches.index') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('branches.index') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="building-2" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Kelola Cabang</span>
                     </a>
-                    <a href="{{ route('users.index') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('users.index') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="users" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Kelola Admin</span>
                     </a>
-                    <a href="{{ route('broadcast-campaigns.index') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('broadcast-campaigns.index') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="send" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Broadcast</span>
                     </a>
-                    <a href="{{ route('reports.revenue') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('reports.index') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="trending-up" class="h-4 w-4 text-primary"></i>
-                        <span class="font-bold">Laporan</span>
+                        <span class="font-bold">Laporan Keuangan</span>
                     </a>
-                    <a href="{{ route('rentals.scan') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('rentals.scan') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="scan-line" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Scan QR</span>
                     </a>
                 @endif
 
                 @if($role === 'admin_toko')
-                    <a href="{{ route('customers.index') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('customers.index') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="user-plus" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Tambah Pelanggan</span>
                     </a>
-                    <a href="{{ route('rentals.create') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('rentals.create') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="plus-circle" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Buat Sewa</span>
                     </a>
-                    <a href="{{ route('rentals.index', ['status' => 'active']) }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('rentals.index', ['status' => 'active']) }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="reply" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Pengembalian</span>
                     </a>
-                    <a href="{{ route('rentals.index') }}" class="ds-hover-lift btn btn-secondary">
-                        <i data-lucide="shirt" class="h-4 w-4 text-primary"></i>
-                        <span class="font-bold">Laundry</span>
-                    </a>
-                    <a href="{{ route('broadcast-campaigns.index') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('broadcast-campaigns.index') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="send" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Broadcast</span>
                     </a>
-                    <a href="{{ route('rentals.scan') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('rentals.scan') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="scan-line" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Scan QR</span>
                     </a>
                 @endif
 
                 @if($role === 'sales')
-                    <a href="{{ route('rentals.create') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('rentals.create') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="plus-circle" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Buat Sewa</span>
                     </a>
-                    <a href="{{ route('customers.index') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('customers.index') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="user" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Pelanggan Saya</span>
                     </a>
-                    <a href="{{ route('rentals.scan') }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('rentals.scan') }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="scan-line" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Scan QR</span>
                     </a>
-                    <a href="{{ route('rentals.index', ['status' => 'overdue']) }}" class="ds-hover-lift btn btn-secondary">
+                    <a href="{{ route('rentals.index', ['status' => 'overdue']) }}" class="ds-hover-lift btn btn-secondary w-full text-center">
                         <i data-lucide="reply" class="h-4 w-4 text-primary"></i>
                         <span class="font-bold">Pengembalian</span>
-                    </a>
-                    <a href="{{ route('reports.transactions') }}" class="ds-hover-lift btn btn-secondary">
-                        <i data-lucide="receipt" class="h-4 w-4 text-primary"></i>
-                        <span class="font-bold">Transaksi Saya</span>
                     </a>
                 @endif
             </div>
         </div>
     </div>
 
+    @if($role === 'admin_toko')
+        <section id="sales-performance" class="space-y-4">
+            <div class="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900">Performa Sales</h2>
+                    <p id="performance-selection" class="text-sm text-slate-500">Pilih Sales untuk melihat performanya.</p>
+                </div>
+            </div>
+            <p id="performance-empty" class="py-5 text-sm text-slate-500">Pilih cabang dan Sales untuk menampilkan performa.</p>
+            <div id="performance-content" class="hidden space-y-4">
+                <div class="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
+                    <div class="border-l-2 border-blue-500 pl-3"><p class="text-xs text-slate-500">Transaksi</p><p id="performance-transactions" class="text-lg font-bold text-slate-900">0</p></div>
+                    <div class="border-l-2 border-green-500 pl-3"><p class="text-xs text-slate-500">Selesai</p><p id="performance-completed" class="text-lg font-bold text-slate-900">0</p></div>
+                    <div class="border-l-2 border-amber-500 pl-3"><p class="text-xs text-slate-500">Aktif</p><p id="performance-active" class="text-lg font-bold text-slate-900">0</p></div>
+                    <div class="border-l-2 border-cyan-500 pl-3"><p class="text-xs text-slate-500">Pelanggan</p><p id="performance-customers" class="text-lg font-bold text-slate-900">0</p></div>
+                    <div class="border-l-2 border-emerald-500 pl-3"><p class="text-xs text-slate-500">Pendapatan</p><p id="performance-revenue" class="text-lg font-bold text-slate-900">Rp 0</p></div>
+                    <div class="border-l-2 border-rose-500 pl-3"><p class="text-xs text-slate-500">Pengembalian</p><p id="performance-returns" class="text-lg font-bold text-slate-900">0</p></div>
+                    <div class="border-l-2 border-violet-500 pl-3"><p class="text-xs text-slate-500">Poin (akumulasi)</p><p id="performance-points" class="text-lg font-bold text-slate-900">0</p></div>
+                </div>
+                <div class="overflow-x-auto border-t border-slate-200">
+                    <table class="w-full min-w-[1050px] text-left text-sm">
+                        <thead><tr class="border-b border-slate-200 text-xs uppercase text-slate-500">
+                            <th class="px-4 py-3">Tanggal</th><th class="px-4 py-3">Invoice</th><th class="px-4 py-3">Customer</th><th class="px-4 py-3">Cabang</th><th class="px-4 py-3">Nilai</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Petugas Pembayaran</th><th class="px-4 py-3">Petugas Pengembalian</th>
+                        </tr></thead>
+                        <tbody id="performance-rows" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    @endif
+
     <!-- Quick Stats Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
         @php
             $cards = [
                 ['label'=>'Pelanggan','icon'=>'users','stat'=>'total_customers','sub'=>'Aktif terdaftar','subKey'=>'customer_aktif','accent'=>'blue'],
@@ -177,7 +204,7 @@
         @endphp
 
         @foreach($cards as $c)
-            <div class="ds-card p-5 ds-transition ds-hover-lift group relative overflow-hidden">
+            <div class="ds-card p-3 sm:p-5 ds-transition ds-hover-lift group relative overflow-hidden">
                 <div class="absolute inset-0 opacity-80" style="background:
                     radial-gradient(circle at 20% 0%, rgba(37,99,235,.12), transparent 45%),
                     radial-gradient(circle at 90% 10%, rgba(245,158,11,.10), transparent 40%);"></div>
@@ -187,14 +214,14 @@
                         <div>
                             <div class="text-xs font-extrabold uppercase tracking-widest text-slate-500">{{ $c['label'] }}</div>
                         </div>
-                        <div class="h-11 w-11 rounded-2xl flex items-center justify-center text-white" style="background: linear-gradient(135deg, #2563EB, #60A5FA);">
-                            <i data-lucide="{{ $c['icon'] }}" class="h-5 w-5"></i>
+                        <div class="h-9 w-9 sm:h-11 sm:w-11 rounded-2xl flex shrink-0 items-center justify-center text-white" style="background: linear-gradient(135deg, #2563EB, #60A5FA);">
+                            <i data-lucide="{{ $c['icon'] }}" class="h-4 w-4 sm:h-5 sm:w-5"></i>
                         </div>
                     </div>
 
-                    <div class="mt-4">
-                        <div class="text-3xl font-extrabold tracking-tight text-slate-950" data-stat="{{ $c['stat'] }}">—</div>
-                        <div class="mt-1 text-sm font-semibold text-slate-500">
+                    <div class="mt-3 sm:mt-4">
+                        <div class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-950" data-stat="{{ $c['stat'] }}">—</div>
+                        <div class="mt-1 text-xs sm:text-sm font-semibold text-slate-500">
                             @if($c['subKey'])
                                 <span class="text-slate-900" data-stat="{{ $c['subKey'] }}">—</span>
                             @endif
@@ -265,16 +292,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div class="ds-card p-6">
-            <div class="flex items-center gap-2 mb-4">
-                    <span class="h-10 w-10 rounded-2xl flex items-center justify-center bg-blue-50 border border-blue-100">
-                        <i data-lucide="sparkles" class="h-5 w-5 text-primary"></i>
-                    </span>
-                <h3 class="text-sm font-extrabold text-slate-900">Aktivitas Terbaru</h3>
-            </div>
-            <div id="widgetActivity" class="text-xs space-y-1"></div>
-        </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
         <div class="ds-card p-6">
             <div class="flex items-center gap-2 mb-4">
@@ -785,31 +803,6 @@
     function updateWidgets(widgets) {
         const w = isObject(widgets) ? widgets : {};
 
-        renderList('widgetActivity', w.activity_terbaru, (it) => {
-            const rawDesc = (it?.description ?? '').toLowerCase();
-            const rawType = (it?.type ?? '').toLowerCase();
-            const token = rawType || rawDesc;
-
-            let icon = 'sparkles';
-            if (token.includes('payment')) icon = 'wallet';
-            else if (token.includes('return') || token.includes('kembal')) icon = 'reply';
-            else if (token.includes('broadcast')) icon = 'send';
-            else if (token.includes('rental') || token.includes('sewa') || token.includes('invoice')) icon = 'shirt';
-            else if (token.includes('user') || token.includes('aktivitas')) icon = 'users';
-
-            return `
-                <div class="flex items-start gap-3 py-3 border-b last:border-b-0 border-slate-100">
-                    <div class="h-9 w-9 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center">
-                        <i data-lucide="${icon}" class="h-4 w-4 text-blue-600"></i>
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <p class="text-xs font-extrabold text-slate-900 leading-relaxed">${it?.description ?? ''}</p>
-                        <p class="text-[11px] font-semibold text-slate-500 mt-0.5">${it?.time ?? ''}</p>
-                    </div>
-                </div>
-            `;
-        });
-
         renderList('widgetTransactions', w.transaksi_terbaru, (it) => {
             return `
                 <div class="py-2 border-b last:border-b-0 border-slate-100">
@@ -929,6 +922,7 @@
             stats: data.stats ?? {},
             charts: data.charts ?? {},
             widgets: data.widgets ?? {},
+            performance: data.performance ?? null,
             meta: data.meta ?? {},
         };
     }
@@ -940,12 +934,8 @@
         const params = new URLSearchParams();
         const branchFilter = document.getElementById('filter-branch');
         const salesFilter = document.getElementById('filter-sales');
-        const dateFromFilter = document.getElementById('filter-date-from');
-        const dateToFilter = document.getElementById('filter-date-to');
         if (branchFilter && branchFilter.value) params.append('branch_id', branchFilter.value);
         if (salesFilter && salesFilter.value) params.append('sales_user_id', salesFilter.value);
-        if (dateFromFilter && dateFromFilter.value) params.append('date_from', dateFromFilter.value);
-        if (dateToFilter && dateToFilter.value) params.append('date_to', dateToFilter.value);
 
         const url = '{{ route('dashboard.data') }}' + (params.toString() ? '?' + params.toString() : '');
 
@@ -990,7 +980,6 @@
         );
 
         const widgetsAny = (
-            (Array.isArray(w.activity_terbaru) && w.activity_terbaru.length > 0) ||
             (Array.isArray(w.transaksi_terbaru) && w.transaksi_terbaru.length > 0) ||
             (Array.isArray(w.reminder_pengembalian) && w.reminder_pengembalian.length > 0) ||
             (Array.isArray(w.produk_hampir_habis) && w.produk_hampir_habis.length > 0)
@@ -1007,6 +996,7 @@
 
         hideErrorState();
         updateStats(stats);
+        updatePerformance(normalized.performance);
 
         initChartsIfNeeded();
         updateCharts(charts);
@@ -1022,12 +1012,94 @@
 
     function handleError() { showErrorState(); }
 
+    function updatePerformance(performance) {
+        const content = document.getElementById('performance-content');
+        if (!content) return;
+
+        const empty = document.getElementById('performance-empty');
+        const selection = document.getElementById('performance-selection');
+        if (!performance) {
+            content.classList.add('hidden');
+            empty.classList.remove('hidden');
+            selection.textContent = 'Pilih Sales untuk melihat performanya.';
+            return;
+        }
+
+        empty.classList.add('hidden');
+        content.classList.remove('hidden');
+        selection.textContent = `Sales: ${performance.sales} | Cabang: ${performance.branch ?? '-'}`;
+
+        const values = {
+            'performance-transactions': performance.transactions,
+            'performance-completed': performance.completed,
+            'performance-active': performance.active,
+            'performance-customers': performance.customers,
+            'performance-revenue': formatCurrencyIDR(performance.revenue),
+            'performance-returns': performance.returns,
+            'performance-points': performance.points,
+        };
+        Object.entries(values).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) element.textContent = value ?? 0;
+        });
+
+        const body = document.getElementById('performance-rows');
+        if (!body) return;
+        body.replaceChildren();
+
+        const labels = {
+            waiting: 'Menunggu',
+            active: 'Aktif',
+            overdue: 'Terlambat',
+            returned: 'Dikembalikan',
+            cancelled: 'Dibatalkan',
+        };
+        (performance.rows ?? []).forEach(item => {
+            const row = document.createElement('tr');
+            const cells = [
+                item.date ?? '-',
+                item.invoice ?? '-',
+                item.customer ?? '-',
+                item.branch ?? '-',
+                formatCurrencyIDR(item.amount),
+                item.status_label ?? labels[item.status] ?? item.status ?? '-',
+                item.payment_operator ?? '-',
+                item.return_operator ?? '-',
+            ];
+            cells.forEach((value, index) => {
+                const cell = document.createElement('td');
+                cell.className = 'px-4 py-3';
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+            body.appendChild(row);
+        });
+
+        if ((performance.rows ?? []).length === 0) {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 8;
+            cell.className = 'py-5 text-center text-slate-500';
+            cell.textContent = 'Tidak ada transaksi pada filter ini.';
+            row.appendChild(cell);
+            body.appendChild(row);
+        }
+    }
+
     function filterSalesDropdownByBranch() {
         const branchFilter = document.getElementById('filter-branch');
         const salesFilter = document.getElementById('filter-sales');
-        if (!branchFilter || !salesFilter) return;
+        if (!branchFilter) return;
 
         const selectedBranch = branchFilter.value;
+        const branchLabel = document.getElementById('dashboard-branch-label');
+        if (branchLabel) {
+            branchLabel.textContent = selectedBranch
+                ? branchFilter.selectedOptions[0]?.textContent ?? '-'
+                : (branchFilter.options[0]?.textContent ?? 'Semua Cabang');
+        }
+
+        if (!salesFilter) return;
         const firstOption = salesFilter.querySelector('option[value=""]');
         if (!firstOption) return;
 
@@ -1073,7 +1145,6 @@
             tick();
         });
         if (salesFilter) salesFilter.addEventListener('change', tick);
-
         filterSalesDropdownByBranch();
         tick();
         setInterval(tick, DASHBOARD_POLL_INTERVAL_MS);
@@ -1081,4 +1152,3 @@
 
     document.addEventListener('DOMContentLoaded', initDashboard);
 </script>
-

@@ -30,44 +30,50 @@
     </div>
 
     {{-- Filter & Add --}}
-    <div class="flex flex-wrap items-center justify-between gap-4">
-        <form method="GET" action="{{ route('users.index') }}" class="flex flex-wrap gap-3 items-end">
+    <div class="space-y-3">
+        <div class="flex justify-end">
+            <a href="{{ route('users.create') }}" class="btn-primary w-full justify-center sm:w-auto">
+                <i data-lucide="user-plus" class="w-4 h-4"></i>
+                Tambah Pengguna
+            </a>
+        </div>
+        <form method="GET" action="{{ route('users.index') }}" class="ds-card space-y-3 p-3 sm:p-4">
             <div>
                 <input type="text" name="search" value="{{ request('search') }}"
                        placeholder="Cari nama, email..."
-                       class="form-input">
+                       class="form-input w-full">
             </div>
-            <div>
-                <select name="role" class="form-input">
-                    <option value="">Semua Role</option>
-                    @foreach($roles as $role)
-                    <option value="{{ $role }}" {{ request('role') === $role ? 'selected' : '' }}>
-                        {{ ucfirst(str_replace('_', ' ', $role)) }}
-                    </option>
-                    @endforeach
-                </select>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="min-w-0">
+                    <select name="role" class="form-input w-full">
+                        <option value="">Semua Role</option>
+                        @foreach($roles as $role)
+                        <option value="{{ $role }}" {{ request('role') === $role ? 'selected' : '' }}>
+                            {{ ucfirst(str_replace('_', ' ', $role)) }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="min-w-0">
+                    <select name="branch" class="form-input w-full">
+                        <option value="">Semua Cabang</option>
+                        @foreach($branches as $b)
+                        <option value="{{ $b->id }}" {{ request('branch') == $b->id ? 'selected' : '' }}>{{ $b->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-            <div>
-                <select name="branch" class="form-input">
-                    <option value="">Semua Cabang</option>
-                    @foreach($branches as $b)
-                    <option value="{{ $b->id }}" {{ request('branch') == $b->id ? 'selected' : '' }}>{{ $b->name }}</option>
-                    @endforeach
-                </select>
+            <div class="flex gap-2">
+                <button type="submit" class="btn-secondary w-full justify-center">
+                    <i data-lucide="filter" class="w-4 h-4"></i> Filter
+                </button>
+                @if(request()->hasAny(['search','role','branch']))
+                <a href="{{ route('users.index') }}" class="btn-secondary w-full justify-center">
+                    <i data-lucide="x" class="w-4 h-4"></i> Reset
+                </a>
+                @endif
             </div>
-            <button type="submit" class="btn-secondary">
-                <i data-lucide="filter" class="w-4 h-4"></i> Filter
-            </button>
-            @if(request()->hasAny(['search','role','branch']))
-            <a href="{{ route('users.index') }}" class="btn-secondary">
-                <i data-lucide="x" class="w-4 h-4"></i> Reset
-            </a>
-            @endif
         </form>
-        <a href="{{ route('users.create') }}" class="btn-primary">
-            <i data-lucide="user-plus" class="w-4 h-4"></i>
-            Tambah Pengguna
-        </a>
     </div>
 
     {{-- Tabel --}}

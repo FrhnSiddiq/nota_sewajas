@@ -12,7 +12,7 @@
             Laporan Pendapatan
         </h1>
         <p class="text-sm mt-0.5" style="color: var(--text-soft)">
-            @if ($isSuperAdmin)
+            @if ($isSuperAdmin || auth()->user()->isAdminToko())
                 @if ($selectedBranchId)
                     Cabang: <span class="font-semibold" style="color: var(--text-dark)">
                         {{ $branches->firstWhere('id', $selectedBranchId)?->name }}
@@ -30,7 +30,10 @@
 </div>
 
 {{-- ── FILTER BAR ── --}}
-@include('reports.partials.filter-bar')
+@include('reports.partials.filter-bar', [
+    'excelRoute' => 'reports.export.revenue.excel',
+    'pdfRoute'   => 'reports.export.revenue.pdf',
+])
 
 {{-- ── STAT CARDS ── --}}
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class NotificationController extends Controller
@@ -31,7 +31,7 @@ class NotificationController extends Controller
 
     public function data(Request $request): JsonResponse
     {
-        $type  = $request->input('type', 'all');
+        $type  = $request->input('type', $request->input('filter', 'all'));
         $user  = $request->user();
 
         $query = Notification::query()
@@ -43,7 +43,8 @@ class NotificationController extends Controller
             $query->byType($type);
         }
 
-        $notifications = $query->limit(20)->get()->map(fn($n) => [
+        $paginator = $query->paginate(20);
+        $notifications = $paginator->getCollection()->map(fn($n) => [
             'id'         => $n->id,
             'type'       => $n->type,
             'title'      => $n->title,
@@ -59,6 +60,7 @@ class NotificationController extends Controller
         return response()->json([
             'notifications' => $notifications,
             'counts'        => $this->getCounts(),
+            'has_more'      => $paginator->hasMorePages(),
         ]);
     }
 
@@ -67,18 +69,22 @@ class NotificationController extends Controller
         return response()->json($this->getCounts());
     }
 
-    public function markRead(int $id): JsonResponse
+    public function markRead(Request $request, int $id): JsonResponse|RedirectResponse
     {
-        $user = auth()->user();
+        $user = $request->user();
         $notification = Notification::where('notifiable_type', 'user')
             ->where('notifiable_id', $user->id)
             ->findOrFail($id);
         $notification->markAsRead();
 
-        return response()->json(['counts' => $this->getCounts()]);
+        if ($request->expectsJson()) {
+            return response()->json(['counts' => $this->getCounts()]);
+        }
+
+        return back()->with('success', 'Notifikasi ditandai sudah dibaca.');
     }
 
-    public function markAllRead(Request $request): JsonResponse
+    public function markAllRead(Request $request): JsonResponse|RedirectResponse
     {
         $user = $request->user();
         $q = Notification::where('notifiable_type', 'user')
@@ -91,18 +97,26 @@ class NotificationController extends Controller
 
         $q->update(['is_read' => true, 'read_at' => now()]);
 
-        return response()->json(['counts' => $this->getCounts()]);
+        if ($request->expectsJson()) {
+            return response()->json(['counts' => $this->getCounts()]);
+        }
+
+        return back()->with('success', 'Semua notifikasi ditandai sudah dibaca.');
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(Request $request, int $id): JsonResponse|RedirectResponse
     {
-        $user = auth()->user();
+        $user = $request->user();
         $notification = Notification::where('notifiable_type', 'user')
             ->where('notifiable_id', $user->id)
             ->findOrFail($id);
         $notification->delete();
 
-        return response()->json(['counts' => $this->getCounts()]);
+        if ($request->expectsJson()) {
+            return response()->json(['counts' => $this->getCounts()]);
+        }
+
+        return redirect()->route('notifications.index')->with('success', 'Notifikasi berhasil dihapus.');
     }
 
     /**
